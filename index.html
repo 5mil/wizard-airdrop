@@ -96,8 +96,8 @@
     <div style="display:grid;gap:1rem;">
       <div class="row">
         <select id="netSel" class="sel">
-          <option value="devnet">Devnet (Free)</option>
           <option value="mainnet-beta">Mainnet (Free)</option>
+          <option value="devnet">Devnet (Free)</option>
         </select>
         <button id="connectBtn" class="button">Connect Wallet</button>
         <button id="disconnectBtn" class="button sec" disabled>Disconnect</button>
@@ -107,7 +107,7 @@
 
     <div class="sgrid">
       <div class="sbox"><div class="slabel">Wallet</div><div class="sval" id="sWallet">Not connected</div></div>
-      <div class="sbox"><div class="slabel">Network</div><div class="sval" id="sNet">devnet</div></div>
+      <div class="sbox"><div class="slabel">Network</div><div class="sval" id="sNet">mainnet-beta</div></div>
       <div class="sbox"><div class="slabel">Endpoint</div><div class="sval" id="sEndpoint"></div></div>
     </div>
 
@@ -158,11 +158,12 @@
 <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
 <script>
 (() => {
-  // Official Solana Foundation public RPC endpoints — completely free, no API key
+  // Ankr free public RPC — no API key, CORS-friendly, works from browsers
   const RPC = {
-    devnet:        'https://api.devnet.solana.com',
-    'mainnet-beta':'https://api.mainnet-beta.solana.com'
+    'mainnet-beta': 'https://rpc.ankr.com/solana',
+    'devnet':       'https://rpc.ankr.com/solana_devnet'
   };
+
   const TOKEN_PROGRAM_ID         = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
   const ASSOCIATED_TOKEN_PROGRAM = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL';
   const SYSVAR_RENT_PUBKEY       = 'SysvarRent111111111111111111111111111111111';
@@ -385,7 +386,6 @@
     updateStatus();
   }
 
-  // Airdrop — 600 ms throttle between transfers to respect free RPC limits
   async function runAirdrop() {
     if (!walletPubkey || !holders.length || !utilityMint) return;
     const perHolder = BigInt(amtInput.value);
@@ -438,7 +438,6 @@
       const owner = unique[i];
       try {
         if (i > 0) await sleep(600);
-
         const destATA     = await findATA(utilityMint, owner);
         const destATAInfo = await connection.getAccountInfo(destATA);
         const tx = new Transaction();
