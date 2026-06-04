@@ -7,141 +7,75 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#f7f6f2;--surface:#fffaf2;--surface-2:#f1ede5;
-      --text:#28251d;--muted:#6f6a61;--border:rgba(40,37,29,0.12);
-      --primary:#01696f;--primary-hover:#0c4e54;
-      --success:#2f7a3c;--danger:#b23b3b;
-      --shadow:0 12px 32px rgba(40,37,29,0.10);
-      --font-body:'Work Sans',Arial,sans-serif;
-      --font-display:'Instrument Serif',Georgia,serif;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;font-family:var(--font-body);
-      background:radial-gradient(circle at top left,rgba(1,105,111,0.08),transparent 28%),
-                 radial-gradient(circle at bottom right,rgba(139,94,60,0.12),transparent 22%),var(--bg);
-      color:var(--text)}
-    .page{max-width:1060px;margin:0 auto;padding:2rem 1rem 4rem}
-    .hero{display:grid;grid-template-columns:1.3fr .9fr;gap:2rem;align-items:center;margin-bottom:2rem}
-    .title{font-family:var(--font-display);font-size:clamp(2.4rem,5vw,4.2rem);line-height:.95;margin:0 0 1rem}
-    .subtitle{color:var(--muted);font-size:1.05rem;max-width:58ch;margin:0}
-    .art{background:linear-gradient(145deg,#fffdf8,#efe6d7);border:1px solid var(--border);border-radius:28px;min-height:240px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-    .art::before{content:"";position:absolute;inset:auto -5% -12% auto;width:180px;height:180px;background:radial-gradient(circle,rgba(1,105,111,.18),transparent 68%);border-radius:50%}
-    .wizard{position:absolute;left:10%;bottom:12%;width:130px;height:150px}
-    .bunny{position:absolute;right:10%;bottom:16%;width:88px;height:105px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);padding:1.5rem}
-    .row{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
-    .pill{display:inline-flex;align-items:center;gap:.45rem;padding:.55rem .85rem;border-radius:999px;background:var(--surface-2);color:var(--muted);font-size:.92rem;border:1px solid var(--border)}
-    .button{appearance:none;border:0;border-radius:999px;padding:.85rem 1.3rem;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;transition:transform .15s,background .15s,opacity .15s;display:inline-flex;align-items:center;justify-content:center;font-size:.95rem}
-    .button:hover{background:var(--primary-hover);transform:translateY(-1px)}
-    .button:disabled{opacity:.45;cursor:not-allowed;transform:none}
-    .button.sec{background:transparent;color:var(--text);border:1px solid var(--border)}
-    .button.ok{background:var(--success)}
-    .button.danger{background:var(--danger)}
-    .sel,.inp,.num,.textarea{border-radius:12px;padding:.7rem 1rem;border:1px solid var(--border);background:#fff;color:var(--text);font-size:.95rem;font-family:var(--font-body)}
-    .sel{min-width:180px;border-radius:999px}.inp{width:100%}.num{width:110px}
-    .textarea{width:100%;resize:vertical;min-height:80px;border-radius:12px;font-size:.83rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-    .log{margin-top:1rem;background:#201f1d;color:#f6f2eb;border-radius:18px;padding:1rem;min-height:140px;font-size:.88rem;white-space:pre-wrap;overflow:auto;border:1px solid rgba(255,255,255,.08)}
-    .hint{color:var(--muted);font-size:.93rem;margin:.5rem 0 0}
-    .sgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.5rem}
-    .sbox{padding:1rem;border-radius:18px;background:var(--surface-2);border:1px solid var(--border)}
-    .slabel{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.3rem}
-    .sval{font-size:.95rem;font-weight:600;word-break:break-all}
-    .panel{margin-top:1.25rem;padding:1.25rem;background:#fff;border:1px dashed var(--border);border-radius:20px;display:none}
-    .panel.on{display:block}
-    .ptitle{margin:0 0 .4rem;font-size:1.05rem;font-weight:600}
-    .fine{font-size:.87rem;color:var(--muted);margin-top:.5rem}
-    .field{display:grid;gap:.45rem;margin-top:.9rem}
-    .lbl{font-size:.88rem;color:var(--muted);font-weight:600}
-    .chip{display:inline-flex;align-items:center;padding:.25rem .65rem;border-radius:999px;background:rgba(47,122,60,.1);color:var(--success);font-size:.8rem}
-    .chip.blue{background:rgba(26,74,122,.1);color:#1a4a7a}
-    .hlist{margin-top:.6rem;max-height:160px;overflow:auto;font-size:.87rem;border-radius:14px;background:var(--surface-2);padding:.7rem 1rem;border:1px solid var(--border)}
-    .info{margin-top:.75rem;padding:.75rem 1rem;border-radius:14px;background:var(--surface-2);border:1px solid var(--border);font-size:.9rem}
-    .info.err{background:#fff0f0;border-color:#f5c2c2;color:var(--danger)}
-    .info.tip{background:#f0f7ff;border-color:#b3d4f5;color:#1a4a7a}
-    .info.warn{background:#fffbea;border-color:#f0d080;color:#7a5800}
-    .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.75rem;margin-top:.9rem}
-    .fbox{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:.8rem 1rem}
-    .flabel{font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.25rem}
-    .fval{font-size:1rem;font-weight:700;color:var(--text)}
-    .fsub{font-size:.78rem;color:var(--muted);margin-top:.15rem}
-    /* ── multi-filter panel ── */
-    .filter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.85rem;margin-top:.9rem}
-    .fcard{background:var(--surface-2);border:1px solid var(--border);border-radius:16px;padding:1rem}
-    .fcard.active{border-color:var(--primary);background:rgba(1,105,111,.04)}
-    .fcard-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem}
-    .fcard-title{font-weight:600;font-size:.92rem;flex:1}
-    .ftoggle{appearance:none;width:36px;height:20px;background:var(--border);border-radius:999px;cursor:pointer;position:relative;transition:background .15s;flex-shrink:0;border:0}
-    .ftoggle:checked{background:var(--primary)}
-    .ftoggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s}
-    .ftoggle:checked::after{left:19px}
-    .fcard-body{display:none}
-    .fcard.active .fcard-body{display:block}
-    .finline{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.4rem}
-    .flbl{font-size:.83rem;color:var(--muted);font-weight:600}
-    .sort-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
-    .sort-btn{appearance:none;border:1px solid var(--border);border-radius:999px;padding:.3rem .7rem;background:#fff;color:var(--muted);font-size:.8rem;cursor:pointer;font-family:var(--font-body)}
-    .sort-btn.on{background:var(--primary);color:#fff;border-color:var(--primary)}
-    /* pipeline summary bar */
-    .pipe-bar{margin-top:1rem;padding:.75rem 1rem;border-radius:14px;background:rgba(1,105,111,.07);border:1px solid rgba(1,105,111,.18);font-size:.9rem;color:var(--primary);display:none}
-    .pipe-steps{display:flex;flex-wrap:wrap;gap:.3rem .5rem;margin-top:.35rem;font-size:.82rem;color:var(--muted)}
-    .pipe-step{background:#fff;border:1px solid var(--border);border-radius:999px;padding:.15rem .6rem}
-    code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.83rem;word-break:break-all}
-    @media(max-width:740px){.hero{grid-template-columns:1fr}.sgrid{grid-template-columns:1fr}.filter-grid{grid-template-columns:1fr}}
-  </style>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
 <main class="page">
+
+  <!-- Hero -->
   <section class="hero">
     <div>
       <div class="pill">🪄 Wizard Airdrop</div>
-      <h1 class="title">Scan Solana token holders. Cast your airdrop spell.</h1>
+      <h1 class="title">Scan Solana token holders.<br>Cast your airdrop spell.</h1>
       <p class="subtitle">Connect your wallet, load real on-chain holders, filter with precision, and airdrop — all from this page.</p>
     </div>
     <div class="art" aria-hidden="true">
       <svg class="wizard" viewBox="0 0 140 160" fill="none">
-        <path d="M62 18 86 62H38L62 18Z" fill="#4A3A72"/><circle cx="62" cy="74" r="16" fill="#E7C9A9"/>
+        <path d="M62 18 86 62H38L62 18Z" fill="#4A3A72"/>
+        <circle cx="62" cy="74" r="16" fill="#E7C9A9"/>
         <path d="M42 98c6-10 34-10 40 0l10 42H32l10-42Z" fill="#01696F"/>
         <path d="M95 48 120 20" stroke="#8B5E3C" stroke-width="6" stroke-linecap="round"/>
         <circle cx="122" cy="18" r="7" fill="#D19900"/>
       </svg>
       <svg class="bunny" viewBox="0 0 100 110" fill="none">
         <ellipse cx="50" cy="70" rx="28" ry="24" fill="#F7F2EA"/>
-        <ellipse cx="38" cy="28" rx="10" ry="24" fill="#F7F2EA"/><ellipse cx="62" cy="28" rx="10" ry="24" fill="#F7F2EA"/>
-        <ellipse cx="38" cy="29" rx="4" ry="15" fill="#F3B6C8"/><ellipse cx="62" cy="29" rx="4" ry="15" fill="#F3B6C8"/>
-        <circle cx="42" cy="67" r="3" fill="#28251D"/><circle cx="58" cy="67" r="3" fill="#28251D"/>
+        <ellipse cx="38" cy="28" rx="10" ry="24" fill="#F7F2EA"/>
+        <ellipse cx="62" cy="28" rx="10" ry="24" fill="#F7F2EA"/>
+        <ellipse cx="38" cy="29" rx="4" ry="15" fill="#F3B6C8"/>
+        <ellipse cx="62" cy="29" rx="4" ry="15" fill="#F3B6C8"/>
+        <circle cx="42" cy="67" r="3" fill="#28251D"/>
+        <circle cx="58" cy="67" r="3" fill="#28251D"/>
         <circle cx="50" cy="74" r="4" fill="#F3B6C8"/>
         <path d="M46 79c2 3 6 3 8 0" stroke="#28251D" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </div>
   </section>
 
+  <!-- Main card -->
   <section class="card">
+
+    <!-- Wallet + API key row -->
     <div style="display:grid;gap:1rem">
       <div class="row">
-        <select id="netSel" class="sel"><option value="mainnet-beta">Mainnet</option><option value="devnet">Devnet</option></select>
+        <select id="netSel" class="sel">
+          <option value="mainnet-beta">Mainnet</option>
+          <option value="devnet">Devnet</option>
+        </select>
         <button id="connectBtn" class="button">Connect Wallet</button>
         <button id="disconnectBtn" class="button sec" disabled>Disconnect</button>
       </div>
       <div class="field">
-        <label class="lbl" for="apiKeyInput">🔑 Helius API Key <span style="font-weight:400;color:var(--muted)">— free at <a href="https://helius.dev" target="_blank">helius.dev</a>, no credit card</span></label>
+        <label class="lbl" for="apiKeyInput">
+          🔑 Helius API Key
+          <span style="font-weight:400;color:var(--muted)">— free at <a href="https://helius.dev" target="_blank" rel="noopener">helius.dev</a>, no credit card</span>
+        </label>
         <input id="apiKeyInput" class="inp" type="text" placeholder="Paste your Helius API key here…" autocomplete="off" spellcheck="false" />
       </div>
       <div id="keyTip" class="info tip" style="display:none"></div>
       <p class="hint">Connect your wallet, enter your Helius key, then paste a mint to load holders.</p>
     </div>
 
+    <!-- Status grid -->
     <div class="sgrid">
       <div class="sbox"><div class="slabel">Wallet</div><div class="sval" id="sWallet">Not connected</div></div>
       <div class="sbox"><div class="slabel">Network</div><div class="sval" id="sNet">mainnet-beta</div></div>
       <div class="sbox"><div class="slabel">Endpoint</div><div class="sval" id="sEndpoint">—</div></div>
     </div>
 
-    <!-- Step 1: Load -->
+    <!-- Step 1: Load holders -->
     <div id="step1" class="panel on">
       <p class="ptitle">Step 1 — Load holders</p>
-      <p class="fine">Uses Helius DAS <code>getTokenAccounts</code> — paginated, fast, free tier friendly.</p>
+      <p class="fine">Uses Helius DAS <code>getTokenAccounts</code> — paginated, fast, free-tier friendly.</p>
       <div class="field">
         <label class="lbl" for="mintInput">Target token mint</label>
         <input id="mintInput" class="inp" type="text" placeholder="Solana mint address" autocomplete="off" spellcheck="false" />
@@ -153,157 +87,102 @@
       <div id="holdersInfo" class="info" style="display:none"></div>
     </div>
 
-    <!-- Step 1b: Multi-filter -->
+    <!-- Step 1b: Filter & Target -->
     <div id="stepFilter" class="panel">
       <p class="ptitle">🎯 Filter &amp; Target <span id="targetChip" class="chip blue" style="margin-left:.5rem;display:none"></span></p>
-      <p class="fine">Filters are applied in order as a pipeline — enable as many as you like. Preview updates live.</p>
+      <p class="fine">Enable any combination of filters — they run as a pipeline in order. Preview updates live.</p>
 
-      <div class="filter-grid" id="filterGrid">
+      <div class="filter-grid">
 
-        <!-- 1. Balance range -->
+        <!-- Balance range -->
         <div class="fcard" id="fc-balRange">
-          <div class="fcard-head">
-            <span class="fcard-title">⚖️ Balance range</span>
-            <input type="checkbox" class="ftoggle" id="tog-balRange" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">⚖️ Balance range</span><input type="checkbox" class="ftoggle" id="tog-balRange" /></div>
           <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Keep holders whose balance falls between min and max (inclusive).</p>
+            <p class="fine" style="margin-top:0">Keep holders with balance between min and max (inclusive).</p>
             <div class="finline">
-              <span class="flbl">Min</span>
-              <input class="num" id="f-balMin" type="number" min="0" step="1" value="1" />
-              <span class="flbl">Max</span>
-              <input class="num" id="f-balMax" type="number" min="0" step="1" placeholder="∞" />
+              <span class="flbl">Min</span><input class="num" id="f-balMin" type="number" min="0" step="1" value="1" />
+              <span class="flbl">Max</span><input class="num" id="f-balMax" type="number" min="0" step="1" placeholder="∞" />
             </div>
           </div>
         </div>
 
-        <!-- 2. Top % -->
+        <!-- Top % -->
         <div class="fcard" id="fc-topPct">
-          <div class="fcard-head">
-            <span class="fcard-title">📊 Top % by balance</span>
-            <input type="checkbox" class="ftoggle" id="tog-topPct" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">📊 Top % by balance</span><input type="checkbox" class="ftoggle" id="tog-topPct" /></div>
           <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Keep only the top X% of holders ranked by balance.</p>
-            <div class="finline">
-              <span class="flbl">Top</span>
-              <input class="num" id="f-topPct" type="number" min="1" max="100" step="1" value="10" style="width:80px" />
-              <span class="flbl">%</span>
-            </div>
+            <p class="fine" style="margin-top:0">Keep only the top X% of holders by balance.</p>
+            <div class="finline"><span class="flbl">Top</span><input class="num" id="f-topPct" type="number" min="1" max="100" step="1" value="10" style="width:80px" /><span class="flbl">%</span></div>
           </div>
         </div>
 
-        <!-- 3. Bottom % -->
+        <!-- Bottom % -->
         <div class="fcard" id="fc-botPct">
-          <div class="fcard-head">
-            <span class="fcard-title">🐢 Bottom % by balance</span>
-            <input type="checkbox" class="ftoggle" id="tog-botPct" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">🐢 Bottom % by balance</span><input type="checkbox" class="ftoggle" id="tog-botPct" /></div>
           <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Keep only the bottom X% of holders ranked by balance.</p>
-            <div class="finline">
-              <span class="flbl">Bottom</span>
-              <input class="num" id="f-botPct" type="number" min="1" max="100" step="1" value="10" style="width:80px" />
-              <span class="flbl">%</span>
-            </div>
+            <p class="fine" style="margin-top:0">Keep only the bottom X% of holders by balance.</p>
+            <div class="finline"><span class="flbl">Bottom</span><input class="num" id="f-botPct" type="number" min="1" max="100" step="1" value="10" style="width:80px" /><span class="flbl">%</span></div>
           </div>
         </div>
 
-        <!-- 4. Top N -->
+        <!-- Top N -->
         <div class="fcard" id="fc-topN">
-          <div class="fcard-head">
-            <span class="fcard-title">👑 Top N by balance</span>
-            <input type="checkbox" class="ftoggle" id="tog-topN" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">👑 Top N by balance</span><input type="checkbox" class="ftoggle" id="tog-topN" /></div>
           <div class="fcard-body">
             <p class="fine" style="margin-top:0">Keep the N highest-balance holders.</p>
-            <div class="finline">
-              <span class="flbl">Top</span>
-              <input class="num" id="f-topN" type="number" min="1" step="1" value="100" />
-              <span class="flbl">holders</span>
-            </div>
+            <div class="finline"><span class="flbl">Top</span><input class="num" id="f-topN" type="number" min="1" step="1" value="100" /><span class="flbl">holders</span></div>
           </div>
         </div>
 
-        <!-- 5. Bottom N -->
+        <!-- Bottom N -->
         <div class="fcard" id="fc-botN">
-          <div class="fcard-head">
-            <span class="fcard-title">🗝️ Bottom N by balance</span>
-            <input type="checkbox" class="ftoggle" id="tog-botN" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">🗝️ Bottom N by balance</span><input type="checkbox" class="ftoggle" id="tog-botN" /></div>
           <div class="fcard-body">
             <p class="fine" style="margin-top:0">Keep the N lowest-balance holders.</p>
-            <div class="finline">
-              <span class="flbl">Bottom</span>
-              <input class="num" id="f-botN" type="number" min="1" step="1" value="100" />
-              <span class="flbl">holders</span>
-            </div>
+            <div class="finline"><span class="flbl">Bottom</span><input class="num" id="f-botN" type="number" min="1" step="1" value="100" /><span class="flbl">holders</span></div>
           </div>
         </div>
 
-        <!-- 6. Every Nth -->
+        <!-- Every Nth -->
         <div class="fcard" id="fc-everyNth">
-          <div class="fcard-head">
-            <span class="fcard-title">🔁 Every Nth holder</span>
-            <input type="checkbox" class="ftoggle" id="tog-everyNth" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">🔁 Every Nth holder</span><input type="checkbox" class="ftoggle" id="tog-everyNth" /></div>
           <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Keep every Nth holder in the current sorted list (e.g. N=2 keeps 1st, 3rd, 5th…).</p>
-            <div class="finline">
-              <span class="flbl">N =</span>
-              <input class="num" id="f-everyNth" type="number" min="2" step="1" value="2" style="width:80px" />
-            </div>
+            <p class="fine" style="margin-top:0">Keep every Nth in the sorted list (N=2 keeps 1st, 3rd, 5th…).</p>
+            <div class="finline"><span class="flbl">N =</span><input class="num" id="f-everyNth" type="number" min="2" step="1" value="2" style="width:80px" /></div>
           </div>
         </div>
 
-        <!-- 7. Random sample -->
+        <!-- Random sample -->
         <div class="fcard" id="fc-random">
-          <div class="fcard-head">
-            <span class="fcard-title">🎲 Random sample</span>
-            <input type="checkbox" class="ftoggle" id="tog-random" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">🎲 Random sample</span><input type="checkbox" class="ftoggle" id="tog-random" /></div>
           <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Randomly pick N from the current pool (crypto-random, no repeats).</p>
-            <div class="finline">
-              <span class="flbl">Pick</span>
-              <input class="num" id="f-randomN" type="number" min="1" step="1" value="50" />
-              <span class="flbl">holders</span>
-            </div>
+            <p class="fine" style="margin-top:0">Crypto-randomly pick N from the current pool.</p>
+            <div class="finline"><span class="flbl">Pick</span><input class="num" id="f-randomN" type="number" min="1" step="1" value="50" /><span class="flbl">holders</span></div>
           </div>
         </div>
 
-        <!-- 8. Exclude list -->
+        <!-- Exclude addresses -->
         <div class="fcard" id="fc-exclude">
-          <div class="fcard-head">
-            <span class="fcard-title">❌ Exclude addresses</span>
-            <input type="checkbox" class="ftoggle" id="tog-exclude" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">❌ Exclude addresses</span><input type="checkbox" class="ftoggle" id="tog-exclude" /></div>
           <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Paste wallet addresses to exclude (one per line or comma-separated).</p>
+            <p class="fine" style="margin-top:0">Blocklist: one address per line or comma-separated.</p>
             <textarea class="textarea" id="f-excludeList" placeholder="Address1&#10;Address2&#10;…" style="margin-top:.4rem"></textarea>
           </div>
         </div>
 
-        <!-- 9. Include list -->
+        <!-- Include only -->
         <div class="fcard" id="fc-include">
-          <div class="fcard-head">
-            <span class="fcard-title">✅ Include only</span>
-            <input type="checkbox" class="ftoggle" id="tog-include" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">✅ Include only</span><input type="checkbox" class="ftoggle" id="tog-include" /></div>
           <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Only keep these wallet addresses (must also be a holder with non-zero balance).</p>
+            <p class="fine" style="margin-top:0">Whitelist: only these addresses (must be a holder).</p>
             <textarea class="textarea" id="f-includeList" placeholder="Address1&#10;Address2&#10;…" style="margin-top:.4rem"></textarea>
           </div>
         </div>
 
-        <!-- 10. Sort order -->
+        <!-- Sort order -->
         <div class="fcard" id="fc-sort">
-          <div class="fcard-head">
-            <span class="fcard-title">🔽 Sort order</span>
-            <input type="checkbox" class="ftoggle" id="tog-sort" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">🔽 Sort order</span><input type="checkbox" class="ftoggle" id="tog-sort" /></div>
           <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Re-sort the pool before downstream filters run.</p>
+            <p class="fine" style="margin-top:0">Re-sort before downstream filters run.</p>
             <div class="sort-row">
               <button class="sort-btn on" data-sort="balDesc">Balance ↓</button>
               <button class="sort-btn" data-sort="balAsc">Balance ↑</button>
@@ -313,25 +192,18 @@
           </div>
         </div>
 
-        <!-- 11. Cap / hard limit -->
+        <!-- Hard cap -->
         <div class="fcard" id="fc-cap">
-          <div class="fcard-head">
-            <span class="fcard-title">🛡️ Hard cap</span>
-            <input type="checkbox" class="ftoggle" id="tog-cap" />
-          </div>
+          <div class="fcard-head"><span class="fcard-title">🛡️ Hard cap</span><input type="checkbox" class="ftoggle" id="tog-cap" /></div>
           <div class="fcard-body">
             <p class="fine" style="margin-top:0">Truncate final result to at most N holders (applied last).</p>
-            <div class="finline">
-              <span class="flbl">Max</span>
-              <input class="num" id="f-cap" type="number" min="1" step="1" value="500" />
-              <span class="flbl">holders</span>
-            </div>
+            <div class="finline"><span class="flbl">Max</span><input class="num" id="f-cap" type="number" min="1" step="1" value="500" /><span class="flbl">holders</span></div>
           </div>
         </div>
 
       </div><!-- /filter-grid -->
 
-      <!-- Pipeline summary -->
+      <!-- Pipeline bar -->
       <div class="pipe-bar" id="pipeBar">
         <strong id="pipeCount"></strong>
         <div class="pipe-steps" id="pipeSteps"></div>
@@ -345,11 +217,12 @@
       <div id="holdersList" class="hlist" style="display:none;margin-top:.75rem"></div>
     </div>
 
-    <!-- Step 2 -->
+    <!-- Step 2: Mint & Airdrop -->
     <div id="step2" class="panel">
       <p class="ptitle">Step 2 — Create utility mint &amp; airdrop</p>
-      <p class="fine">Creates a new SPL token mint, mints total supply to your account, then transfers to each selected holder.</p>
+      <p class="fine">Creates a new SPL token mint, mints total supply to your wallet, then transfers to each selected holder.</p>
 
+      <!-- Fee estimate -->
       <div id="feePanel" style="display:none">
         <p class="lbl" style="margin-top:1rem">💰 Estimated cost</p>
         <div class="fgrid">
@@ -379,529 +252,22 @@
       <div id="airdropInfo" class="info" style="display:none"></div>
     </div>
 
+    <!-- Mobile / no-wallet panel -->
     <div id="mobilePanel" class="panel">
       <p class="ptitle" id="mobileTitle">Wallet not detected</p>
       <p class="fine" id="mobileText"></p>
     </div>
 
+    <!-- Activity log -->
     <pre id="log" class="log">Preparing the spellbook…</pre>
+
   </section>
 </main>
 
+<!-- Runtime dependency: Solana Web3.js (IIFE build, no install needed) -->
 <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
-<script>
-(() => {
-  const TOKEN_PROGRAM_ID         = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
-  const ASSOCIATED_TOKEN_PROGRAM = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL';
-  const SYSVAR_RENT_PUBKEY       = 'SysvarRent111111111111111111111111111111111';
-  const SYSTEM_PROGRAM_ID        = '11111111111111111111111111111111';
-  const LAMPORTS_PER_SOL         = 1_000_000_000;
 
-  const { Connection, PublicKey, Transaction, TransactionInstruction, SystemProgram, Keypair } = window.solanaWeb3;
-
-  const $ = id => document.getElementById(id);
-  const netSel=$('netSel'),connectBtn=$('connectBtn'),disconnectBtn=$('disconnectBtn');
-  const sWallet=$('sWallet'),sNet=$('sNet'),sEndpoint=$('sEndpoint'),logEl=$('log');
-  const step2=$('step2'),stepFilter=$('stepFilter');
-  const mobilePanel=$('mobilePanel'),mobileTitle=$('mobileTitle'),mobileText=$('mobileText');
-  const mintInput=$('mintInput'),loadBtn=$('loadBtn'),holdersChip=$('holdersChip');
-  const holdersInfo=$('holdersInfo'),holdersList=$('holdersList');
-  const utilityMintDisplay=$('utilityMintDisplay'),createMintBtn=$('createMintBtn');
-  const amtInput=$('amtInput'),airdropBtn=$('airdropBtn'),airdropInfo=$('airdropInfo');
-  const apiKeyInput=$('apiKeyInput'),keyTip=$('keyTip');
-  const feePanel=$('feePanel'),feeMint=$('feeMint'),feePayerATA=$('feePayerATA');
-  const feeHolderATA=$('feeHolderATA'),feeTx=$('feeTx'),feeTotal=$('feeTotal');
-  const targetChip=$('targetChip'),pipeBar=$('pipeBar'),pipeCount=$('pipeCount'),pipeSteps=$('pipeSteps');
-  const applyFilterBtn=$('applyFilterBtn'),resetFilterBtn=$('resetFilterBtn');
-
-  let provider=null,walletPubkey=null,allHolders=[],holders=[],utilityMint=null;
-  let sortMode='balDesc';
-
-  const net    = ()=>netSel.value;
-  const apiKey = ()=>apiKeyInput.value.trim();
-  const rpcUrl = ()=>{
-    const k=apiKey();if(!k)return null;
-    return net()==='devnet'
-      ?`https://devnet.helius-rpc.com/?api-key=${k}`
-      :`https://mainnet.helius-rpc.com/?api-key=${k}`;
-  };
-  const conn    = ()=>new Connection(rpcUrl(),'confirmed');
-  const sol     = lam=>(lam/LAMPORTS_PER_SOL).toFixed(6)+' SOL';
-  const trunc   = v=>v?`${v.slice(0,4)}…${v.slice(-4)}`:'—';
-  const sleep   = ms=>new Promise(r=>setTimeout(r,ms));
-  const isMobile= ()=>/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const tog     = id=>$(`tog-${id}`).checked;
-  const val     = id=>$(`f-${id}`).value;
-  const numVal  = (id,def)=>{ const v=parseInt(val(id)); return isNaN(v)?def:v; };
-
-  // Persist API key
-  const SK='helius_api_key';
-  if(localStorage.getItem(SK)) apiKeyInput.value=localStorage.getItem(SK);
-  apiKeyInput.addEventListener('input',()=>{localStorage.setItem(SK,apiKeyInput.value.trim());updateStatus();});
-
-  function log(msg){logEl.textContent+=`\n[${new Date().toLocaleTimeString()}] ${msg}`;logEl.scrollTop=logEl.scrollHeight;}
-  function showInfo(el,msg,type=''){el.style.display='block';el.className=type?`info ${type}`:'info';el.innerHTML=msg;}
-  function hideInfo(el){el.style.display='none';}
-
-  function updateStatus(){
-    const ep=rpcUrl();
-    sWallet.textContent  =walletPubkey?trunc(walletPubkey):'Not connected';
-    sNet.textContent     =net();
-    sEndpoint.textContent=ep?ep.replace(/api-key=.+/,'api-key=•••'):'Enter API key ↑';
-    connectBtn.disabled   =!!walletPubkey;
-    disconnectBtn.disabled=!walletPubkey;
-    airdropBtn.disabled   =!(walletPubkey&&holders.length&&utilityMint&&Number(amtInput.value)>0);
-    if(!apiKey()){showInfo(keyTip,'🔑 Get a <strong>free</strong> Helius key at <a href="https://helius.dev" target="_blank">helius.dev</a>.','tip');}else{hideInfo(keyTip);}
-  }
-
-  // ── Toggle cards active state ────────────────────────────────
-  document.querySelectorAll('.ftoggle').forEach(tog=>{
-    tog.addEventListener('change',()=>{
-      const id=tog.id.replace('tog-','');
-      $(`fc-${id}`).classList.toggle('active',tog.checked);
-      livePreview();
-    });
-  });
-
-  // ── Sort buttons ─────────────────────────────────────────────
-  document.querySelectorAll('.sort-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('on'));
-      btn.classList.add('on');
-      sortMode=btn.dataset.sort;
-      livePreview();
-    });
-  });
-
-  // Live inputs trigger preview
-  ['balMin','balMax','topPct','botPct','topN','botN','everyNth','randomN','cap'].forEach(id=>{
-    const el=$(`f-${id}`);
-    if(el) el.addEventListener('input',livePreview);
-  });
-  ['excludeList','includeList'].forEach(id=>{
-    const el=$(`f-${id}`);
-    if(el) el.addEventListener('input',livePreview);
-  });
-
-  // ── Fisher-Yates (crypto) ────────────────────────────────────
-  function cryptoShuffle(arr){
-    const a=[...arr];
-    for(let i=a.length-1;i>0;i--){
-      const r=new Uint32Array(1);crypto.getRandomValues(r);
-      const j=r[0]%(i+1);[a[i],a[j]]=[a[j],a[i]];
-    }
-    return a;
-  }
-
-  // ── The filter pipeline ──────────────────────────────────────
-  function runPipeline(){
-    if(!allHolders.length) return{result:[],steps:[]};
-    let pool=[...allHolders];
-    const steps=[];
-
-    // 1. Sort (runs first so downstream filters see the right order)
-    if(tog('sort')){
-      if(sortMode==='balDesc')      pool.sort((a,b)=>b.amount-a.amount);
-      else if(sortMode==='balAsc')  pool.sort((a,b)=>a.amount-b.amount);
-      else if(sortMode==='random')  pool=cryptoShuffle(pool);
-      else if(sortMode==='alpha')   pool.sort((a,b)=>a.owner.localeCompare(b.owner));
-      steps.push(`Sort: ${sortMode}`);
-    }
-
-    // 2. Include-only whitelist
-    if(tog('include')){
-      const raw=val('includeList').split(/[\n,]+/).map(s=>s.trim()).filter(Boolean);
-      const set=new Set(raw);
-      if(set.size){
-        pool=pool.filter(h=>set.has(h.owner));
-        steps.push(`Include only: ${set.size} addr`);
-      }
-    }
-
-    // 3. Balance range
-    if(tog('balRange')){
-      const mn=numVal('balMin',0);
-      const mxRaw=val('balMax').trim();
-      const mx=mxRaw===''?Infinity:Math.max(mn,parseInt(mxRaw)||0);
-      pool=pool.filter(h=>h.amount>=mn&&h.amount<=mx);
-      steps.push(`Balance: ${mn}–${mx===Infinity?'∞':mx}`);
-    }
-
-    // 4. Exclude list
-    if(tog('exclude')){
-      const raw=val('excludeList').split(/[\n,]+/).map(s=>s.trim()).filter(Boolean);
-      const set=new Set(raw);
-      if(set.size){
-        pool=pool.filter(h=>!set.has(h.owner));
-        steps.push(`Exclude: ${set.size} addr`);
-      }
-    }
-
-    // 5. Top % (uses pool length at this point, not allHolders)
-    if(tog('topPct')){
-      const pct=Math.min(100,Math.max(1,numVal('topPct',10)));
-      const keep=Math.max(1,Math.round(pool.length*pct/100));
-      const sorted=[...pool].sort((a,b)=>b.amount-a.amount);
-      const topSet=new Set(sorted.slice(0,keep).map(h=>h.owner));
-      pool=pool.filter(h=>topSet.has(h.owner));
-      steps.push(`Top ${pct}%`);
-    }
-
-    // 6. Bottom %
-    if(tog('botPct')){
-      const pct=Math.min(100,Math.max(1,numVal('botPct',10)));
-      const keep=Math.max(1,Math.round(pool.length*pct/100));
-      const sorted=[...pool].sort((a,b)=>a.amount-b.amount);
-      const botSet=new Set(sorted.slice(0,keep).map(h=>h.owner));
-      pool=pool.filter(h=>botSet.has(h.owner));
-      steps.push(`Bottom ${pct}%`);
-    }
-
-    // 7. Top N
-    if(tog('topN')){
-      const n=Math.max(1,numVal('topN',100));
-      const sorted=[...pool].sort((a,b)=>b.amount-a.amount);
-      const topSet=new Set(sorted.slice(0,n).map(h=>h.owner));
-      pool=pool.filter(h=>topSet.has(h.owner));
-      steps.push(`Top ${n}`);
-    }
-
-    // 8. Bottom N
-    if(tog('botN')){
-      const n=Math.max(1,numVal('botN',100));
-      const sorted=[...pool].sort((a,b)=>a.amount-b.amount);
-      const botSet=new Set(sorted.slice(0,n).map(h=>h.owner));
-      pool=pool.filter(h=>botSet.has(h.owner));
-      steps.push(`Bottom ${n}`);
-    }
-
-    // 9. Every Nth
-    if(tog('everyNth')){
-      const n=Math.max(2,numVal('everyNth',2));
-      pool=pool.filter((_,i)=>i%n===0);
-      steps.push(`Every ${n}th`);
-    }
-
-    // 10. Random sample
-    if(tog('random')){
-      const n=Math.max(1,numVal('randomN',50));
-      pool=cryptoShuffle(pool).slice(0,Math.min(n,pool.length));
-      steps.push(`Random ${n}`);
-    }
-
-    // 11. Hard cap (applied last)
-    if(tog('cap')){
-      const n=Math.max(1,numVal('cap',500));
-      if(pool.length>n){pool=pool.slice(0,n);steps.push(`Cap ${n}`);}
-    }
-
-    return{result:pool,steps};
-  }
-
-  function livePreview(){
-    if(!allHolders.length) return;
-    const {result,steps}=runPipeline();
-    const activeSteps=steps.length?steps:['All holders'];
-    pipeBar.style.display='block';
-    pipeCount.textContent=`✔ ${result.length} holder${result.length!==1?'s':''} selected`;
-    pipeSteps.innerHTML=activeSteps.map(s=>`<span class="pipe-step">${s}</span>`).join('→');
-    targetChip.textContent=`${result.length} selected`;
-    targetChip.style.display='inline-flex';
-  }
-
-  function applyFilter(){
-    if(!allHolders.length){log('Load holders first.');return;}
-    const {result,steps}=runPipeline();
-    holders=result;
-    const label=steps.length?steps.join(' → '):'All holders';
-    log(`Filters applied: ${label} — ${holders.length} holders`);
-    pipeBar.style.display='block';
-    pipeCount.textContent=`✔ ${holders.length} holder${holders.length!==1?'s':''} selected`;
-    pipeSteps.innerHTML=(steps.length?steps:['All holders']).map(s=>`<span class="pipe-step">${s}</span>`).join('→');
-    targetChip.textContent=`${holders.length} selected`;
-    targetChip.style.display='inline-flex';
-    // preview list
-    holdersList.style.display='block';
-    holdersList.textContent=holders.slice(0,30).map((h,i)=>`${i+1}. ${h.owner} (${h.amount})`).join('\n')
-      +(holders.length>30?`\n… +${holders.length-30} more`:'');
-    updateStatus();
-    showFees(holders.length);
-  }
-
-  function resetFilters(){
-    document.querySelectorAll('.ftoggle').forEach(t=>{t.checked=false;});
-    document.querySelectorAll('.fcard').forEach(c=>c.classList.remove('active'));
-    sortMode='balDesc';
-    document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('on'));
-    document.querySelector('.sort-btn[data-sort="balDesc"]').classList.add('on');
-    pipeBar.style.display='none';
-    targetChip.style.display='none';
-    holders=[...allHolders];
-    holdersList.style.display='block';
-    holdersList.textContent=holders.slice(0,30).map((h,i)=>`${i+1}. ${h.owner} (${h.amount})`).join('\n')
-      +(holders.length>30?`\n… +${holders.length-30} more`:'');
-    log(`Filters reset — all ${holders.length} holders selected`);
-    updateStatus();
-    showFees(holders.length);
-  }
-
-  applyFilterBtn.addEventListener('click',applyFilter);
-  resetFilterBtn.addEventListener('click',resetFilters);
-
-  // ── u64 LE ───────────────────────────────────────────────────
-  function u64LE(value){
-    const buf=new Uint8Array(8);let v=BigInt(value);
-    for(let i=0;i<8;i++){buf[i]=Number(v&0xffn);v>>=8n;}
-    return buf;
-  }
-
-  // ── Helius DAS fetch ─────────────────────────────────────────
-  async function fetchAllHolders(mint){
-    const ep=rpcUrl();if(!ep) throw new Error('Enter your Helius API key first.');
-    const PAGE=1000;let page=1;
-    const ownerMap=new Map();
-    while(true){
-      const res=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({jsonrpc:'2.0',id:'gta',method:'getTokenAccounts',
-          params:{mint,page,limit:PAGE,options:{showZeroBalance:false}}})});
-      const json=await res.json();
-      if(page===1){
-        log(`API keys: ${JSON.stringify(json.result?Object.keys(json.result):'null')}`);
-        if(json.error) throw new Error(json.error.message||'DAS error');
-        const first=json.result?.token_accounts?.[0];
-        if(first) log(`Sample fields: ${JSON.stringify(Object.keys(first))}`);
-      }
-      if(json.error) throw new Error(json.error.message||'DAS error');
-      const accounts=json.result?.token_accounts??[];
-      if(!accounts.length){log(`Page ${page}: 0 — done.`);break;}
-      let added=0;
-      for(const a of accounts){
-        if(!a.owner) continue;
-        const amt=Number(a.amount??0);if(amt<=0) continue;
-        if((ownerMap.get(a.owner)??0)<amt) ownerMap.set(a.owner,amt);
-        added++;
-      }
-      log(`Page ${page}: ${accounts.length} accounts, ${added} non-zero — ${ownerMap.size} unique owners`);
-      if(accounts.length<PAGE) break;
-      page++;await sleep(200);
-    }
-    return [...ownerMap.entries()].sort((a,b)=>b[1]-a[1]).map(([owner,amount])=>({owner,amount}));
-  }
-
-  // ── Fee estimate ─────────────────────────────────────────────
-  async function showFees(holderCount){
-    try{
-      const c=conn();
-      const rentMint=await c.getMinimumBalanceForRentExemption(82);
-      const rentATA =await c.getMinimumBalanceForRentExemption(165);
-      const TX=5000;
-      feeMint.textContent     =sol(rentMint+TX);
-      feePayerATA.textContent =sol(rentATA+TX);
-      feeHolderATA.textContent=sol(rentATA+TX);
-      feeTx.textContent       =sol(TX);
-      feeTotal.textContent    =sol(rentMint+TX+rentATA+TX+(rentATA+TX)*holderCount);
-      feePanel.style.display  ='block';
-    }catch(e){log(`Fee estimate failed: ${e.message}`);}
-  }
-
-  // ── ATA ──────────────────────────────────────────────────────
-  async function findATA(mint,owner){
-    const [a]=await PublicKey.findProgramAddress(
-      [new PublicKey(owner).toBuffer(),new PublicKey(TOKEN_PROGRAM_ID).toBuffer(),new PublicKey(mint).toBuffer()],
-      new PublicKey(ASSOCIATED_TOKEN_PROGRAM));
-    return a;
-  }
-  function createATAIx(payer,ata,owner,mint){
-    return new TransactionInstruction({
-      keys:[
-        {pubkey:new PublicKey(payer),             isSigner:true, isWritable:true},
-        {pubkey:ata,                              isSigner:false,isWritable:true},
-        {pubkey:new PublicKey(owner),             isSigner:false,isWritable:false},
-        {pubkey:new PublicKey(mint),              isSigner:false,isWritable:false},
-        {pubkey:new PublicKey(SYSTEM_PROGRAM_ID), isSigner:false,isWritable:false},
-        {pubkey:new PublicKey(TOKEN_PROGRAM_ID),  isSigner:false,isWritable:false},
-        {pubkey:new PublicKey(SYSVAR_RENT_PUBKEY),isSigner:false,isWritable:false}
-      ],
-      programId:new PublicKey(ASSOCIATED_TOKEN_PROGRAM),data:new Uint8Array(0)
-    });
-  }
-
-  function detectProvider(){
-    if(window.solflare?.isSolflare)       return window.solflare;
-    if(window.phantom?.solana?.isPhantom) return window.phantom.solana;
-    if(window.solana?.isPhantom)          return window.solana;
-    if(window.backpack?.isBackpack)       return window.backpack;
-    return null;
-  }
-
-  async function connectWallet(){
-    provider=detectProvider();
-    if(!provider){
-      mobilePanel.classList.add('on');
-      mobileTitle.textContent='Wallet not detected';
-      mobileText.textContent=isMobile()
-        ?'Open this page inside Phantom, Solflare, or Backpack mobile browser.'
-        :'Install Phantom, Solflare, or Backpack in Chrome, then reload.';
-      log('No wallet provider found.');return;
-    }
-    try{
-      log('Connecting wallet…');
-      const res=await provider.connect({onlyIfTrusted:false});
-      walletPubkey=res.publicKey?.toString()||provider.publicKey?.toString()||null;
-      if(!walletPubkey) throw new Error('No public key returned.');
-      mobilePanel.classList.remove('on');
-      log(`Wallet connected: ${walletPubkey}`);updateStatus();
-    }catch(e){log(`Connection failed: ${e.message||e}`);}
-  }
-
-  async function disconnectWallet(){
-    try{if(provider?.disconnect) await provider.disconnect();}catch(_){}
-    walletPubkey=null;allHolders=[];holders=[];utilityMint=null;
-    if(holdersChip) holdersChip.style.display='none';
-    hideInfo(holdersInfo);holdersList.style.display='none';
-    feePanel.style.display='none';pipeBar.style.display='none';
-    stepFilter.classList.remove('on');step2.classList.remove('on');
-    utilityMintDisplay.textContent='Not created yet.';
-    log('Wallet disconnected.');updateStatus();
-  }
-
-  async function loadHolders(){
-    if(!apiKey()){showInfo(holdersInfo,'Enter your Helius API key first.','err');return;}
-    const mint=mintInput.value.trim();
-    if(!mint){showInfo(holdersInfo,'Paste a target token mint first.','err');return;}
-    hideInfo(holdersInfo);holdersList.style.display='none';
-    feePanel.style.display='none';pipeBar.style.display='none';targetChip.style.display='none';
-    allHolders=[];holders=[];step2.classList.remove('on');stepFilter.classList.remove('on');updateStatus();
-    log(`Loading holders for ${mint}…`);
-    allHolders=await fetchAllHolders(mint);
-    holders=[...allHolders];
-    log(`Done — ${allHolders.length} unique holder(s) sorted by balance desc.`);
-    if(holdersChip){holdersChip.style.display='inline-flex';holdersChip.textContent=`${allHolders.length} holder${allHolders.length!==1?'s':'}`;}
-    if(!allHolders.length){showInfo(holdersInfo,'No holders found for this mint.','err');return;}
-    showInfo(holdersInfo,`<strong>${allHolders.length}</strong> unique holder${allHolders.length!==1?'s':''} with non-zero balance`);
-    stepFilter.classList.add('on');step2.classList.add('on');updateStatus();
-    holdersList.style.display='block';
-    holdersList.textContent=allHolders.slice(0,30).map((h,i)=>`${i+1}. ${h.owner} (${h.amount})`).join('\n')
-      +(allHolders.length>30?`\n… +${allHolders.length-30} more`:'');
-    await showFees(holders.length);
-  }
-
-  async function createUtilityMint(){
-    if(!walletPubkey){log('Connect wallet first.');return;}
-    if(!holders.length){log('Load holders first.');return;}
-    log('Creating utility mint…');
-    const connection=conn();
-    const payer=new PublicKey(walletPubkey);
-    const mintKp=Keypair.generate();const mintPK=mintKp.publicKey;
-    const tokenProg=new PublicKey(TOKEN_PROGRAM_ID);
-    const sysvarRent=new PublicKey(SYSVAR_RENT_PUBKEY);
-    const lamports=await connection.getMinimumBalanceForRentExemption(82);
-    const initData=new Uint8Array(67);
-    initData[0]=0;initData[1]=0;
-    payer.toBytes().forEach((b,i)=>{initData[2+i]=b;});initData[34]=0;
-    const tx=new Transaction();
-    tx.add(SystemProgram.createAccount({fromPubkey:payer,newAccountPubkey:mintPK,lamports,space:82,programId:tokenProg}));
-    tx.add(new TransactionInstruction({
-      keys:[{pubkey:mintPK,isSigner:false,isWritable:true},{pubkey:sysvarRent,isSigner:false,isWritable:false}],
-      programId:tokenProg,data:initData
-    }));
-    tx.feePayer=payer;
-    tx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
-    tx.partialSign(mintKp);
-    const signed=await provider.signTransaction(tx);
-    const sig=await connection.sendRawTransaction(signed.serialize());
-    await connection.confirmTransaction(sig,'finalized');
-    utilityMint=mintPK.toBase58();
-    const explorer=`https://solscan.io/tx/${sig}${net()==='devnet'?'?cluster=devnet':''}`;
-    utilityMintDisplay.innerHTML=`<code>${utilityMint}</code><br><small>tx: <a href="${explorer}" target="_blank">${trunc(sig)}</a></small>`;
-    log(`Utility mint: ${utilityMint}  tx: ${sig}`);
-    updateStatus();
-  }
-
-  async function runAirdrop(){
-    if(!walletPubkey||!holders.length||!utilityMint) return;
-    const perHolder=BigInt(amtInput.value);
-    if(perHolder<=0n){log('Set amount > 0.');return;}
-    const connection=conn();
-    const payer=new PublicKey(walletPubkey);
-    const mintPK=new PublicKey(utilityMint);
-    const tokenProg=new PublicKey(TOKEN_PROGRAM_ID);
-    const total=perHolder*BigInt(holders.length);
-    log(`Airdrop start — ${holders.length} holders · ${perHolder}/each · ${total} total`);
-    const payerATA=await findATA(utilityMint,walletPubkey);
-    if(!await connection.getAccountInfo(payerATA)){
-      log('Creating payer ATA…');
-      const tx=new Transaction();
-      tx.add(createATAIx(walletPubkey,payerATA,walletPubkey,utilityMint));
-      tx.feePayer=payer;tx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
-      const s=await provider.signTransaction(tx);
-      const sig=await connection.sendRawTransaction(s.serialize());
-      await connection.confirmTransaction(sig,'confirmed');
-      log(`Payer ATA: ${payerATA.toBase58()}  tx: ${sig}`);
-    }
-    const mintToData=new Uint8Array(9);mintToData[0]=7;
-    u64LE(total).forEach((b,i)=>{mintToData[1+i]=b;});
-    const mtt=new Transaction();
-    mtt.add(new TransactionInstruction({
-      keys:[{pubkey:mintPK,isSigner:false,isWritable:true},{pubkey:payerATA,isSigner:false,isWritable:true},{pubkey:payer,isSigner:true,isWritable:false}],
-      programId:tokenProg,data:mintToData
-    }));
-    mtt.feePayer=payer;mtt.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
-    const sm=await provider.signTransaction(mtt);
-    const mintSig=await connection.sendRawTransaction(sm.serialize());
-    await connection.confirmTransaction(mintSig,'confirmed');
-    log(`Minted ${total} to payer ATA — tx: ${mintSig}`);
-    let ok=0,fail=0;
-    for(let i=0;i<holders.length;i++){
-      const {owner}=holders[i];
-      try{
-        if(i>0) await sleep(500);
-        const destATA=await findATA(utilityMint,owner);
-        const tx=new Transaction();
-        if(!await connection.getAccountInfo(destATA))
-          tx.add(createATAIx(walletPubkey,destATA,owner,utilityMint));
-        const td=new Uint8Array(9);td[0]=3;
-        u64LE(perHolder).forEach((b,j)=>{td[1+j]=b;});
-        tx.add(new TransactionInstruction({
-          keys:[{pubkey:payerATA,isSigner:false,isWritable:true},{pubkey:destATA,isSigner:false,isWritable:true},{pubkey:payer,isSigner:true,isWritable:false}],
-          programId:tokenProg,data:td
-        }));
-        tx.feePayer=payer;tx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
-        const s=await provider.signTransaction(tx);
-        const sig=await connection.sendRawTransaction(s.serialize());
-        await connection.confirmTransaction(sig,'confirmed');
-        ok++;log(`✓ [${i+1}/${holders.length}] ${trunc(owner)}  tx: ${sig}`);
-      }catch(e){
-        fail++;log(`✗ [${i+1}/${holders.length}] ${trunc(owner)}  ${e.message||e}`);
-      }
-    }
-    const summary=`Airdrop complete — ${ok} succeeded, ${fail} failed.`;
-    log(summary);showInfo(airdropInfo,`<strong>${summary}</strong>`);
-  }
-
-  netSel.addEventListener('change',updateStatus);
-  connectBtn.addEventListener('click',connectWallet);
-  disconnectBtn.addEventListener('click',disconnectWallet);
-  amtInput.addEventListener('input',updateStatus);
-  loadBtn.addEventListener('click',()=>loadHolders().catch(e=>{log(`Load error: ${e.message||e}`);showInfo(holdersInfo,`Error: ${e.message||e}`,'err');}));
-  createMintBtn.addEventListener('click',()=>createUtilityMint().catch(e=>log(`Mint error: ${e.message||e}`)));
-  airdropBtn.addEventListener('click',()=>runAirdrop().catch(e=>{log(`Airdrop error: ${e.message||e}`);showInfo(airdropInfo,`Error: ${e.message||e}`,'err');}));
-
-  window.addEventListener('load',()=>{
-    updateStatus();provider=detectProvider();
-    if(provider?.publicKey){
-      walletPubkey=provider.publicKey.toString();
-      log(`Existing session: ${walletPubkey}`);updateStatus();
-    } else if(isMobile()){
-      mobilePanel.classList.add('on');
-      mobileTitle.textContent='Mobile tip';
-      mobileText.textContent='Open this page inside Phantom, Solflare, or Backpack mobile browser.';
-      log('Mobile device detected.');
-    } else {
-      log('Ready — connect your wallet to begin.');
-    }
-  });
-})();
-</script>
+<!-- App modules (ES modules, GitHub Pages compatible) -->
+<script type="module" src="js/main.js"></script>
 </body>
 </html>
