@@ -9,58 +9,62 @@
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f7f6f2; --surface: #fffaf2; --surface-2: #f1ede5;
-      --text: #28251d; --muted: #6f6a61; --border: rgba(40,37,29,0.12);
-      --primary: #01696f; --primary-hover: #0c4e54;
-      --success: #2f7a3c; --danger: #b23b3b;
-      --shadow: 0 12px 32px rgba(40,37,29,0.10);
-      --font-body: 'Work Sans', Arial, sans-serif;
-      --font-display: 'Instrument Serif', Georgia, serif;
+      --bg:#f7f6f2;--surface:#fffaf2;--surface-2:#f1ede5;
+      --text:#28251d;--muted:#6f6a61;--border:rgba(40,37,29,0.12);
+      --primary:#01696f;--primary-hover:#0c4e54;
+      --success:#2f7a3c;--danger:#b23b3b;
+      --shadow:0 12px 32px rgba(40,37,29,0.10);
+      --font-body:'Work Sans',Arial,sans-serif;
+      --font-display:'Instrument Serif',Georgia,serif;
     }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; min-height: 100vh; font-family: var(--font-body);
-      background: radial-gradient(circle at top left, rgba(1,105,111,0.08), transparent 28%),
-                  radial-gradient(circle at bottom right, rgba(139,94,60,0.12), transparent 22%), var(--bg);
-      color: var(--text);
-    }
-    .page { max-width: 1040px; margin: 0 auto; padding: 2rem 1rem 4rem; }
-    .hero { display: grid; grid-template-columns: 1.3fr .9fr; gap: 2rem; align-items: center; margin-bottom: 2rem; }
-    .title { font-family: var(--font-display); font-size: clamp(2.4rem,5vw,4.2rem); line-height: .95; margin: 0 0 1rem; }
-    .subtitle { color: var(--muted); font-size: 1.05rem; max-width: 58ch; margin: 0; }
-    .art { background: linear-gradient(145deg,#fffdf8,#efe6d7); border: 1px solid var(--border); border-radius: 28px; min-height: 240px; position: relative; overflow: hidden; box-shadow: var(--shadow); }
-    .art::before { content:""; position:absolute; inset:auto -5% -12% auto; width:180px; height:180px; background:radial-gradient(circle,rgba(1,105,111,.18),transparent 68%); border-radius:50%; }
-    .wizard { position:absolute; left:10%; bottom:12%; width:130px; height:150px; }
-    .bunny  { position:absolute; right:10%; bottom:16%; width:88px; height:105px; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; box-shadow: var(--shadow); padding: 1.5rem; }
-    .row { display:flex; gap:.75rem; flex-wrap:wrap; align-items:center; }
-    .pill { display:inline-flex; align-items:center; gap:.45rem; padding:.55rem .85rem; border-radius:999px; background:var(--surface-2); color:var(--muted); font-size:.92rem; border:1px solid var(--border); }
-    .button { appearance:none; border:0; border-radius:999px; padding:.85rem 1.3rem; background:var(--primary); color:#fff; font-weight:600; cursor:pointer; transition:transform .15s,background .15s,opacity .15s; display:inline-flex; align-items:center; justify-content:center; font-size:.95rem; }
-    .button:hover { background:var(--primary-hover); transform:translateY(-1px); }
-    .button:disabled { opacity:.45; cursor:not-allowed; transform:none; }
-    .button.sec { background:transparent; color:var(--text); border:1px solid var(--border); }
-    .button.ok  { background:var(--success); }
-    .sel, .inp, .num { border-radius:999px; padding:.8rem 1rem; border:1px solid var(--border); background:#fff; color:var(--text); font-size:.95rem; }
-    .sel { min-width:180px; } .inp { width:100%; border-radius:16px; } .num { width:130px; border-radius:16px; }
-    .log { margin-top:1rem; background:#201f1d; color:#f6f2eb; border-radius:18px; padding:1rem; min-height:140px; font-size:.88rem; white-space:pre-wrap; overflow:auto; border:1px solid rgba(255,255,255,.08); }
-    .hint { color:var(--muted); font-size:.93rem; margin:.5rem 0 0; }
-    .sgrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin-top:1.5rem; }
-    .sbox { padding:1rem; border-radius:18px; background:var(--surface-2); border:1px solid var(--border); }
-    .slabel { font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:.3rem; }
-    .sval { font-size:.95rem; font-weight:600; word-break:break-all; }
-    .panel { margin-top:1.25rem; padding:1.25rem; background:#fff; border:1px dashed var(--border); border-radius:20px; display:none; }
-    .panel.on { display:block; }
-    .ptitle { margin:0 0 .4rem; font-size:1.05rem; font-weight:600; }
-    .fine { font-size:.87rem; color:var(--muted); margin-top:.5rem; }
-    .field { display:grid; gap:.45rem; margin-top:.9rem; }
-    .lbl { font-size:.88rem; color:var(--muted); font-weight:600; }
-    .chip { display:inline-flex; align-items:center; padding:.25rem .65rem; border-radius:999px; background:rgba(47,122,60,.1); color:var(--success); font-size:.8rem; }
-    .hlist { margin-top:.6rem; max-height:160px; overflow:auto; font-size:.87rem; border-radius:14px; background:var(--surface-2); padding:.7rem 1rem; border:1px solid var(--border); }
-    .info  { margin-top:.75rem; padding:.75rem 1rem; border-radius:14px; background:var(--surface-2); border:1px solid var(--border); font-size:.9rem; }
-    .info.err { background:#fff0f0; border-color:#f5c2c2; color:var(--danger); }
-    .info.tip { background:#f0f7ff; border-color:#b3d4f5; color:#1a4a7a; }
-    code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.83rem; word-break:break-all; }
-    @media(max-width:740px){ .hero{grid-template-columns:1fr} .sgrid{grid-template-columns:1fr} }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:var(--font-body);
+      background:radial-gradient(circle at top left,rgba(1,105,111,0.08),transparent 28%),
+                 radial-gradient(circle at bottom right,rgba(139,94,60,0.12),transparent 22%),var(--bg);
+      color:var(--text)}
+    .page{max-width:1040px;margin:0 auto;padding:2rem 1rem 4rem}
+    .hero{display:grid;grid-template-columns:1.3fr .9fr;gap:2rem;align-items:center;margin-bottom:2rem}
+    .title{font-family:var(--font-display);font-size:clamp(2.4rem,5vw,4.2rem);line-height:.95;margin:0 0 1rem}
+    .subtitle{color:var(--muted);font-size:1.05rem;max-width:58ch;margin:0}
+    .art{background:linear-gradient(145deg,#fffdf8,#efe6d7);border:1px solid var(--border);border-radius:28px;min-height:240px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+    .art::before{content:"";position:absolute;inset:auto -5% -12% auto;width:180px;height:180px;background:radial-gradient(circle,rgba(1,105,111,.18),transparent 68%);border-radius:50%}
+    .wizard{position:absolute;left:10%;bottom:12%;width:130px;height:150px}
+    .bunny{position:absolute;right:10%;bottom:16%;width:88px;height:105px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);padding:1.5rem}
+    .row{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+    .pill{display:inline-flex;align-items:center;gap:.45rem;padding:.55rem .85rem;border-radius:999px;background:var(--surface-2);color:var(--muted);font-size:.92rem;border:1px solid var(--border)}
+    .button{appearance:none;border:0;border-radius:999px;padding:.85rem 1.3rem;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;transition:transform .15s,background .15s,opacity .15s;display:inline-flex;align-items:center;justify-content:center;font-size:.95rem}
+    .button:hover{background:var(--primary-hover);transform:translateY(-1px)}
+    .button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+    .button.sec{background:transparent;color:var(--text);border:1px solid var(--border)}
+    .button.ok{background:var(--success)}
+    .sel,.inp,.num{border-radius:999px;padding:.8rem 1rem;border:1px solid var(--border);background:#fff;color:var(--text);font-size:.95rem}
+    .sel{min-width:180px}.inp{width:100%;border-radius:16px}.num{width:130px;border-radius:16px}
+    .log{margin-top:1rem;background:#201f1d;color:#f6f2eb;border-radius:18px;padding:1rem;min-height:140px;font-size:.88rem;white-space:pre-wrap;overflow:auto;border:1px solid rgba(255,255,255,.08)}
+    .hint{color:var(--muted);font-size:.93rem;margin:.5rem 0 0}
+    .sgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.5rem}
+    .sbox{padding:1rem;border-radius:18px;background:var(--surface-2);border:1px solid var(--border)}
+    .slabel{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.3rem}
+    .sval{font-size:.95rem;font-weight:600;word-break:break-all}
+    .panel{margin-top:1.25rem;padding:1.25rem;background:#fff;border:1px dashed var(--border);border-radius:20px;display:none}
+    .panel.on{display:block}
+    .ptitle{margin:0 0 .4rem;font-size:1.05rem;font-weight:600}
+    .fine{font-size:.87rem;color:var(--muted);margin-top:.5rem}
+    .field{display:grid;gap:.45rem;margin-top:.9rem}
+    .lbl{font-size:.88rem;color:var(--muted);font-weight:600}
+    .chip{display:inline-flex;align-items:center;padding:.25rem .65rem;border-radius:999px;background:rgba(47,122,60,.1);color:var(--success);font-size:.8rem}
+    .hlist{margin-top:.6rem;max-height:160px;overflow:auto;font-size:.87rem;border-radius:14px;background:var(--surface-2);padding:.7rem 1rem;border:1px solid var(--border)}
+    .info{margin-top:.75rem;padding:.75rem 1rem;border-radius:14px;background:var(--surface-2);border:1px solid var(--border);font-size:.9rem}
+    .info.err{background:#fff0f0;border-color:#f5c2c2;color:var(--danger)}
+    .info.tip{background:#f0f7ff;border-color:#b3d4f5;color:#1a4a7a}
+    .info.warn{background:#fffbea;border-color:#f0d080;color:#7a5800}
+    .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.75rem;margin-top:.9rem}
+    .fbox{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:.8rem 1rem}
+    .flabel{font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.25rem}
+    .fval{font-size:1rem;font-weight:700;color:var(--text)}
+    .fsub{font-size:.78rem;color:var(--muted);margin-top:.15rem}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.83rem;word-break:break-all}
+    @media(max-width:740px){.hero{grid-template-columns:1fr}.sgrid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -73,20 +77,16 @@
     </div>
     <div class="art" aria-hidden="true">
       <svg class="wizard" viewBox="0 0 140 160" fill="none">
-        <path d="M62 18 86 62H38L62 18Z" fill="#4A3A72"/>
-        <circle cx="62" cy="74" r="16" fill="#E7C9A9"/>
+        <path d="M62 18 86 62H38L62 18Z" fill="#4A3A72"/><circle cx="62" cy="74" r="16" fill="#E7C9A9"/>
         <path d="M42 98c6-10 34-10 40 0l10 42H32l10-42Z" fill="#01696F"/>
         <path d="M95 48 120 20" stroke="#8B5E3C" stroke-width="6" stroke-linecap="round"/>
         <circle cx="122" cy="18" r="7" fill="#D19900"/>
       </svg>
       <svg class="bunny" viewBox="0 0 100 110" fill="none">
         <ellipse cx="50" cy="70" rx="28" ry="24" fill="#F7F2EA"/>
-        <ellipse cx="38" cy="28" rx="10" ry="24" fill="#F7F2EA"/>
-        <ellipse cx="62" cy="28" rx="10" ry="24" fill="#F7F2EA"/>
-        <ellipse cx="38" cy="29" rx="4" ry="15" fill="#F3B6C8"/>
-        <ellipse cx="62" cy="29" rx="4" ry="15" fill="#F3B6C8"/>
-        <circle cx="42" cy="67" r="3" fill="#28251D"/>
-        <circle cx="58" cy="67" r="3" fill="#28251D"/>
+        <ellipse cx="38" cy="28" rx="10" ry="24" fill="#F7F2EA"/><ellipse cx="62" cy="28" rx="10" ry="24" fill="#F7F2EA"/>
+        <ellipse cx="38" cy="29" rx="4" ry="15" fill="#F3B6C8"/><ellipse cx="62" cy="29" rx="4" ry="15" fill="#F3B6C8"/>
+        <circle cx="42" cy="67" r="3" fill="#28251D"/><circle cx="58" cy="67" r="3" fill="#28251D"/>
         <circle cx="50" cy="74" r="4" fill="#F3B6C8"/>
         <path d="M46 79c2 3 6 3 8 0" stroke="#28251D" stroke-width="2" stroke-linecap="round"/>
       </svg>
@@ -94,12 +94,9 @@
   </section>
 
   <section class="card">
-    <div style="display:grid;gap:1rem;">
+    <div style="display:grid;gap:1rem">
       <div class="row">
-        <select id="netSel" class="sel">
-          <option value="mainnet-beta">Mainnet</option>
-          <option value="devnet">Devnet</option>
-        </select>
+        <select id="netSel" class="sel"><option value="mainnet-beta">Mainnet</option><option value="devnet">Devnet</option></select>
         <button id="connectBtn" class="button">Connect Wallet</button>
         <button id="disconnectBtn" class="button sec" disabled>Disconnect</button>
       </div>
@@ -107,8 +104,8 @@
         <label class="lbl" for="apiKeyInput">🔑 Helius API Key <span style="font-weight:400;color:var(--muted)">— free at <a href="https://helius.dev" target="_blank">helius.dev</a>, no credit card</span></label>
         <input id="apiKeyInput" class="inp" type="text" placeholder="Paste your Helius API key here…" autocomplete="off" spellcheck="false" />
       </div>
-      <div id="keyTip" class="info tip" style="display:none;"></div>
-      <p class="hint">Connect your wallet, enter your free Helius key, then paste a mint to load its real on-chain holders.</p>
+      <div id="keyTip" class="info tip" style="display:none"></div>
+      <p class="hint">Connect your wallet, enter your free Helius key, then paste a mint to load holders.</p>
     </div>
 
     <div class="sgrid">
@@ -117,39 +114,55 @@
       <div class="sbox"><div class="slabel">Endpoint</div><div class="sval" id="sEndpoint">—</div></div>
     </div>
 
+    <!-- Step 1 -->
     <div id="step1" class="panel on">
       <p class="ptitle">Step 1 — Load holders</p>
-      <p class="fine">Paste any SPL token mint. Uses Helius DAS <code>getTokenAccounts</code> — paginated, fast, free tier friendly.</p>
+      <p class="fine">Uses Helius DAS <code>getTokenAccounts</code> — paginated, fast, free tier friendly.</p>
       <div class="field">
         <label class="lbl" for="mintInput">Target token mint</label>
         <input id="mintInput" class="inp" type="text" placeholder="Solana mint address" autocomplete="off" spellcheck="false" />
       </div>
-      <div class="row" style="margin-top:1rem;">
+      <div class="row" style="margin-top:1rem">
         <button id="loadBtn" class="button">Load Holders</button>
-        <span id="holdersChip" style="display:none;" class="chip"></span>
+        <span id="holdersChip" style="display:none" class="chip"></span>
       </div>
-      <div id="holdersInfo" class="info" style="display:none;"></div>
-      <div id="holdersList" class="hlist" style="display:none;"></div>
+      <div id="holdersInfo" class="info" style="display:none"></div>
+      <div id="holdersList" class="hlist" style="display:none"></div>
     </div>
 
+    <!-- Step 2 -->
     <div id="step2" class="panel">
       <p class="ptitle">Step 2 — Create utility mint &amp; airdrop</p>
-      <p class="fine">Creates a new SPL token mint using your wallet as mint authority, mints total supply to your account, then transfers the set amount to each holder.</p>
+      <p class="fine">Creates a new SPL token mint, mints total supply to your account, then transfers to each holder.</p>
+
+      <!-- Fee estimate -->
+      <div id="feePanel" style="display:none">
+        <p class="lbl" style="margin-top:1rem">💰 Estimated cost</p>
+        <div class="fgrid">
+          <div class="fbox"><div class="flabel">Mint creation</div><div class="fval" id="feeMint">—</div><div class="fsub">rent + tx fee</div></div>
+          <div class="fbox"><div class="flabel">Your ATA</div><div class="fval" id="feePayerATA">—</div><div class="fsub">rent-exempt (once)</div></div>
+          <div class="fbox"><div class="flabel">Per new holder ATA</div><div class="fval" id="feeHolderATA">—</div><div class="fsub">× holders without ATA</div></div>
+          <div class="fbox"><div class="flabel">Per transfer tx</div><div class="fval" id="feeTx">≈0.000005 SOL</div><div class="fsub">× number of holders</div></div>
+          <div class="fbox" style="border-color:var(--primary)"><div class="flabel">Worst-case total</div><div class="fval" id="feeTotal">—</div><div class="fsub">all ATAs new</div></div>
+        </div>
+        <div class="info warn" style="margin-top:.75rem">Actual cost is lower if holders already have an ATA for this mint. Rent for ATAs is <strong>recoverable</strong> by closing the account later.</div>
+      </div>
+
       <div class="field">
         <label class="lbl">Utility mint</label>
         <div id="utilityMintDisplay" class="fine">Not created yet.</div>
       </div>
-      <div class="row" style="margin-top:1rem;">
+      <div class="row" style="margin-top:1rem">
         <button id="createMintBtn" class="button">Create Utility Mint</button>
       </div>
-      <div class="field" style="margin-top:1.2rem;">
+      <div class="field" style="margin-top:1.2rem">
         <label class="lbl" for="amtInput">Amount per holder (whole tokens)</label>
         <input id="amtInput" class="num" type="number" min="1" step="1" value="1" />
       </div>
-      <div class="row" style="margin-top:1rem;">
+      <div class="row" style="margin-top:1rem">
         <button id="airdropBtn" class="button ok" disabled>Airdrop to All Holders</button>
       </div>
-      <div id="airdropInfo" class="info" style="display:none;"></div>
+      <div id="airdropInfo" class="info" style="display:none"></div>
     </div>
 
     <div id="mobilePanel" class="panel">
@@ -168,367 +181,360 @@
   const ASSOCIATED_TOKEN_PROGRAM = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL';
   const SYSVAR_RENT_PUBKEY       = 'SysvarRent111111111111111111111111111111111';
   const SYSTEM_PROGRAM_ID        = '11111111111111111111111111111111';
+  const LAMPORTS_PER_SOL         = 1_000_000_000;
 
   const { Connection, PublicKey, Transaction, TransactionInstruction, SystemProgram, Keypair } = window.solanaWeb3;
 
   const $ = id => document.getElementById(id);
-  const netSel = $('netSel'), connectBtn = $('connectBtn'), disconnectBtn = $('disconnectBtn');
-  const sWallet = $('sWallet'), sNet = $('sNet'), sEndpoint = $('sEndpoint'), logEl = $('log');
-  const step2 = $('step2'), mobilePanel = $('mobilePanel'), mobileTitle = $('mobileTitle'), mobileText = $('mobileText');
-  const mintInput = $('mintInput'), loadBtn = $('loadBtn'), holdersChip = $('holdersChip');
-  const holdersInfo = $('holdersInfo'), holdersList = $('holdersList');
-  const utilityMintDisplay = $('utilityMintDisplay'), createMintBtn = $('createMintBtn');
-  const amtInput = $('amtInput'), airdropBtn = $('airdropBtn'), airdropInfo = $('airdropInfo');
-  const apiKeyInput = $('apiKeyInput'), keyTip = $('keyTip');
+  const netSel=$('netSel'),connectBtn=$('connectBtn'),disconnectBtn=$('disconnectBtn');
+  const sWallet=$('sWallet'),sNet=$('sNet'),sEndpoint=$('sEndpoint'),logEl=$('log');
+  const step2=$('step2'),mobilePanel=$('mobilePanel'),mobileTitle=$('mobileTitle'),mobileText=$('mobileText');
+  const mintInput=$('mintInput'),loadBtn=$('loadBtn'),holdersChip=$('holdersChip');
+  const holdersInfo=$('holdersInfo'),holdersList=$('holdersList');
+  const utilityMintDisplay=$('utilityMintDisplay'),createMintBtn=$('createMintBtn');
+  const amtInput=$('amtInput'),airdropBtn=$('airdropBtn'),airdropInfo=$('airdropInfo');
+  const apiKeyInput=$('apiKeyInput'),keyTip=$('keyTip');
+  const feePanel=$('feePanel'),feeMint=$('feeMint'),feePayerATA=$('feePayerATA');
+  const feeHolderATA=$('feeHolderATA'),feeTx=$('feeTx'),feeTotal=$('feeTotal');
 
-  let provider = null, walletPubkey = null, holders = [], utilityMint = null;
+  let provider=null,walletPubkey=null,holders=[],utilityMint=null;
 
   const net    = () => netSel.value;
   const apiKey = () => apiKeyInput.value.trim();
   const rpcUrl = () => {
-    const k = apiKey();
-    if (!k) return null;
-    return net() === 'devnet'
+    const k = apiKey(); if (!k) return null;
+    return net()==='devnet'
       ? `https://devnet.helius-rpc.com/?api-key=${k}`
       : `https://mainnet.helius-rpc.com/?api-key=${k}`;
   };
-  const conn   = () => new Connection(rpcUrl(), 'confirmed');
-  const trunc  = v => v ? `${v.slice(0,4)}…${v.slice(-4)}` : '—';
-  const sleep  = ms => new Promise(r => setTimeout(r, ms));
-  const isMobile = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const conn    = () => new Connection(rpcUrl(),'confirmed');
+  const sol     = lam => (lam/LAMPORTS_PER_SOL).toFixed(6)+' SOL';
+  const trunc   = v => v ? `${v.slice(0,4)}…${v.slice(-4)}` : '—';
+  const sleep   = ms => new Promise(r=>setTimeout(r,ms));
+  const isMobile= () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  const STORAGE_KEY = 'helius_api_key';
-  const savedKey = localStorage.getItem(STORAGE_KEY);
-  if (savedKey) apiKeyInput.value = savedKey;
-  apiKeyInput.addEventListener('input', () => {
-    localStorage.setItem(STORAGE_KEY, apiKeyInput.value.trim());
-    updateStatus();
-  });
+  // Persist key
+  const SK = 'helius_api_key';
+  if (localStorage.getItem(SK)) apiKeyInput.value = localStorage.getItem(SK);
+  apiKeyInput.addEventListener('input',()=>{ localStorage.setItem(SK,apiKeyInput.value.trim()); updateStatus(); });
 
-  function log(msg) {
-    logEl.textContent += `\n[${new Date().toLocaleTimeString()}] ${msg}`;
-    logEl.scrollTop = logEl.scrollHeight;
-  }
-  function showInfo(el, msg, type = '') {
-    el.style.display = 'block';
-    el.className = type ? `info ${type}` : 'info';
-    el.innerHTML = msg;
-  }
-  function hideInfo(el) { el.style.display = 'none'; }
+  function log(msg){ logEl.textContent+=`\n[${new Date().toLocaleTimeString()}] ${msg}`; logEl.scrollTop=logEl.scrollHeight; }
+  function showInfo(el,msg,type=''){el.style.display='block';el.className=type?`info ${type}`:'info';el.innerHTML=msg;}
+  function hideInfo(el){el.style.display='none';}
 
-  function updateStatus() {
-    const ep = rpcUrl();
-    sWallet.textContent   = walletPubkey ? trunc(walletPubkey) : 'Not connected';
-    sNet.textContent      = net();
-    sEndpoint.textContent = ep ? ep.replace(/api-key=.+/, 'api-key=•••') : 'Enter API key ↑';
-    connectBtn.disabled    = !!walletPubkey;
-    disconnectBtn.disabled = !walletPubkey;
-    airdropBtn.disabled    = !(walletPubkey && holders.length && utilityMint && Number(amtInput.value) > 0);
-    if (!apiKey()) {
-      showInfo(keyTip, '🔑 Get a <strong>free</strong> Helius API key at <a href="https://helius.dev" target="_blank">helius.dev</a> — email only, no credit card.', 'tip');
-    } else {
-      hideInfo(keyTip);
-    }
+  function updateStatus(){
+    const ep=rpcUrl();
+    sWallet.textContent  =walletPubkey?trunc(walletPubkey):'Not connected';
+    sNet.textContent     =net();
+    sEndpoint.textContent=ep?ep.replace(/api-key=.+/,'api-key=•••'):'Enter API key ↑';
+    connectBtn.disabled   =!!walletPubkey;
+    disconnectBtn.disabled=!walletPubkey;
+    airdropBtn.disabled   =!(walletPubkey&&holders.length&&utilityMint&&Number(amtInput.value)>0);
+    if(!apiKey()){
+      showInfo(keyTip,'🔑 Get a <strong>free</strong> Helius API key at <a href="https://helius.dev" target="_blank">helius.dev</a> — email only, no credit card.','tip');
+    } else { hideInfo(keyTip); }
   }
 
-  // Standard JSON-RPC (for transactions)
-  async function rpc(method, params, retries = 5, delayMs = 1000) {
-    const ep = rpcUrl();
-    if (!ep) throw new Error('Enter your Helius API key first.');
-    for (let attempt = 1; attempt <= retries; attempt++) {
-      const res  = await fetch(ep, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params })
-      });
-      const json = await res.json();
-      if (!json.error) return json.result;
-      const msg = json.error.message || '';
-      const isRateLimit = res.status === 429 || msg.toLowerCase().includes('rate') || msg.toLowerCase().includes('limit');
-      if (isRateLimit && attempt < retries) {
-        const wait = delayMs * Math.pow(2, attempt - 1);
-        log(`Rate limited — retrying in ${(wait/1000).toFixed(1)}s (attempt ${attempt}/${retries})…`);
-        await sleep(wait); continue;
-      }
-      throw new Error(msg || 'RPC error');
-    }
-  }
-
-  // Helius DAS getTokenAccounts — cursor-based pagination
-  async function fetchAllHolders(mint) {
-    const ep = rpcUrl();
-    if (!ep) throw new Error('Enter your Helius API key first.');
-    const PAGE_SIZE = 1000;
-    let page = 1;
-    const ownerMap = new Map(); // owner -> max amount
-
-    while (true) {
-      const body = {
-        jsonrpc: '2.0', id: 'gta', method: 'getTokenAccounts',
-        params: { mint, page, limit: PAGE_SIZE, options: { showZeroBalance: false } }
-      };
-      const res  = await fetch(ep, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      const json = await res.json();
-
-      // Log raw result keys on first page for debugging
-      if (page === 1) {
-        const resultKeys = json.result ? Object.keys(json.result) : 'null';
-        log(`API response keys: ${JSON.stringify(resultKeys)}`);
-        if (json.error) throw new Error(json.error.message || 'DAS API error');
-        const first = json.result?.token_accounts?.[0];
-        if (first) log(`Sample account fields: ${JSON.stringify(Object.keys(first))}`);
-      }
-
-      if (json.error) throw new Error(json.error.message || 'DAS API error');
-
-      const accounts = json.result?.token_accounts ?? [];
-      if (!accounts.length) {
-        log(`Page ${page}: 0 accounts — done.`);
-        break;
-      }
-
-      let added = 0;
-      for (const acct of accounts) {
-        const owner = acct.owner;
-        if (!owner) continue;
-        const amt = Number(acct.amount ?? 0);
-        if (amt <= 0) continue;
-        const prev = ownerMap.get(owner) ?? 0;
-        if (amt > prev) ownerMap.set(owner, amt);
-        added++;
-      }
-
-      log(`Page ${page}: ${accounts.length} accounts, ${added} non-zero — ${ownerMap.size} unique owners so far`);
-      if (accounts.length < PAGE_SIZE) break;
-      page++;
-      await sleep(200);
-    }
-
-    return [...ownerMap.keys()].map(owner => ({ owner }));
-  }
-
-  function u64LE(value) {
-    const buf = new Uint8Array(8);
-    let v = BigInt(value);
-    for (let i = 0; i < 8; i++) { buf[i] = Number(v & 0xffn); v >>= 8n; }
+  // u64 little-endian — returns plain Uint8Array, no Buffer needed
+  function u64LE(value){
+    const buf=new Uint8Array(8); let v=BigInt(value);
+    for(let i=0;i<8;i++){buf[i]=Number(v&0xffn);v>>=8n;}
     return buf;
   }
 
-  async function findATA(mint, owner) {
-    const [addr] = await PublicKey.findProgramAddress(
-      [new PublicKey(owner).toBuffer(), new PublicKey(TOKEN_PROGRAM_ID).toBuffer(), new PublicKey(mint).toBuffer()],
-      new PublicKey(ASSOCIATED_TOKEN_PROGRAM)
-    );
+  // Standard JSON-RPC
+  async function rpc(method,params,retries=5,delayMs=1000){
+    const ep=rpcUrl(); if(!ep) throw new Error('Enter your Helius API key first.');
+    for(let attempt=1;attempt<=retries;attempt++){
+      const res=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({jsonrpc:'2.0',id:1,method,params})});
+      const json=await res.json();
+      if(!json.error) return json.result;
+      const msg=json.error.message||'';
+      const isRL=res.status===429||msg.toLowerCase().includes('rate')||msg.toLowerCase().includes('limit');
+      if(isRL&&attempt<retries){const w=delayMs*Math.pow(2,attempt-1);log(`Rate limited — retrying in ${(w/1000).toFixed(1)}s…`);await sleep(w);continue;}
+      throw new Error(msg||'RPC error');
+    }
+  }
+
+  // Helius DAS getTokenAccounts — integer-amount, page-based
+  async function fetchAllHolders(mint){
+    const ep=rpcUrl(); if(!ep) throw new Error('Enter your Helius API key first.');
+    const PAGE=1000; let page=1;
+    const ownerMap=new Map();
+    while(true){
+      const res=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({jsonrpc:'2.0',id:'gta',method:'getTokenAccounts',
+          params:{mint,page,limit:PAGE,options:{showZeroBalance:false}}})});
+      const json=await res.json();
+      if(page===1){
+        const keys=json.result?Object.keys(json.result):'null';
+        log(`API keys: ${JSON.stringify(keys)}`);
+        if(json.error) throw new Error(json.error.message||'DAS error');
+        const first=json.result?.token_accounts?.[0];
+        if(first) log(`Sample fields: ${JSON.stringify(Object.keys(first))}`);
+      }
+      if(json.error) throw new Error(json.error.message||'DAS error');
+      const accounts=json.result?.token_accounts??[];
+      if(!accounts.length){log(`Page ${page}: 0 — done.`);break;}
+      let added=0;
+      for(const a of accounts){
+        if(!a.owner) continue;
+        const amt=Number(a.amount??0);
+        if(amt<=0) continue;
+        if((ownerMap.get(a.owner)??0)<amt) ownerMap.set(a.owner,amt);
+        added++;
+      }
+      log(`Page ${page}: ${accounts.length} accounts, ${added} non-zero — ${ownerMap.size} unique owners`);
+      if(accounts.length<PAGE) break;
+      page++; await sleep(200);
+    }
+    return [...ownerMap.keys()].map(owner=>({owner}));
+  }
+
+  // Show fee estimate after holders load
+  async function showFees(holderCount){
+    try{
+      const connection=conn();
+      const rentMint    = await connection.getMinimumBalanceForRentExemption(82);
+      const rentATA     = await connection.getMinimumBalanceForRentExemption(165);
+      const TX_FEE      = 5000; // lamports, typical
+      const mintCost    = rentMint + TX_FEE;          // create account + init mint
+      const payerATACost= rentATA  + TX_FEE;          // create payer ATA
+      const perHolder   = rentATA  + TX_FEE;          // create dest ATA + transfer (worst case)
+      const totalWorst  = mintCost + payerATACost + perHolder*holderCount;
+
+      feeMint.textContent      = sol(mintCost);
+      feePayerATA.textContent  = sol(payerATACost);
+      feeHolderATA.textContent = sol(perHolder);
+      feeTx.textContent        = sol(TX_FEE);
+      feeTotal.textContent     = sol(totalWorst);
+      feePanel.style.display   = 'block';
+      log(`Fee estimate: mint=${sol(mintCost)}, per holder (worst)=${sol(perHolder)}, total worst-case=${sol(totalWorst)}`);
+    } catch(e){
+      log(`Fee estimate failed: ${e.message}`);
+    }
+  }
+
+  async function findATA(mint,owner){
+    const [addr]=await PublicKey.findProgramAddress(
+      [new PublicKey(owner).toBuffer(),new PublicKey(TOKEN_PROGRAM_ID).toBuffer(),new PublicKey(mint).toBuffer()],
+      new PublicKey(ASSOCIATED_TOKEN_PROGRAM));
     return addr;
   }
 
-  function createATAIx(payer, ata, owner, mint) {
+  function createATAIx(payer,ata,owner,mint){
     return new TransactionInstruction({
-      keys: [
-        { pubkey: new PublicKey(payer),              isSigner: true,  isWritable: true  },
-        { pubkey: ata,                               isSigner: false, isWritable: true  },
-        { pubkey: new PublicKey(owner),              isSigner: false, isWritable: false },
-        { pubkey: new PublicKey(mint),               isSigner: false, isWritable: false },
-        { pubkey: new PublicKey(SYSTEM_PROGRAM_ID),  isSigner: false, isWritable: false },
-        { pubkey: new PublicKey(TOKEN_PROGRAM_ID),   isSigner: false, isWritable: false },
-        { pubkey: new PublicKey(SYSVAR_RENT_PUBKEY), isSigner: false, isWritable: false }
+      keys:[
+        {pubkey:new PublicKey(payer),    isSigner:true, isWritable:true},
+        {pubkey:ata,                     isSigner:false,isWritable:true},
+        {pubkey:new PublicKey(owner),    isSigner:false,isWritable:false},
+        {pubkey:new PublicKey(mint),     isSigner:false,isWritable:false},
+        {pubkey:new PublicKey(SYSTEM_PROGRAM_ID), isSigner:false,isWritable:false},
+        {pubkey:new PublicKey(TOKEN_PROGRAM_ID),  isSigner:false,isWritable:false},
+        {pubkey:new PublicKey(SYSVAR_RENT_PUBKEY),isSigner:false,isWritable:false}
       ],
-      programId: new PublicKey(ASSOCIATED_TOKEN_PROGRAM),
-      data: Buffer.alloc(0)
+      programId:new PublicKey(ASSOCIATED_TOKEN_PROGRAM),
+      data:new Uint8Array(0)   // ← no Buffer needed
     });
   }
 
-  function detectProvider() {
-    if (window.solflare?.isSolflare)       return window.solflare;
-    if (window.phantom?.solana?.isPhantom) return window.phantom.solana;
-    if (window.solana?.isPhantom)          return window.solana;
-    if (window.backpack?.isBackpack)       return window.backpack;
+  function detectProvider(){
+    if(window.solflare?.isSolflare)       return window.solflare;
+    if(window.phantom?.solana?.isPhantom) return window.phantom.solana;
+    if(window.solana?.isPhantom)          return window.solana;
+    if(window.backpack?.isBackpack)       return window.backpack;
     return null;
   }
 
-  async function connectWallet() {
-    provider = detectProvider();
-    if (!provider) {
+  async function connectWallet(){
+    provider=detectProvider();
+    if(!provider){
       mobilePanel.classList.add('on');
-      mobileTitle.textContent = 'Wallet not detected';
-      mobileText.textContent  = isMobile()
-        ? 'Open this page inside Phantom, Solflare, or Backpack mobile browser.'
-        : 'Install Phantom, Solflare, or Backpack in Chrome, then reload.';
+      mobileTitle.textContent='Wallet not detected';
+      mobileText.textContent=isMobile()
+        ?'Open this page inside Phantom, Solflare, or Backpack mobile browser.'
+        :'Install Phantom, Solflare, or Backpack in Chrome, then reload.';
       log('No wallet provider found.'); return;
     }
-    try {
+    try{
       log('Connecting wallet…');
-      const res = await provider.connect({ onlyIfTrusted: false });
-      walletPubkey = res.publicKey?.toString() || provider.publicKey?.toString() || null;
-      if (!walletPubkey) throw new Error('No public key returned.');
+      const res=await provider.connect({onlyIfTrusted:false});
+      walletPubkey=res.publicKey?.toString()||provider.publicKey?.toString()||null;
+      if(!walletPubkey) throw new Error('No public key returned.');
       mobilePanel.classList.remove('on');
-      log(`Wallet connected: ${walletPubkey}`);
-      updateStatus();
-    } catch (e) { log(`Connection failed: ${e.message || e}`); }
+      log(`Wallet connected: ${walletPubkey}`); updateStatus();
+    }catch(e){log(`Connection failed: ${e.message||e}`);}
   }
 
-  async function disconnectWallet() {
-    try { if (provider?.disconnect) await provider.disconnect(); } catch(_) {}
-    walletPubkey = null; holders = []; utilityMint = null;
-    holdersChip.style.display = 'none';
-    hideInfo(holdersInfo); holdersList.style.display = 'none';
-    step2.classList.remove('on'); utilityMintDisplay.textContent = 'Not created yet.';
-    log('Wallet disconnected.'); updateStatus();
+  async function disconnectWallet(){
+    try{if(provider?.disconnect) await provider.disconnect();}catch(_){}
+    walletPubkey=null;holders=[];utilityMint=null;
+    holdersChip.style.display='none';
+    hideInfo(holdersInfo);holdersList.style.display='none';
+    feePanel.style.display='none';
+    step2.classList.remove('on');utilityMintDisplay.textContent='Not created yet.';
+    log('Wallet disconnected.');updateStatus();
   }
 
-  async function loadHolders() {
-    if (!apiKey()) { showInfo(holdersInfo, 'Enter your Helius API key first.', 'err'); return; }
-    const mint = mintInput.value.trim();
-    if (!mint) { showInfo(holdersInfo, 'Paste a target token mint first.', 'err'); return; }
-    holdersChip.style.display = 'none';
-    hideInfo(holdersInfo); holdersList.style.display = 'none';
-    holders = []; step2.classList.remove('on'); updateStatus();
+  async function loadHolders(){
+    if(!apiKey()){showInfo(holdersInfo,'Enter your Helius API key first.','err');return;}
+    const mint=mintInput.value.trim();
+    if(!mint){showInfo(holdersInfo,'Paste a target token mint first.','err');return;}
+    holdersChip.style.display='none';hideInfo(holdersInfo);holdersList.style.display='none';
+    feePanel.style.display='none';
+    holders=[];step2.classList.remove('on');updateStatus();
     log(`Loading holders for mint ${mint}…`);
-    holders = await fetchAllHolders(mint);
+    holders=await fetchAllHolders(mint);
     log(`Done — ${holders.length} unique holder(s).`);
-    holdersChip.style.display = 'inline-flex';
-    holdersChip.textContent = `${holders.length} holder${holders.length !== 1 ? 's' : ''}`;
-    if (!holders.length) {
-      showInfo(holdersInfo, 'No holders found for this mint on this network.', 'err'); return;
-    }
-    showInfo(holdersInfo, `<strong>${holders.length}</strong> unique holder${holders.length !== 1 ? 's' : ''} with non-zero balance`);
-    const preview = holders.slice(0, 30).map((h, i) => `${i + 1}. ${h.owner}`).join('\n');
-    holdersList.style.display = 'block';
-    holdersList.textContent = preview + (holders.length > 30 ? `\n… +${holders.length - 30} more` : '');
-    step2.classList.add('on'); updateStatus();
+    holdersChip.style.display='inline-flex';
+    holdersChip.textContent=`${holders.length} holder${holders.length!==1?'s':''}`;
+    if(!holders.length){showInfo(holdersInfo,'No holders found for this mint.','err');return;}
+    showInfo(holdersInfo,`<strong>${holders.length}</strong> unique holder${holders.length!==1?'s':''} with non-zero balance`);
+    const preview=holders.slice(0,30).map((h,i)=>`${i+1}. ${h.owner}`).join('\n');
+    holdersList.style.display='block';
+    holdersList.textContent=preview+(holders.length>30?`\n… +${holders.length-30} more`:'');
+    step2.classList.add('on');updateStatus();
+    await showFees(holders.length);
   }
 
-  async function createUtilityMint() {
-    if (!walletPubkey) { log('Connect wallet first.'); return; }
-    if (!holders.length) { log('Load holders first.'); return; }
+  async function createUtilityMint(){
+    if(!walletPubkey){log('Connect wallet first.');return;}
+    if(!holders.length){log('Load holders first.');return;}
     log('Creating utility mint…');
-    const connection = conn();
-    const payer = new PublicKey(walletPubkey);
-    const mintKp = Keypair.generate(); const mintPK = mintKp.publicKey;
-    const tokenProg = new PublicKey(TOKEN_PROGRAM_ID);
-    const sysvarRent = new PublicKey(SYSVAR_RENT_PUBKEY);
-    const lamports = await connection.getMinimumBalanceForRentExemption(82);
-    const initData = new Uint8Array(67);
-    initData[0] = 0; initData[1] = 0;
-    payer.toBytes().forEach((b, i) => { initData[2 + i] = b; }); initData[34] = 0;
-    const tx = new Transaction();
-    tx.add(SystemProgram.createAccount({ fromPubkey: payer, newAccountPubkey: mintPK, lamports, space: 82, programId: tokenProg }));
+    const connection=conn();
+    const payer=new PublicKey(walletPubkey);
+    const mintKp=Keypair.generate(); const mintPK=mintKp.publicKey;
+    const tokenProg=new PublicKey(TOKEN_PROGRAM_ID);
+    const sysvarRent=new PublicKey(SYSVAR_RENT_PUBKEY);
+    const lamports=await connection.getMinimumBalanceForRentExemption(82);
+
+    // InitializeMint instruction data — pure Uint8Array, no Buffer
+    // layout: [instruction(1), decimals(1), mintAuthority(32), freezeAuthorityOption(1)]
+    const initData=new Uint8Array(67);
+    initData[0]=0;  // InitializeMint
+    initData[1]=0;  // decimals
+    payer.toBytes().forEach((b,i)=>{initData[2+i]=b;}); // mint authority = payer
+    initData[34]=0; // no freeze authority
+
+    const tx=new Transaction();
+    tx.add(SystemProgram.createAccount({fromPubkey:payer,newAccountPubkey:mintPK,lamports,space:82,programId:tokenProg}));
     tx.add(new TransactionInstruction({
-      keys: [{ pubkey: mintPK, isSigner: false, isWritable: true }, { pubkey: sysvarRent, isSigner: false, isWritable: false }],
-      programId: tokenProg, data: Buffer.from(initData)
+      keys:[{pubkey:mintPK,isSigner:false,isWritable:true},{pubkey:sysvarRent,isSigner:false,isWritable:false}],
+      programId:tokenProg,
+      data:initData   // ← Uint8Array, no Buffer.from()
     }));
-    tx.feePayer = payer;
-    tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+    tx.feePayer=payer;
+    tx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
     tx.partialSign(mintKp);
-    const signed = await provider.signTransaction(tx);
-    const sig = await connection.sendRawTransaction(signed.serialize());
-    await connection.confirmTransaction(sig, 'finalized');
-    utilityMint = mintPK.toBase58();
-    const explorer = `https://solscan.io/tx/${sig}${net() === 'devnet' ? '?cluster=devnet' : ''}`;
-    utilityMintDisplay.innerHTML = `<code>${utilityMint}</code><br><small>tx: <a href="${explorer}" target="_blank">${trunc(sig)}</a></small>`;
+    const signed=await provider.signTransaction(tx);
+    const sig=await connection.sendRawTransaction(signed.serialize());
+    await connection.confirmTransaction(sig,'finalized');
+    utilityMint=mintPK.toBase58();
+    const explorer=`https://solscan.io/tx/${sig}${net()==='devnet'?'?cluster=devnet':''}`;
+    utilityMintDisplay.innerHTML=`<code>${utilityMint}</code><br><small>tx: <a href="${explorer}" target="_blank">${trunc(sig)}</a></small>`;
     log(`Utility mint created: ${utilityMint}  tx: ${sig}`);
     updateStatus();
   }
 
-  async function runAirdrop() {
-    if (!walletPubkey || !holders.length || !utilityMint) return;
-    const perHolder = BigInt(amtInput.value);
-    if (perHolder <= 0n) { log('Set amount > 0.'); return; }
-    const connection = conn();
-    const payer = new PublicKey(walletPubkey);
-    const mintPK = new PublicKey(utilityMint);
-    const tokenProg = new PublicKey(TOKEN_PROGRAM_ID);
-    const total = perHolder * BigInt(holders.length);
+  async function runAirdrop(){
+    if(!walletPubkey||!holders.length||!utilityMint) return;
+    const perHolder=BigInt(amtInput.value);
+    if(perHolder<=0n){log('Set amount > 0.');return;}
+    const connection=conn();
+    const payer=new PublicKey(walletPubkey);
+    const mintPK=new PublicKey(utilityMint);
+    const tokenProg=new PublicKey(TOKEN_PROGRAM_ID);
+    const total=perHolder*BigInt(holders.length);
     log(`Airdrop start — ${holders.length} holders · ${perHolder}/each · ${total} total`);
-    const payerATA = await findATA(utilityMint, walletPubkey);
-    const payerATAInfo = await connection.getAccountInfo(payerATA);
-    if (!payerATAInfo) {
+
+    // Create payer ATA if needed
+    const payerATA=await findATA(utilityMint,walletPubkey);
+    if(!await connection.getAccountInfo(payerATA)){
       log('Creating payer ATA…');
-      const tx = new Transaction();
-      tx.add(createATAIx(walletPubkey, payerATA, walletPubkey, utilityMint));
-      tx.feePayer = payer;
-      tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-      const signed = await provider.signTransaction(tx);
-      const sig = await connection.sendRawTransaction(signed.serialize());
-      await connection.confirmTransaction(sig, 'confirmed');
+      const tx=new Transaction();
+      tx.add(createATAIx(walletPubkey,payerATA,walletPubkey,utilityMint));
+      tx.feePayer=payer;
+      tx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
+      const s=await provider.signTransaction(tx);
+      const sig=await connection.sendRawTransaction(s.serialize());
+      await connection.confirmTransaction(sig,'confirmed');
       log(`Payer ATA: ${payerATA.toBase58()}  tx: ${sig}`);
     }
-    const mintToData = new Uint8Array(9); mintToData[0] = 7;
-    u64LE(total).forEach((b, i) => { mintToData[1 + i] = b; });
-    const mintToTx = new Transaction();
+
+    // MintTo payer ATA
+    const mintToData=new Uint8Array(9);
+    mintToData[0]=7; // MintTo
+    u64LE(total).forEach((b,i)=>{mintToData[1+i]=b;});
+    const mintToTx=new Transaction();
     mintToTx.add(new TransactionInstruction({
-      keys: [
-        { pubkey: mintPK, isSigner: false, isWritable: true },
-        { pubkey: payerATA, isSigner: false, isWritable: true },
-        { pubkey: payer, isSigner: true, isWritable: false }
+      keys:[
+        {pubkey:mintPK,   isSigner:false,isWritable:true},
+        {pubkey:payerATA, isSigner:false,isWritable:true},
+        {pubkey:payer,    isSigner:true, isWritable:false}
       ],
-      programId: tokenProg, data: Buffer.from(mintToData)
+      programId:tokenProg,
+      data:mintToData   // ← Uint8Array
     }));
-    mintToTx.feePayer = payer;
-    mintToTx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-    const signedMint = await provider.signTransaction(mintToTx);
-    const mintSig = await connection.sendRawTransaction(signedMint.serialize());
-    await connection.confirmTransaction(mintSig, 'confirmed');
+    mintToTx.feePayer=payer;
+    mintToTx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
+    const sm=await provider.signTransaction(mintToTx);
+    const mintSig=await connection.sendRawTransaction(sm.serialize());
+    await connection.confirmTransaction(mintSig,'confirmed');
     log(`Minted ${total} to payer ATA — tx: ${mintSig}`);
-    let ok = 0, fail = 0;
-    for (let i = 0; i < holders.length; i++) {
-      const { owner } = holders[i];
-      try {
-        if (i > 0) await sleep(500);
-        const destATA = await findATA(utilityMint, owner);
-        const destATAInfo = await connection.getAccountInfo(destATA);
-        const tx = new Transaction();
-        if (!destATAInfo) tx.add(createATAIx(walletPubkey, destATA, owner, utilityMint));
-        const transferData = new Uint8Array(9); transferData[0] = 3;
-        u64LE(perHolder).forEach((b, i) => { transferData[1 + i] = b; });
+
+    let ok=0,fail=0;
+    for(let i=0;i<holders.length;i++){
+      const {owner}=holders[i];
+      try{
+        if(i>0) await sleep(500);
+        const destATA=await findATA(utilityMint,owner);
+        const tx=new Transaction();
+        if(!await connection.getAccountInfo(destATA))
+          tx.add(createATAIx(walletPubkey,destATA,owner,utilityMint));
+        const transferData=new Uint8Array(9);
+        transferData[0]=3; // Transfer
+        u64LE(perHolder).forEach((b,j)=>{transferData[1+j]=b;});
         tx.add(new TransactionInstruction({
-          keys: [
-            { pubkey: payerATA, isSigner: false, isWritable: true },
-            { pubkey: destATA, isSigner: false, isWritable: true },
-            { pubkey: payer, isSigner: true, isWritable: false }
+          keys:[
+            {pubkey:payerATA,isSigner:false,isWritable:true},
+            {pubkey:destATA, isSigner:false,isWritable:true},
+            {pubkey:payer,   isSigner:true, isWritable:false}
           ],
-          programId: tokenProg, data: Buffer.from(transferData)
+          programId:tokenProg,
+          data:transferData  // ← Uint8Array
         }));
-        tx.feePayer = payer;
-        tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-        const signed = await provider.signTransaction(tx);
-        const sig = await connection.sendRawTransaction(signed.serialize());
-        await connection.confirmTransaction(sig, 'confirmed');
+        tx.feePayer=payer;
+        tx.recentBlockhash=(await connection.getLatestBlockhash()).blockhash;
+        const s=await provider.signTransaction(tx);
+        const sig=await connection.sendRawTransaction(s.serialize());
+        await connection.confirmTransaction(sig,'confirmed');
         ok++; log(`✓ [${i+1}/${holders.length}] ${trunc(owner)}  tx: ${sig}`);
-      } catch(e) {
-        fail++; log(`✗ [${i+1}/${holders.length}] ${trunc(owner)}  ${e.message || e}`);
+      }catch(e){
+        fail++; log(`✗ [${i+1}/${holders.length}] ${trunc(owner)}  ${e.message||e}`);
       }
     }
-    const summary = `Airdrop complete — ${ok} succeeded, ${fail} failed.`;
-    log(summary); showInfo(airdropInfo, `<strong>${summary}</strong>`);
+    const summary=`Airdrop complete — ${ok} succeeded, ${fail} failed.`;
+    log(summary); showInfo(airdropInfo,`<strong>${summary}</strong>`);
   }
 
-  netSel.addEventListener('change', updateStatus);
-  connectBtn.addEventListener('click', connectWallet);
-  disconnectBtn.addEventListener('click', disconnectWallet);
-  amtInput.addEventListener('input', updateStatus);
-  loadBtn.addEventListener('click', () => loadHolders().catch(e => {
-    log(`Load error: ${e.message || e}`);
-    showInfo(holdersInfo, `Error: ${e.message || e}`, 'err');
-  }));
-  createMintBtn.addEventListener('click', () => createUtilityMint().catch(e => log(`Mint error: ${e.message || e}`)));
-  airdropBtn.addEventListener('click', () => runAirdrop().catch(e => {
-    log(`Airdrop error: ${e.message || e}`);
-    showInfo(airdropInfo, `Error: ${e.message || e}`, 'err');
-  }));
+  netSel.addEventListener('change',updateStatus);
+  connectBtn.addEventListener('click',connectWallet);
+  disconnectBtn.addEventListener('click',disconnectWallet);
+  amtInput.addEventListener('input',updateStatus);
+  loadBtn.addEventListener('click',()=>loadHolders().catch(e=>{log(`Load error: ${e.message||e}`);showInfo(holdersInfo,`Error: ${e.message||e}`,'err');}));
+  createMintBtn.addEventListener('click',()=>createUtilityMint().catch(e=>log(`Mint error: ${e.message||e}`)));
+  airdropBtn.addEventListener('click',()=>runAirdrop().catch(e=>{log(`Airdrop error: ${e.message||e}`);showInfo(airdropInfo,`Error: ${e.message||e}`,'err');}));
 
-  window.addEventListener('load', () => {
-    updateStatus();
-    provider = detectProvider();
-    if (provider?.publicKey) {
-      walletPubkey = provider.publicKey.toString();
-      log(`Existing session: ${walletPubkey}`); updateStatus();
-    } else if (isMobile()) {
+  window.addEventListener('load',()=>{
+    updateStatus(); provider=detectProvider();
+    if(provider?.publicKey){
+      walletPubkey=provider.publicKey.toString();
+      log(`Existing session: ${walletPubkey}`);updateStatus();
+    } else if(isMobile()){
       mobilePanel.classList.add('on');
-      mobileTitle.textContent = 'Mobile tip';
-      mobileText.textContent  = 'Open this page inside Phantom, Solflare, or Backpack mobile browser.';
+      mobileTitle.textContent='Mobile tip';
+      mobileText.textContent='Open this page inside Phantom, Solflare, or Backpack mobile browser.';
       log('Mobile device detected.');
     } else {
       log('Ready — connect your wallet to begin.');
