@@ -96,8 +96,8 @@
     <div style="display:grid;gap:1rem;">
       <div class="row">
         <select id="netSel" class="sel">
-          <option value="devnet">Devnet (Alchemy)</option>
-          <option value="mainnet-beta">Mainnet (Alchemy)</option>
+          <option value="devnet">Devnet (Free)</option>
+          <option value="mainnet-beta">Mainnet (Free)</option>
         </select>
         <button id="connectBtn" class="button">Connect Wallet</button>
         <button id="disconnectBtn" class="button sec" disabled>Disconnect</button>
@@ -108,7 +108,7 @@
     <div class="sgrid">
       <div class="sbox"><div class="slabel">Wallet</div><div class="sval" id="sWallet">Not connected</div></div>
       <div class="sbox"><div class="slabel">Network</div><div class="sval" id="sNet">devnet</div></div>
-      <div class="sbox"><div class="slabel">Endpoint</div><div class="sval" id="sEndpoint">Alchemy devnet</div></div>
+      <div class="sbox"><div class="slabel">Endpoint</div><div class="sval" id="sEndpoint"></div></div>
     </div>
 
     <div id="step1" class="panel on">
@@ -128,7 +128,7 @@
 
     <div id="step2" class="panel">
       <p class="ptitle">Step 2 — Create utility mint &amp; airdrop</p>
-      <p class="fine">Creates a new SPL token mint using your wallet as mint authority, mints total supply to your account, then transfers the set amount to each holder. Transfers are throttled to avoid rate limits.</p>
+      <p class="fine">Creates a new SPL token mint using your wallet as mint authority, mints total supply to your account, then transfers the set amount to each holder. Transfers are throttled to stay within free RPC limits.</p>
       <div class="field">
         <label class="lbl">Utility mint</label>
         <div id="utilityMintDisplay" class="fine">Not created yet.</div>
@@ -158,9 +158,10 @@
 <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
 <script>
 (() => {
-  const ALCHEMY = {
-    devnet:        'https://solana-devnet.g.alchemy.com/v2/TNfd8K6hU96rNy3FVj8Tl',
-    'mainnet-beta':'https://solana-mainnet.g.alchemy.com/v2/TNfd8K6hU96rNy3FVj8Tl'
+  // Official Solana Foundation public RPC endpoints — completely free, no API key
+  const RPC = {
+    devnet:        'https://api.devnet.solana.com',
+    'mainnet-beta':'https://api.mainnet-beta.solana.com'
   };
   const TOKEN_PROGRAM_ID         = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
   const ASSOCIATED_TOKEN_PROGRAM = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL';
@@ -181,7 +182,7 @@
   let provider = null, walletPubkey = null, holders = [], utilityMint = null;
 
   const net      = () => netSel.value;
-  const endpoint = () => ALCHEMY[net()];
+  const endpoint = () => RPC[net()];
   const conn     = () => new Connection(endpoint(), 'confirmed');
   const trunc    = v  => v ? `${v.slice(0,4)}…${v.slice(-4)}` : '—';
   const sleep    = ms => new Promise(r => setTimeout(r, ms));
@@ -206,8 +207,8 @@
     airdropBtn.disabled    = !(walletPubkey && holders.length && utilityMint && Number(amtInput.value) > 0);
   }
 
-  // ── Retry wrapper: exponential backoff on 429 / compute-unit errors ──
-  async function rpc(method, params, retries = 5, delayMs = 800) {
+  // Retry wrapper: exponential backoff on 429 / rate-limit errors
+  async function rpc(method, params, retries = 5, delayMs = 1000) {
     for (let attempt = 1; attempt <= retries; attempt++) {
       const res  = await fetch(endpoint(), {
         method:  'POST',
@@ -220,8 +221,9 @@
       const msg = json.error.message || '';
       const isRateLimit =
         res.status === 429 ||
-        msg.toLowerCase().includes('compute units') ||
-        msg.toLowerCase().includes('capacity');
+        msg.toLowerCase().includes('too many') ||
+        msg.toLowerCase().includes('rate') ||
+        msg.toLowerCase().includes('limit');
 
       if (isRateLimit && attempt < retries) {
         const wait = delayMs * Math.pow(2, attempt - 1);
@@ -383,7 +385,7 @@
     updateStatus();
   }
 
-  // Airdrop — 400 ms throttle between transfers to stay under Alchemy CU limits
+  // Airdrop — 600 ms throttle between transfers to respect free RPC limits
   async function runAirdrop() {
     if (!walletPubkey || !holders.length || !utilityMint) return;
     const perHolder = BigInt(amtInput.value);
@@ -435,7 +437,7 @@
     for (let i = 0; i < unique.length; i++) {
       const owner = unique[i];
       try {
-        if (i > 0) await sleep(400);
+        if (i > 0) await sleep(600);
 
         const destATA     = await findATA(utilityMint, owner);
         const destATAInfo = await connection.getAccountInfo(destATA);
