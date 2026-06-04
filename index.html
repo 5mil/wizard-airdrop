@@ -9,27 +9,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f7f6f2;
-      --surface: #fffaf2;
-      --surface-2: #f1ede5;
-      --text: #28251d;
-      --muted: #6f6a61;
-      --border: rgba(40,37,29,0.12);
-      --primary: #01696f;
-      --primary-hover: #0c4e54;
-      --success: #2f7a3c;
-      --danger: #b23b3b;
+      --bg: #f7f6f2; --surface: #fffaf2; --surface-2: #f1ede5;
+      --text: #28251d; --muted: #6f6a61; --border: rgba(40,37,29,0.12);
+      --primary: #01696f; --primary-hover: #0c4e54;
+      --success: #2f7a3c; --danger: #b23b3b;
       --shadow: 0 12px 32px rgba(40,37,29,0.10);
       --font-body: 'Work Sans', Arial, sans-serif;
       --font-display: 'Instrument Serif', Georgia, serif;
     }
     * { box-sizing: border-box; }
     body {
-      margin: 0; min-height: 100vh;
-      font-family: var(--font-body);
+      margin: 0; min-height: 100vh; font-family: var(--font-body);
       background: radial-gradient(circle at top left, rgba(1,105,111,0.08), transparent 28%),
-                  radial-gradient(circle at bottom right, rgba(139,94,60,0.12), transparent 22%),
-                  var(--bg);
+                  radial-gradient(circle at bottom right, rgba(139,94,60,0.12), transparent 22%), var(--bg);
       color: var(--text);
     }
     .page { max-width: 1040px; margin: 0 auto; padding: 2rem 1rem 4rem; }
@@ -48,11 +40,8 @@
     .button:disabled { opacity:.45; cursor:not-allowed; transform:none; }
     .button.sec { background:transparent; color:var(--text); border:1px solid var(--border); }
     .button.ok  { background:var(--success); }
-    .button.red { background:var(--danger); }
     .sel, .inp, .num { border-radius:999px; padding:.8rem 1rem; border:1px solid var(--border); background:#fff; color:var(--text); font-size:.95rem; }
-    .sel { min-width:180px; }
-    .inp { width:100%; border-radius:16px; }
-    .num { width:130px; border-radius:16px; }
+    .sel { min-width:180px; } .inp { width:100%; border-radius:16px; } .num { width:130px; border-radius:16px; }
     .log { margin-top:1rem; background:#201f1d; color:#f6f2eb; border-radius:18px; padding:1rem; min-height:140px; font-size:.88rem; white-space:pre-wrap; overflow:auto; border:1px solid rgba(255,255,255,.08); }
     .hint { color:var(--muted); font-size:.93rem; margin:.5rem 0 0; }
     .sgrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin-top:1.5rem; }
@@ -104,7 +93,6 @@
   </section>
 
   <section class="card">
-    <!-- top controls -->
     <div style="display:grid;gap:1rem;">
       <div class="row">
         <select id="netSel" class="sel">
@@ -117,17 +105,15 @@
       <p class="hint">Connect your Solana wallet, then paste a mint to load its real on-chain holders.</p>
     </div>
 
-    <!-- status -->
     <div class="sgrid">
       <div class="sbox"><div class="slabel">Wallet</div><div class="sval" id="sWallet">Not connected</div></div>
       <div class="sbox"><div class="slabel">Network</div><div class="sval" id="sNet">devnet</div></div>
       <div class="sbox"><div class="slabel">Endpoint</div><div class="sval" id="sEndpoint">Alchemy devnet</div></div>
     </div>
 
-    <!-- step 1 -->
     <div id="step1" class="panel on">
       <p class="ptitle">Step 1 — Load holders</p>
-      <p class="fine">Paste any SPL token mint. The app calls getProgramAccounts on-chain to find every token account with a non-zero balance.</p>
+      <p class="fine">Paste any SPL token mint. The app calls getProgramAccounts on-chain to find every token account with a non-zero balance. Retries automatically if rate-limited.</p>
       <div class="field">
         <label class="lbl" for="mintInput">Target token mint</label>
         <input id="mintInput" class="inp" type="text" placeholder="Solana mint address" autocomplete="off" spellcheck="false" />
@@ -140,10 +126,9 @@
       <div id="holdersList" class="hlist" style="display:none;"></div>
     </div>
 
-    <!-- step 2 -->
     <div id="step2" class="panel">
       <p class="ptitle">Step 2 — Create utility mint &amp; airdrop</p>
-      <p class="fine">Creates a new SPL token mint using your wallet as mint authority, mints the total supply to your account, then transfers the specified amount to each holder in the snapshot.</p>
+      <p class="fine">Creates a new SPL token mint using your wallet as mint authority, mints total supply to your account, then transfers the set amount to each holder. Transfers are throttled to avoid rate limits.</p>
       <div class="field">
         <label class="lbl">Utility mint</label>
         <div id="utilityMintDisplay" class="fine">Not created yet.</div>
@@ -161,7 +146,6 @@
       <div id="airdropInfo" class="info" style="display:none;"></div>
     </div>
 
-    <!-- mobile help -->
     <div id="mobilePanel" class="panel">
       <p class="ptitle" id="mobileTitle">Wallet not detected</p>
       <p class="fine" id="mobileText"></p>
@@ -171,7 +155,6 @@
   </section>
 </main>
 
-<!-- Solana web3.js browser build — exposes window.solanaWeb3 -->
 <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
 <script>
 (() => {
@@ -179,56 +162,33 @@
     devnet:        'https://solana-devnet.g.alchemy.com/v2/TNfd8K6hU96rNy3FVj8Tl',
     'mainnet-beta':'https://solana-mainnet.g.alchemy.com/v2/TNfd8K6hU96rNy3FVj8Tl'
   };
-  const TOKEN_PROGRAM_ID          = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
-  const ASSOCIATED_TOKEN_PROGRAM  = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL';
-  const SYSVAR_RENT_PUBKEY        = 'SysvarRent111111111111111111111111111111111';
-  const SYSTEM_PROGRAM_ID         = '11111111111111111111111111111111';
+  const TOKEN_PROGRAM_ID         = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
+  const ASSOCIATED_TOKEN_PROGRAM = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL';
+  const SYSVAR_RENT_PUBKEY       = 'SysvarRent111111111111111111111111111111111';
+  const SYSTEM_PROGRAM_ID        = '11111111111111111111111111111111';
 
-  const {
-    Connection, PublicKey, Transaction, TransactionInstruction,
-    SystemProgram, Keypair, sendAndConfirmTransaction
-  } = window.solanaWeb3;
+  const { Connection, PublicKey, Transaction, TransactionInstruction, SystemProgram, Keypair } = window.solanaWeb3;
 
-  // ── DOM refs ──────────────────────────────────────────────────────────
-  const netSel         = document.getElementById('netSel');
-  const connectBtn     = document.getElementById('connectBtn');
-  const disconnectBtn  = document.getElementById('disconnectBtn');
-  const sWallet        = document.getElementById('sWallet');
-  const sNet           = document.getElementById('sNet');
-  const sEndpoint      = document.getElementById('sEndpoint');
-  const logEl          = document.getElementById('log');
-  const step1          = document.getElementById('step1');
-  const step2          = document.getElementById('step2');
-  const mobilePanel    = document.getElementById('mobilePanel');
-  const mobileTitle    = document.getElementById('mobileTitle');
-  const mobileText     = document.getElementById('mobileText');
-  const mintInput      = document.getElementById('mintInput');
-  const loadBtn        = document.getElementById('loadBtn');
-  const holdersChip    = document.getElementById('holdersChip');
-  const holdersInfo    = document.getElementById('holdersInfo');
-  const holdersList    = document.getElementById('holdersList');
-  const utilityMintDisplay = document.getElementById('utilityMintDisplay');
-  const createMintBtn  = document.getElementById('createMintBtn');
-  const amtInput       = document.getElementById('amtInput');
-  const airdropBtn     = document.getElementById('airdropBtn');
-  const airdropInfo    = document.getElementById('airdropInfo');
+  const $ = id => document.getElementById(id);
+  const netSel = $('netSel'), connectBtn = $('connectBtn'), disconnectBtn = $('disconnectBtn');
+  const sWallet = $('sWallet'), sNet = $('sNet'), sEndpoint = $('sEndpoint'), logEl = $('log');
+  const step2 = $('step2'), mobilePanel = $('mobilePanel'), mobileTitle = $('mobileTitle'), mobileText = $('mobileText');
+  const mintInput = $('mintInput'), loadBtn = $('loadBtn'), holdersChip = $('holdersChip');
+  const holdersInfo = $('holdersInfo'), holdersList = $('holdersList');
+  const utilityMintDisplay = $('utilityMintDisplay'), createMintBtn = $('createMintBtn');
+  const amtInput = $('amtInput'), airdropBtn = $('airdropBtn'), airdropInfo = $('airdropInfo');
 
-  // ── State ──────────────────────────────────────────────────────────────
-  let provider        = null;
-  let walletPubkey    = null;
-  let holders         = [];      // {owner, tokenAccount, balance}
-  let utilityMint     = null;    // PublicKey string
+  let provider = null, walletPubkey = null, holders = [], utilityMint = null;
 
-  // ── Helpers ────────────────────────────────────────────────────────────
   const net      = () => netSel.value;
   const endpoint = () => ALCHEMY[net()];
   const conn     = () => new Connection(endpoint(), 'confirmed');
   const trunc    = v  => v ? `${v.slice(0,4)}…${v.slice(-4)}` : '—';
+  const sleep    = ms => new Promise(r => setTimeout(r, ms));
   const isMobile = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   function log(msg) {
-    const t = new Date().toLocaleTimeString();
-    logEl.textContent += `\n[${t}] ${msg}`;
+    logEl.textContent += `\n[${new Date().toLocaleTimeString()}] ${msg}`;
     logEl.scrollTop = logEl.scrollHeight;
   }
   function showInfo(el, msg, isErr = false) {
@@ -237,17 +197,42 @@
     el.innerHTML = msg;
   }
   function hideInfo(el) { el.style.display = 'none'; }
-
   function updateStatus() {
-    sWallet.textContent   = walletPubkey ? trunc(walletPubkey) : 'Not connected';
-    sNet.textContent      = net();
-    sEndpoint.textContent = endpoint();
-    connectBtn.disabled   = !!walletPubkey;
+    sWallet.textContent    = walletPubkey ? trunc(walletPubkey) : 'Not connected';
+    sNet.textContent       = net();
+    sEndpoint.textContent  = endpoint();
+    connectBtn.disabled    = !!walletPubkey;
     disconnectBtn.disabled = !walletPubkey;
-    airdropBtn.disabled = !(walletPubkey && holders.length && utilityMint && Number(amtInput.value) > 0);
+    airdropBtn.disabled    = !(walletPubkey && holders.length && utilityMint && Number(amtInput.value) > 0);
   }
 
-  // ── SPL-Token u64 helper ───────────────────────────────────────────────
+  // ── Retry wrapper: exponential backoff on 429 / compute-unit errors ──
+  async function rpc(method, params, retries = 5, delayMs = 800) {
+    for (let attempt = 1; attempt <= retries; attempt++) {
+      const res  = await fetch(endpoint(), {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ jsonrpc: '2.0', id: 1, method, params })
+      });
+      const json = await res.json();
+      if (!json.error) return json.result;
+
+      const msg = json.error.message || '';
+      const isRateLimit =
+        res.status === 429 ||
+        msg.toLowerCase().includes('compute units') ||
+        msg.toLowerCase().includes('capacity');
+
+      if (isRateLimit && attempt < retries) {
+        const wait = delayMs * Math.pow(2, attempt - 1);
+        log(`Rate limited — retrying in ${(wait / 1000).toFixed(1)}s (attempt ${attempt}/${retries})…`);
+        await sleep(wait);
+        continue;
+      }
+      throw new Error(msg || 'RPC error');
+    }
+  }
+
   function u64LE(value) {
     const buf = new Uint8Array(8);
     let v = BigInt(value);
@@ -255,54 +240,35 @@
     return buf;
   }
 
-  // ── Associated Token Account PDA ──────────────────────────────────────
   async function findATA(mint, owner) {
     const [addr] = await PublicKey.findProgramAddress(
-      [
-        new PublicKey(owner).toBuffer(),
-        new PublicKey(TOKEN_PROGRAM_ID).toBuffer(),
-        new PublicKey(mint).toBuffer()
-      ],
+      [new PublicKey(owner).toBuffer(), new PublicKey(TOKEN_PROGRAM_ID).toBuffer(), new PublicKey(mint).toBuffer()],
       new PublicKey(ASSOCIATED_TOKEN_PROGRAM)
     );
     return addr;
   }
 
-  // build createATA instruction (idempotent — uses init-if-needed variant)
-  function createATAInstruction(payer, ata, owner, mint) {
+  function createATAIx(payer, ata, owner, mint) {
     return new TransactionInstruction({
       keys: [
-        { pubkey: new PublicKey(payer),                    isSigner: true,  isWritable: true  },
-        { pubkey: ata,                                     isSigner: false, isWritable: true  },
-        { pubkey: new PublicKey(owner),                    isSigner: false, isWritable: false },
-        { pubkey: new PublicKey(mint),                     isSigner: false, isWritable: false },
-        { pubkey: new PublicKey(SYSTEM_PROGRAM_ID),        isSigner: false, isWritable: false },
-        { pubkey: new PublicKey(TOKEN_PROGRAM_ID),         isSigner: false, isWritable: false },
-        { pubkey: new PublicKey(SYSVAR_RENT_PUBKEY),       isSigner: false, isWritable: false }
+        { pubkey: new PublicKey(payer),              isSigner: true,  isWritable: true  },
+        { pubkey: ata,                               isSigner: false, isWritable: true  },
+        { pubkey: new PublicKey(owner),              isSigner: false, isWritable: false },
+        { pubkey: new PublicKey(mint),               isSigner: false, isWritable: false },
+        { pubkey: new PublicKey(SYSTEM_PROGRAM_ID),  isSigner: false, isWritable: false },
+        { pubkey: new PublicKey(TOKEN_PROGRAM_ID),   isSigner: false, isWritable: false },
+        { pubkey: new PublicKey(SYSVAR_RENT_PUBKEY), isSigner: false, isWritable: false }
       ],
       programId: new PublicKey(ASSOCIATED_TOKEN_PROGRAM),
       data: Buffer.alloc(0)
     });
   }
 
-  // ── RPC ────────────────────────────────────────────────────────────────
-  async function rpc(method, params) {
-    const r = await fetch(endpoint(), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params })
-    });
-    const j = await r.json();
-    if (j.error) throw new Error(j.error.message || 'RPC error');
-    return j.result;
-  }
-
-  // ── Wallet ─────────────────────────────────────────────────────────────
   function detectProvider() {
-    if (window.solflare && window.solflare.isSolflare) return window.solflare;
-    if (window.phantom?.solana?.isPhantom)             return window.phantom.solana;
-    if (window.solana?.isPhantom)                      return window.solana;
-    if (window.backpack?.isBackpack)                   return window.backpack;
+    if (window.solflare?.isSolflare)       return window.solflare;
+    if (window.phantom?.solana?.isPhantom) return window.phantom.solana;
+    if (window.solana?.isPhantom)          return window.solana;
+    if (window.backpack?.isBackpack)       return window.backpack;
     return null;
   }
 
@@ -325,59 +291,41 @@
       mobilePanel.classList.remove('on');
       log(`Wallet connected: ${walletPubkey}`);
       updateStatus();
-    } catch (e) {
-      log(`Connection failed: ${e.message || e}`);
-    }
+    } catch (e) { log(`Connection failed: ${e.message || e}`); }
   }
 
   async function disconnectWallet() {
-    try { if (provider?.disconnect) await provider.disconnect(); } catch(_){}
+    try { if (provider?.disconnect) await provider.disconnect(); } catch(_) {}
     walletPubkey = null; holders = []; utilityMint = null;
     holdersChip.style.display = 'none';
     hideInfo(holdersInfo); holdersList.style.display = 'none';
     step2.classList.remove('on'); utilityMintDisplay.textContent = 'Not created yet.';
-    log('Wallet disconnected.');
-    updateStatus();
+    log('Wallet disconnected.'); updateStatus();
   }
 
-  // ── Load holders ────────────────────────────────────────────────────────
   async function loadHolders() {
     const mint = mintInput.value.trim();
     if (!mint) { showInfo(holdersInfo, 'Paste a target token mint first.', true); return; }
 
     holdersChip.style.display = 'none';
-    hideInfo(holdersInfo);
-    holdersList.style.display = 'none';
-    holders = [];
-    step2.classList.remove('on');
-    updateStatus();
-
+    hideInfo(holdersInfo); holdersList.style.display = 'none';
+    holders = []; step2.classList.remove('on'); updateStatus();
     log(`Fetching token accounts for mint ${mint}…`);
 
     const result = await rpc('getProgramAccounts', [
       TOKEN_PROGRAM_ID,
-      {
-        encoding: 'jsonParsed',
-        filters: [
-          { dataSize: 165 },
-          { memcmp: { offset: 0, bytes: mint } }
-        ]
-      }
+      { encoding: 'jsonParsed', filters: [{ dataSize: 165 }, { memcmp: { offset: 0, bytes: mint } }] }
     ]);
 
     for (const acc of result) {
       const info = acc.account?.data?.parsed?.info;
       if (!info?.tokenAmount) continue;
       if (BigInt(info.tokenAmount.amount) <= 0n) continue;
-      holders.push({
-        owner:        info.owner,
-        tokenAccount: acc.pubkey,
-        balance:      info.tokenAmount.amount
-      });
+      holders.push({ owner: info.owner, tokenAccount: acc.pubkey, balance: info.tokenAmount.amount });
     }
 
     const unique = [...new Set(holders.map(h => h.owner))];
-    log(`Found ${holders.length} accounts with balance > 0 — ${unique.length} unique owner(s).`);
+    log(`Found ${holders.length} accounts > 0 — ${unique.length} unique owner(s).`);
 
     holdersChip.style.display = 'inline-flex';
     holdersChip.textContent   = `${unique.length} holder${unique.length !== 1 ? 's' : ''}`;
@@ -391,110 +339,82 @@
       `<strong>${holders.length}</strong> token account${holders.length !== 1 ? 's' : ''} · ` +
       `<strong>${unique.length}</strong> unique owner${unique.length !== 1 ? 's' : ''}`
     );
-
-    const preview = unique.slice(0, 30).map((o,i) => `${i+1}. ${o}`).join('\n');
+    const preview = unique.slice(0, 30).map((o, i) => `${i + 1}. ${o}`).join('\n');
     holdersList.style.display = 'block';
     holdersList.textContent   = preview + (unique.length > 30 ? `\n… +${unique.length - 30} more` : '');
-
-    step2.classList.add('on');
-    updateStatus();
+    step2.classList.add('on'); updateStatus();
   }
 
-  // ── Create utility mint ─────────────────────────────────────────────────
   async function createUtilityMint() {
     if (!walletPubkey) { log('Connect wallet first.'); return; }
     if (!holders.length) { log('Load holders first.'); return; }
 
     log('Creating utility mint…');
-    const connection     = conn();
-    const payer          = new PublicKey(walletPubkey);
-    const mintKeypair    = Keypair.generate();
-    const mintPK         = mintKeypair.publicKey;
-    const tokenProg      = new PublicKey(TOKEN_PROGRAM_ID);
-    const sysvarRent     = new PublicKey(SYSVAR_RENT_PUBKEY);
+    const connection = conn();
+    const payer      = new PublicKey(walletPubkey);
+    const mintKp     = Keypair.generate();
+    const mintPK     = mintKp.publicKey;
+    const tokenProg  = new PublicKey(TOKEN_PROGRAM_ID);
+    const sysvarRent = new PublicKey(SYSVAR_RENT_PUBKEY);
+    const lamports   = await connection.getMinimumBalanceForRentExemption(82);
 
-    const lamports = await connection.getMinimumBalanceForRentExemption(82);
-
-    // InitializeMint layout: [0=ix_idx(1), 1=decimals(1), 2..33=mintAuthority(32), 34=option(1), 35..66=freezeAuthority(32)]
-    const initMintData = new Uint8Array(67);
-    initMintData[0] = 0;              // InitializeMint instruction index
-    initMintData[1] = 0;              // decimals = 0
-    payer.toBuffer().copy !== undefined
-      ? payer.toBuffer().forEach((b, i) => { initMintData[2 + i] = b; })
-      : payer.toBytes().forEach((b, i) => { initMintData[2 + i] = b; });
-    initMintData[34] = 0;             // no freeze authority
+    const initData = new Uint8Array(67);
+    initData[0] = 0; initData[1] = 0;
+    payer.toBytes().forEach((b, i) => { initData[2 + i] = b; });
+    initData[34] = 0;
 
     const tx = new Transaction();
-    tx.add(
-      SystemProgram.createAccount({
-        fromPubkey:     payer,
-        newAccountPubkey: mintPK,
-        lamports,
-        space:          82,
-        programId:      tokenProg
-      })
-    );
+    tx.add(SystemProgram.createAccount({ fromPubkey: payer, newAccountPubkey: mintPK, lamports, space: 82, programId: tokenProg }));
     tx.add(new TransactionInstruction({
-      keys: [
-        { pubkey: mintPK,    isSigner: false, isWritable: true },
-        { pubkey: sysvarRent, isSigner: false, isWritable: false }
-      ],
-      programId: tokenProg,
-      data:      Buffer.from(initMintData)
+      keys: [{ pubkey: mintPK, isSigner: false, isWritable: true }, { pubkey: sysvarRent, isSigner: false, isWritable: false }],
+      programId: tokenProg, data: Buffer.from(initData)
     }));
-
     tx.feePayer = payer;
     tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-    tx.partialSign(mintKeypair);
-
+    tx.partialSign(mintKp);
     const signed = await provider.signTransaction(tx);
     const sig    = await connection.sendRawTransaction(signed.serialize());
     await connection.confirmTransaction(sig, 'finalized');
 
     utilityMint = mintPK.toBase58();
-    utilityMintDisplay.innerHTML = `<code>${utilityMint}</code><br><small>tx: <a href="https://solscan.io/tx/${sig}${net()==='devnet'?'?cluster=devnet':''}" target="_blank">${trunc(sig)}</a></small>`;
+    const explorer = `https://solscan.io/tx/${sig}${net() === 'devnet' ? '?cluster=devnet' : ''}`;
+    utilityMintDisplay.innerHTML = `<code>${utilityMint}</code><br><small>tx: <a href="${explorer}" target="_blank">${trunc(sig)}</a></small>`;
     log(`Utility mint created: ${utilityMint}  tx: ${sig}`);
     updateStatus();
   }
 
-  // ── Airdrop ─────────────────────────────────────────────────────────────
+  // Airdrop — 400 ms throttle between transfers to stay under Alchemy CU limits
   async function runAirdrop() {
     if (!walletPubkey || !holders.length || !utilityMint) return;
     const perHolder = BigInt(amtInput.value);
-    if (perHolder <= 0n) { log('Set amount per holder > 0.'); return; }
+    if (perHolder <= 0n) { log('Set amount > 0.'); return; }
 
-    const connection  = conn();
-    const payer       = new PublicKey(walletPubkey);
-    const mintPK      = new PublicKey(utilityMint);
-    const tokenProg   = new PublicKey(TOKEN_PROGRAM_ID);
-    const unique      = [...new Set(holders.map(h => h.owner))];
-    const total       = perHolder * BigInt(unique.length);
+    const connection = conn();
+    const payer      = new PublicKey(walletPubkey);
+    const mintPK     = new PublicKey(utilityMint);
+    const tokenProg  = new PublicKey(TOKEN_PROGRAM_ID);
+    const unique     = [...new Set(holders.map(h => h.owner))];
+    const total      = perHolder * BigInt(unique.length);
 
-    log(`Airdrop start — ${unique.length} holders, ${perHolder} tokens each, ${total} total supply`);
+    log(`Airdrop start — ${unique.length} holders · ${perHolder}/each · ${total} total`);
 
-    // 1. Get or create payer's ATA for the utility mint
-    const payerATA = await findATA(utilityMint, walletPubkey);
-
-    // create payer ATA if needed
+    const payerATA     = await findATA(utilityMint, walletPubkey);
     const payerATAInfo = await connection.getAccountInfo(payerATA);
     if (!payerATAInfo) {
       log('Creating payer ATA…');
       const tx = new Transaction();
-      tx.add(createATAInstruction(walletPubkey, payerATA, walletPubkey, utilityMint));
+      tx.add(createATAIx(walletPubkey, payerATA, walletPubkey, utilityMint));
       tx.feePayer = payer;
       tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
       const signed = await provider.signTransaction(tx);
       const sig    = await connection.sendRawTransaction(signed.serialize());
       await connection.confirmTransaction(sig, 'confirmed');
-      log(`Payer ATA created: ${payerATA.toBase58()}  tx: ${sig}`);
+      log(`Payer ATA: ${payerATA.toBase58()}  tx: ${sig}`);
     }
 
-    // 2. MintTo: mint total supply to payer ATA
-    // MintTo layout: [0=7(ix), 1..8=amount u64 LE]
     const mintToData = new Uint8Array(9);
     mintToData[0] = 7;
     u64LE(total).forEach((b, i) => { mintToData[1 + i] = b; });
-
     const mintToTx = new Transaction();
     mintToTx.add(new TransactionInstruction({
       keys: [
@@ -502,8 +422,7 @@
         { pubkey: payerATA, isSigner: false, isWritable: true },
         { pubkey: payer,    isSigner: true,  isWritable: false }
       ],
-      programId: tokenProg,
-      data: Buffer.from(mintToData)
+      programId: tokenProg, data: Buffer.from(mintToData)
     }));
     mintToTx.feePayer = payer;
     mintToTx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
@@ -512,31 +431,27 @@
     await connection.confirmTransaction(mintSig, 'confirmed');
     log(`Minted ${total} to payer ATA — tx: ${mintSig}`);
 
-    // 3. Transfer to each unique holder
     let ok = 0, fail = 0;
-    for (const owner of unique) {
+    for (let i = 0; i < unique.length; i++) {
+      const owner = unique[i];
       try {
+        if (i > 0) await sleep(400);
+
         const destATA     = await findATA(utilityMint, owner);
         const destATAInfo = await connection.getAccountInfo(destATA);
         const tx = new Transaction();
+        if (!destATAInfo) tx.add(createATAIx(walletPubkey, destATA, owner, utilityMint));
 
-        if (!destATAInfo) {
-          tx.add(createATAInstruction(walletPubkey, destATA, owner, utilityMint));
-        }
-
-        // Transfer layout: [0=3(ix), 1..8=amount u64 LE]
         const transferData = new Uint8Array(9);
         transferData[0] = 3;
         u64LE(perHolder).forEach((b, i) => { transferData[1 + i] = b; });
-
         tx.add(new TransactionInstruction({
           keys: [
-            { pubkey: payerATA,              isSigner: false, isWritable: true  },
-            { pubkey: destATA,               isSigner: false, isWritable: true  },
-            { pubkey: payer,                 isSigner: true,  isWritable: false }
+            { pubkey: payerATA, isSigner: false, isWritable: true },
+            { pubkey: destATA,  isSigner: false, isWritable: true },
+            { pubkey: payer,    isSigner: true,  isWritable: false }
           ],
-          programId: tokenProg,
-          data: Buffer.from(transferData)
+          programId: tokenProg, data: Buffer.from(transferData)
         }));
 
         tx.feePayer = payer;
@@ -545,10 +460,10 @@
         const sig    = await connection.sendRawTransaction(signed.serialize());
         await connection.confirmTransaction(sig, 'confirmed');
         ok++;
-        log(`✓ ${trunc(owner)}  tx: ${sig}`);
+        log(`✓ [${i + 1}/${unique.length}] ${trunc(owner)}  tx: ${sig}`);
       } catch (e) {
         fail++;
-        log(`✗ ${trunc(owner)}  ${e.message || e}`);
+        log(`✗ [${i + 1}/${unique.length}] ${trunc(owner)}  ${e.message || e}`);
       }
     }
 
@@ -557,44 +472,30 @@
     showInfo(airdropInfo, `<strong>${summary}</strong>`);
   }
 
-  // ── Events ─────────────────────────────────────────────────────────────
-  netSel.addEventListener('change',       updateStatus);
-  connectBtn.addEventListener('click',    connectWallet);
+  netSel.addEventListener('change', updateStatus);
+  connectBtn.addEventListener('click', connectWallet);
   disconnectBtn.addEventListener('click', disconnectWallet);
-  amtInput.addEventListener('input',      updateStatus);
+  amtInput.addEventListener('input', updateStatus);
+  loadBtn.addEventListener('click', () => loadHolders().catch(e => {
+    log(`Load error: ${e.message || e}`);
+    showInfo(holdersInfo, `Error: ${e.message || e}`, true);
+  }));
+  createMintBtn.addEventListener('click', () => createUtilityMint().catch(e => log(`Mint error: ${e.message || e}`)));
+  airdropBtn.addEventListener('click', () => runAirdrop().catch(e => {
+    log(`Airdrop error: ${e.message || e}`);
+    showInfo(airdropInfo, `Error: ${e.message || e}`, true);
+  }));
 
-  loadBtn.addEventListener('click', () => {
-    loadHolders().catch(e => {
-      log(`Load holders error: ${e.message || e}`);
-      showInfo(holdersInfo, `Error: ${e.message || e}`, true);
-    });
-  });
-
-  createMintBtn.addEventListener('click', () => {
-    createUtilityMint().catch(e => {
-      log(`Create mint error: ${e.message || e}`);
-    });
-  });
-
-  airdropBtn.addEventListener('click', () => {
-    runAirdrop().catch(e => {
-      log(`Airdrop error: ${e.message || e}`);
-      showInfo(airdropInfo, `Error: ${e.message || e}`, true);
-    });
-  });
-
-  // ── Init ───────────────────────────────────────────────────────────────
   window.addEventListener('load', () => {
     updateStatus();
     provider = detectProvider();
     if (provider?.publicKey) {
       walletPubkey = provider.publicKey.toString();
-      log(`Existing session detected: ${walletPubkey}`);
-      updateStatus();
+      log(`Existing session: ${walletPubkey}`); updateStatus();
     } else if (isMobile()) {
       mobilePanel.classList.add('on');
       mobileTitle.textContent = 'Mobile tip';
-      mobileText.textContent  = 'For best results, open this page inside Phantom, Solflare, or Backpack mobile browser.';
+      mobileText.textContent  = 'Open this page inside Phantom, Solflare, or Backpack mobile browser.';
       log('Mobile device detected.');
     } else {
       log('Ready — connect your wallet to begin.');
