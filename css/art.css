@@ -1,0 +1,163 @@
+/**
+ * art.css
+ * Mystical woods / wizard / magical imagery treatments.
+ * Photo overlays, hover reveals, section hero art, spore particles.
+ */
+
+/* ====================================================================== */
+/* Photo background base                                                    */
+/* ====================================================================== */
+.photo-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  filter: saturate(0.6) hue-rotate(115deg);
+}
+
+/* ====================================================================== */
+/* Spore / firefly particle animation                                       */
+/* ====================================================================== */
+@keyframes floatSpore {
+  0%   { transform: translate(0, 0) scale(1);    opacity: 0;   }
+  20%  { opacity: 0.75; }
+  80%  { opacity: 0.40; }
+  100% { transform: translate(var(--dx,20px), -140px) scale(0.35); opacity: 0; }
+}
+
+.spore-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.spore {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-glow);
+  opacity: 0;
+  animation: floatSpore var(--dur,9s) var(--delay,0s) ease-in-out infinite;
+  box-shadow: 0 0 7px 2px rgba(95,255,160,0.55);
+}
+.spore.gold {
+  background: var(--color-gold);
+  box-shadow: 0 0 7px 2px rgba(201,168,76,0.55);
+}
+.spore.violet {
+  background: var(--color-violet-light);
+  box-shadow: 0 0 7px 2px rgba(166,136,212,0.55);
+}
+
+/* Pre-built spore field for hero — inject via HTML */
+.hero-spores .spore:nth-child(1)  { left: 8%;  bottom: 10%; --dur:10s; --delay:0s;   --dx:15px;  }
+.hero-spores .spore:nth-child(2)  { left: 22%; bottom: 5%;  --dur:13s; --delay:1.5s; --dx:-20px; }
+.hero-spores .spore:nth-child(3)  { left: 40%; bottom: 8%;  --dur:11s; --delay:3s;   --dx:10px;  }
+.hero-spores .spore:nth-child(4)  { left: 60%; bottom: 12%; --dur:14s; --delay:0.5s; --dx:-12px; }
+.hero-spores .spore:nth-child(5)  { left: 75%; bottom: 6%;  --dur:9s;  --delay:2s;   --dx:18px;  }
+.hero-spores .spore:nth-child(6)  { left: 88%; bottom: 9%;  --dur:12s; --delay:4s;   --dx:-8px;  }
+.hero-spores .spore:nth-child(7)  { left: 15%; bottom: 3%;  --dur:15s; --delay:6s;   --dx:25px; }
+.hero-spores .spore:nth-child(8)  { left: 50%; bottom: 3%;  --dur:10s; --delay:7s;   --dx:-18px; }
+.hero-spores .spore.gold:nth-child(9)  { left: 32%; bottom: 7%;  --dur:16s; --delay:2.5s; --dx:8px; }
+.hero-spores .spore.gold:nth-child(10) { left: 68%; bottom: 4%;  --dur:12s; --delay:5s;   --dx:-15px; }
+.hero-spores .spore.violet:nth-child(11){ left: 55%; bottom: 15%; --dur:14s; --delay:8s;  --dx:12px; }
+
+/* ====================================================================== */
+/* Mist / fog overlay                                                       */
+/* ====================================================================== */
+@keyframes mistDrift {
+  0%   { transform: translateX(-3%) translateY(0);   opacity: 0.04; }
+  50%  { transform: translateX(3%)  translateY(-4px); opacity: 0.08; }
+  100% { transform: translateX(-3%) translateY(0);   opacity: 0.04; }
+}
+.mist-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 120% 40% at 50% 80%, rgba(140,200,160,0.12) 0%, transparent 70%);
+  animation: mistDrift 18s ease-in-out infinite;
+}
+
+/* ====================================================================== */
+/* Ancient rune divider                                                     */
+/* ====================================================================== */
+.rune-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  margin: var(--space-10) auto;
+  max-width: 460px;
+  color: var(--color-stone);
+  font-size: 16px;
+  letter-spacing: 0.3em;
+  user-select: none;
+}
+.rune-divider::before,
+.rune-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(95,255,160,0.22), transparent);
+}
+
+/* ====================================================================== */
+/* Forest glow borders on active cards                                      */
+/* ====================================================================== */
+.forest-glow {
+  box-shadow:
+    0 0 0 1px rgba(95,255,160,0.20),
+    0 0 32px rgba(95,255,160,0.10);
+  border-color: rgba(95,255,160,0.35) !important;
+}
+
+/* ====================================================================== */
+/* Immersive section art  — full-bleed dark photo behind a section          */
+/* ====================================================================== */
+.section-art {
+  position: relative;
+  overflow: hidden;
+}
+.section-art > .photo-bg {
+  z-index: 0;
+}
+.section-art > * { position: relative; z-index: 1; }
+
+/* ====================================================================== */
+/* Cinematic image reveal (fade-in on scroll via IntersectionObserver)      */
+/* ====================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ====================================================================== */
+/* Wizard silhouette section accent                                         */
+/* ====================================================================== */
+.wizard-accent {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto var(--space-8);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(95,255,160,0.15);
+  box-shadow: 0 0 40px rgba(95,255,160,0.08), var(--shadow-card);
+}
+.wizard-accent img {
+  width: 100%;
+  display: block;
+  filter: saturate(0.55) brightness(0.65) hue-rotate(115deg);
+  transition: filter 0.4s ease;
+}
+.wizard-accent:hover img {
+  filter: saturate(0.75) brightness(0.80) hue-rotate(100deg);
+}
