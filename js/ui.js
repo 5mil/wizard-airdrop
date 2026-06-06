@@ -5,9 +5,12 @@
 export const $ = id => document.getElementById(id);
 
 export function log(msg) {
-  const el = $('log');
+  const el = $('log-panel') || $('log');
   if (!el) return;
-  el.textContent += `\n[${new Date().toLocaleTimeString()}] ${msg}`;
+  const line = document.createElement('div');
+  line.className = 'log-info';
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  el.appendChild(line);
   el.scrollTop = el.scrollHeight;
 }
 

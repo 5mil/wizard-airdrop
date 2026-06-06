@@ -1,156 +1,214 @@
 /**
- * main.js — bootstrap: imports all modules and wires up event listeners
+ * main.js — Wizard Airdrop bootstrap
  *
- * This file should contain ONLY wiring logic.
- * All business logic lives in the other modules.
+ * Imports all modules, wires event listeners, initialises the wizard UI.
+ * All business logic lives in the individual modules.
  */
-import { APP } from './state.js';
-import { $, log, showInfo, hideInfo, trunc, setPanel } from './ui.js';
-import { connectWallet, disconnectWallet, tryResumeSession } from './wallet.js';
-import { fetchAllHolders, getApiKey, getRpcUrl, getNet, getConnection } from './helius.js';
-import { initFilterUI, applyFilter, resetFilters } from './filters.js';
-import { showFees } from './fees.js';
-import { createUtilityMint, runAirdrop } from './airdrop.js';
 
-// ── Status bar ────────────────────────────────────────────────────
-function updateStatus() {
-  const ep = getRpcUrl();
-  $('sWallet').textContent   = APP.walletPubkey ? trunc(APP.walletPubkey) : 'Not connected';
-  $('sNet').textContent      = getNet();
-  $('sEndpoint').textContent = ep ? ep.replace(/api-key=.+/, 'api-key=\u2022\u2022\u2022') : 'Enter API key \u2191';
+import { APP }                     from './state.js';
+import { log, trunc }              from './ui.js';
+import { connectWallet, tryResumeSession } from './wallet.js';
+import { fetchAllHolders, getApiKey }      from './helius.js';
+import { applyFilters, resetFilters }      from './filters.js';
+import { showFees }                        from './fees.js';
+import { executeAirdrop }                  from './airdrop.js';
+import { buildReviewPanel }                from './token-builder.js';
+import { initNav, goStep }                 from './nav.js';
+import { applyArtManifest }               from './art.js';
 
-  $('connectBtn').disabled    = !!APP.walletPubkey;
-  $('disconnectBtn').disabled = !APP.walletPubkey;
-  $('airdropBtn').disabled    = !(
-    APP.walletPubkey &&
-    APP.holders.length &&
-    APP.utilityMint &&
-    Number($('amtInput').value) > 0
-  );
+// ====================================================================
+// Wallet display
+// ====================================================================
+function updateWalletDisplay() {
+  const el = document.getElementById('wallet-display');
+  if (el) el.textContent = APP.walletPubkey ? trunc(APP.walletPubkey) : '';
 
-  if (!getApiKey()) {
-    showInfo($('keyTip'), '\ud83d\udd11 Get a <strong>free</strong> Helius key at <a href="https://helius.dev" target="_blank">helius.dev</a>.', 'tip');
-  } else {
-    hideInfo($('keyTip'));
-  }
+  ['btn-connect', 'btn-connect-hero'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.textContent = APP.walletPubkey ? trunc(APP.walletPubkey) : 'Connect Wallet';
+  });
 }
 
-// ── Load holders ──────────────────────────────────────────────────
-async function loadHolders() {
-  const holdersInfo = $('holdersInfo');
-  if (!getApiKey()) { showInfo(holdersInfo, 'Enter your Helius API key first.', 'err'); return; }
-  const mint = $('mintInput').value.trim();
-  if (!mint) { showInfo(holdersInfo, 'Paste a target token mint first.', 'err'); return; }
+// ====================================================================
+// Holder loading (Step 7)
+// ====================================================================
+window.loadHolders = async function () {
+  const keyInput  = document.getElementById('helius-key');
+  const mintInput = document.getElementById('mint-input');
+  const summary   = document.getElementById('holders-summary');
+  const listEl    = document.getElementById('holders-list');
+  const logEl     = document.getElementById('log-panel');
 
-  hideInfo(holdersInfo);
-  $('holdersList').style.display = 'none';
-  $('feePanel').style.display   = 'none';
-  $('pipeBar').style.display    = 'none';
-  $('targetChip').style.display = 'none';
-  setPanel('stepFilter', false);
-  setPanel('step2', false);
-  updateStatus();
+  const apiKey = keyInput && keyInput.value.trim();
+  const mint   = mintInput && mintInput.value.trim();
 
-  log(`Loading holders for ${mint}\u2026`);
-  const holders = await fetchAllHolders(mint);
-  log(`Done \u2014 ${holders.length} unique holder(s) sorted by balance desc.`);
+  if (!apiKey) { alert('Enter your Helius API key first.'); return; }
+  if (!mint)   { alert('Paste a target token mint address first.'); return; }
 
-  const chip = $('holdersChip');
-  if (chip) {
-    chip.style.display = 'inline-flex';
-    chip.textContent   = `${holders.length} holder${holders.length !== 1 ? 's' : ''}`;
+  logLine(logEl, `Loading holders for ${mint}…`);
+
+  try {
+    const holders = await fetchAllHolders(mint, apiKey);
+    APP.holders = holders;
+
+    logLine(logEl, `Done — ${holders.length} unique holder(s) sorted by balance desc.`);
+
+    if (summary) {
+      summary.style.display = 'flex';
+      const countEl = document.getElementById('holders-count');
+      const supEl   = document.getElementById('holders-supply');
+      if (countEl) countEl.textContent = `${holders.length} holders`;
+      if (supEl)   supEl.textContent   = `Total supply: ${holders.reduce((a, h) => a + BigInt(h.amount ?? 0), 0n)}`;
+    }
+
+    if (listEl) {
+      listEl.innerHTML = '';
+      const preview = holders.slice(0, 50);
+      preview.forEach((h, i) => {
+        const row = document.createElement('div');
+        row.style.cssText = 'padding:8px 16px;border-bottom:1px solid rgba(90,140,90,0.12);font-family:var(--font-mono);font-size:12px;color:var(--color-silver);';
+        row.textContent = `${String(i + 1).padStart(3, '\u00a0')}. ${h.owner}  ·  ${h.amount}`;
+        listEl.appendChild(row);
+      });
+      if (holders.length > 50) {
+        const more = document.createElement('div');
+        more.style.cssText = 'padding:10px 16px;font-size:12px;color:var(--color-ash);';
+        more.textContent = `… +${holders.length - 50} more`;
+        listEl.appendChild(more);
+      }
+    }
+
+    await showFees(holders.length);
+  } catch (err) {
+    logLine(logEl, `Error: ${err.message || err}`, 'err');
   }
+};
 
-  if (!holders.length) {
-    showInfo(holdersInfo, 'No holders found for this mint.', 'err');
-    return;
+// ====================================================================
+// Filter application
+// ====================================================================
+window.applyFilters = function () {
+  applyFilters();
+  const summary = document.getElementById('filter-summary');
+  if (summary) {
+    summary.textContent = `${APP.filteredHolders ? APP.filteredHolders.length : (APP.holders && APP.holders.length) || 0} recipients after filters`;
   }
+};
 
-  showInfo(holdersInfo, `<strong>${holders.length}</strong> unique holder${holders.length !== 1 ? 's' : ''} with non-zero balance`);
+// ====================================================================
+// Airdrop amount
+// ====================================================================
+window.updateAirdropAmount = function (val) {
+  APP.airdropAmount = val;
+  updateAirdropSummary();
+};
 
-  const list = $('holdersList');
-  if (list) {
-    list.style.display = 'block';
-    list.textContent   = holders.slice(0, 30).map((h, i) => `${i + 1}. ${h.owner} (${h.amount})`).join('\n')
-      + (holders.length > 30 ? `\n\u2026 +${holders.length - 30} more` : '');
-  }
-
-  setPanel('stepFilter', true);
-  setPanel('step2', true);
-  updateStatus();
-  await showFees(holders.length);
+function updateAirdropSummary() {
+  const el = document.getElementById('airdrop-summary');
+  if (!el) return;
+  const recipients = (APP.filteredHolders || APP.holders || []).length;
+  const amount     = APP.airdropAmount || 0;
+  el.textContent = `${recipients} recipients × ${amount} tokens = ${recipients * amount} tokens total`;
 }
 
-// ── Wire up everything on load ────────────────────────────────────
-window.addEventListener('load', () => {
-  // Persist API key in localStorage (user's device only)
-  const SK = 'helius_api_key';
-  const saved = localStorage.getItem(SK);
-  if (saved) $('apiKeyInput').value = saved;
-  $('apiKeyInput').addEventListener('input', () => {
-    localStorage.setItem(SK, $('apiKeyInput').value.trim());
-    updateStatus();
+// ====================================================================
+// Execute airdrop
+// ====================================================================
+window.executeAirdrop = async function () {
+  const logEl = document.getElementById('log-panel');
+  logLine(logEl, 'Starting airdrop…');
+  try {
+    await executeAirdrop(msg => logLine(logEl, msg));
+    logLine(logEl, '✨ Airdrop complete!', 'ok');
+  } catch (err) {
+    logLine(logEl, `Airdrop error: ${err.message || err}`, 'err');
+  }
+};
+
+// ====================================================================
+// Token creation (Step 6)
+// ====================================================================
+window.createToken = async function () {
+  const btn   = document.getElementById('btn-create-token');
+  const logEl = document.getElementById('log-panel');
+  if (btn) btn.disabled = true;
+  logLine(logEl, 'Creating token…');
+  try {
+    const { createMint } = await import('./token-builder.js');
+    await createMint(msg => logLine(logEl, msg));
+    logLine(logEl, '✨ Token created!', 'ok');
+  } catch (err) {
+    logLine(logEl, `Error: ${err.message || err}`, 'err');
+    if (btn) btn.disabled = false;
+  }
+};
+
+// ====================================================================
+// Review confirm checkbox
+// ====================================================================
+function initReviewConfirm() {
+  const checkbox = document.getElementById('confirm-check');
+  const createBtn = document.getElementById('btn-create-token');
+  if (!checkbox || !createBtn) return;
+  checkbox.addEventListener('change', () => {
+    createBtn.disabled = !checkbox.checked;
+  });
+}
+
+// ====================================================================
+// Log helper
+// ====================================================================
+function logLine(el, msg, cls = 'info') {
+  if (!el) return;
+  const line = document.createElement('div');
+  line.className = `log-${cls}`;
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+// ====================================================================
+// DOMContentLoaded boot
+// ====================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Apply mystical art manifest to all images
+  applyArtManifest();
+
+  // Init navigation, step buttons, AI modal, scroll reveal
+  initNav();
+
+  // Restore wallet session
+  if (tryResumeSession()) updateWalletDisplay();
+
+  // Wire wallet connect buttons
+  ['btn-connect', 'btn-connect-hero'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+      await connectWallet();
+      updateWalletDisplay();
+    });
   });
 
-  // Filter UI
-  initFilterUI(updateStatus);
+  // Review step: listen for step change to build review panel
+  document.addEventListener('wizard:stepchange', ({ detail: { step } }) => {
+    if (step === 6) buildReviewPanel();
+    if (step === 9) updateAirdropSummary();
+  });
 
-  // Initial status
-  updateStatus();
-  log('Preparing the spellbook\u2026');
+  // Review confirm gate
+  initReviewConfirm();
 
-  // Check for existing wallet session
-  if (tryResumeSession()) {
-    updateStatus();
-  } else if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-    setPanel('mobilePanel', true);
-    $('mobileTitle').textContent = 'Mobile tip';
-    $('mobileText').textContent  = 'Open this page inside Phantom, Solflare, or Backpack mobile browser.';
-    log('Mobile device detected.');
-  } else {
-    log('Ready \u2014 connect your wallet to begin.');
+  // Persist Helius API key
+  const keyInput = document.getElementById('helius-key');
+  if (keyInput) {
+    const saved = localStorage.getItem('helius_api_key');
+    if (saved) keyInput.value = saved;
+    keyInput.addEventListener('input', () =>
+      localStorage.setItem('helius_api_key', keyInput.value.trim())
+    );
   }
 
-  // ── Event listeners ──
-  $('netSel').addEventListener('change', updateStatus);
-
-  $('connectBtn').addEventListener('click', async () => {
-    await connectWallet();
-    updateStatus();
-  });
-
-  $('disconnectBtn').addEventListener('click', async () => {
-    await disconnectWallet();
-    updateStatus();
-  });
-
-  $('loadBtn').addEventListener('click', () =>
-    loadHolders().catch(e => {
-      log(`Load error: ${e.message || e}`);
-      showInfo($('holdersInfo'), `Error: ${e.message || e}`, 'err');
-    })
-  );
-
-  $('applyFilterBtn').addEventListener('click', () => applyFilter(() => {
-    showFees(APP.holders.length);
-    updateStatus();
-  }));
-
-  $('resetFilterBtn').addEventListener('click', () => resetFilters(() => {
-    showFees(APP.holders.length);
-    updateStatus();
-  }));
-
-  $('createMintBtn').addEventListener('click', () =>
-    createUtilityMint(updateStatus).catch(e => log(`Mint error: ${e.message || e}`))
-  );
-
-  $('airdropBtn').addEventListener('click', () =>
-    runAirdrop(updateStatus).catch(e => {
-      log(`Airdrop error: ${e.message || e}`);
-      showInfo($('airdropInfo'), `Error: ${e.message || e}`, 'err');
-    })
-  );
-
-  $('amtInput').addEventListener('input', updateStatus);
+  log('🌲 Wizard Airdrop ready.');
 });
