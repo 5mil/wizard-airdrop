@@ -1,60 +1,122 @@
 /**
  * theme.css
  * Design tokens and color palette.
- * Art direction: flowers, honey bees, warm garden light, pollen, nectar.
- * Real free-use photography (Unsplash/Pexels/Openverse) used as section art.
+ *
+ * Art direction: MYSTICAL DARK FOREST
+ * — Ancient woods at twilight, bioluminescent moss, floating spores,
+ *   moonlight shafts through a dense canopy, ethereal mist, enchanted glows.
+ * — Palette: deep midnight greens, dark teal, forest black, silver moonlight,
+ *   electric violet accents, gold rune-light, soft bioluminescent cyan.
+ * — Photography: real forest/woods imagery via Unsplash/Pexels as section art.
+ *
+ * Unsplash photo suggestions (free, no attribution required):
+ *   Hero:    https://unsplash.com/photos/green-trees-in-forest-during-daytime-GJ8ZQV7eGmU  (dark misty forest)
+ *   Section: https://unsplash.com/photos/pathway-between-green-trees-8Zt0xOOK4nI  (ancient pathway)
+ *   Accent:  https://unsplash.com/photos/forest-covered-in-white-fog-XJXWbfSo2f0  (moonlit fog)
  */
 
 :root {
-  /* Core palette */
-  --color-honey:       #D4860A;
-  --color-honey-light: #F0B429;
-  --color-honey-pale:  #FEF3C7;
-  --color-pollen:      #FBBF24;
-  --color-cream:       #FFFBF0;
-  --color-cream-dark:  #FDF6E3;
-  --color-blush:       #FBCFE8;
-  --color-sage:        #6B7C6B;
-  --color-sage-light:  #A3B899;
-  --color-teal:        #2D6A6A;
-  --color-teal-light:  #4DA8A8;
-  --color-brown:       #5C3D1E;
-  --color-brown-light: #92602E;
-  --color-charcoal:    #1C1C1E;
-  --color-white:       #FFFFFF;
+  /* ------------------------------------------------------------------ */
+  /* Forest palette                                                       */
+  /* ------------------------------------------------------------------ */
 
-  /* Semantic */
-  --color-bg:           var(--color-cream);
-  --color-surface:      var(--color-white);
-  --color-surface-alt:  var(--color-cream-dark);
-  --color-primary:      var(--color-honey);
-  --color-primary-glow: var(--color-honey-light);
-  --color-accent:       var(--color-teal);
-  --color-accent-light: var(--color-teal-light);
-  --color-text:         var(--color-charcoal);
-  --color-text-muted:   var(--color-sage);
-  --color-border:       rgba(212, 134, 10, 0.18);
-  --color-warning:      #DC2626;
-  --color-success:      #16A34A;
+  /* Primary — rune gold / ancient amber */
+  --color-gold:         #C9A84C;
+  --color-gold-light:   #E8C96A;
+  --color-gold-pale:    #2A2010;
 
-  /* Typography */
-  --font-display: 'Playfair Display', 'Georgia', serif;
+  /* Forest greens */
+  --color-forest:       #0D1F14;
+  --color-forest-mid:   #162B1C;
+  --color-forest-light: #1F3D28;
+  --color-moss:         #2E5E38;
+  --color-moss-light:   #4A8C57;
+  --color-fern:         #6BAF76;
+
+  /* Bioluminescent accents */
+  --color-glow:         #5FFFA0;
+  --color-glow-dim:     #1A5E3A;
+  --color-cyan:         #3ECFCF;
+  --color-cyan-dim:     #0E3D3D;
+
+  /* Moonlight / silver */
+  --color-moon:         #D4E8D4;
+  --color-silver:       #A8C4A8;
+  --color-mist:         rgba(180, 220, 180, 0.08);
+
+  /* Mystic violet */
+  --color-violet:       #7B5EA7;
+  --color-violet-light: #A688D4;
+  --color-violet-pale:  #1A0F2A;
+
+  /* Neutrals */
+  --color-void:         #070D0A;   /* deepest background */
+  --color-bark:         #0F1A12;   /* surface */
+  --color-bark-light:   #162212;   /* surface alt */
+  --color-stone:        #3A4D3E;   /* border */
+  --color-ash:          #7A9480;   /* muted text */
+  --color-parchment:    #C8D8C0;   /* body text */
+  --color-white:        #EEF4EE;   /* near-white */
+
+  /* Status */
+  --color-warning:      #E85D5D;
+  --color-success:      #4ADE80;
+
+  /* ------------------------------------------------------------------ */
+  /* Semantic tokens                                                      */
+  /* ------------------------------------------------------------------ */
+  --color-bg:           var(--color-void);
+  --color-surface:      var(--color-bark);
+  --color-surface-alt:  var(--color-bark-light);
+  --color-primary:      var(--color-gold);
+  --color-primary-glow: var(--color-gold-light);
+  --color-accent:       var(--color-glow);
+  --color-accent-light: var(--color-cyan);
+  --color-text:         var(--color-parchment);
+  --color-text-muted:   var(--color-ash);
+  --color-border:       rgba(90, 140, 90, 0.22);
+
+  /* legacy aliases kept for backward compat */
+  --color-honey:        var(--color-gold);
+  --color-honey-light:  var(--color-gold-light);
+  --color-honey-pale:   var(--color-gold-pale);
+  --color-cream:        var(--color-void);
+  --color-cream-dark:   var(--color-bark-light);
+  --color-brown:        var(--color-moon);
+  --color-charcoal:     var(--color-void);
+  --color-teal:         var(--color-cyan);
+  --color-teal-light:   var(--color-glow);
+  --color-sage:         var(--color-ash);
+  --color-sage-light:   var(--color-silver);
+
+  /* ------------------------------------------------------------------ */
+  /* Typography                                                           */
+  /* ------------------------------------------------------------------ */
+  --font-display: 'Cinzel', 'Trajan Pro', 'Palatino Linotype', 'Georgia', serif;
   --font-body:    'Inter', 'Helvetica Neue', sans-serif;
   --font-mono:    'Fira Code', 'Courier New', monospace;
 
-  /* Radii */
-  --radius-sm:  8px;
-  --radius-md:  16px;
-  --radius-lg:  24px;
-  --radius-xl:  40px;
+  /* ------------------------------------------------------------------ */
+  /* Radii                                                                */
+  /* ------------------------------------------------------------------ */
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   22px;
+  --radius-xl:   40px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-soft:   0 2px 16px rgba(212, 134, 10, 0.10);
-  --shadow-card:   0 4px 32px rgba(92, 61, 30, 0.12);
-  --shadow-glow:   0 0 24px rgba(240, 180, 41, 0.25);
+  /* ------------------------------------------------------------------ */
+  /* Shadows & glows                                                      */
+  /* ------------------------------------------------------------------ */
+  --shadow-soft:      0 2px 20px rgba(95, 255, 160, 0.07);
+  --shadow-card:      0 4px 40px rgba(0, 0, 0, 0.55);
+  --shadow-glow:      0 0 28px rgba(95, 255, 160, 0.18);
+  --shadow-gold-glow: 0 0 24px rgba(201, 168, 76, 0.30);
+  --shadow-violet:    0 0 32px rgba(123, 94, 167, 0.22);
 
-  /* Spacing scale */
+  /* ------------------------------------------------------------------ */
+  /* Spacing scale                                                        */
+  /* ------------------------------------------------------------------ */
   --space-1:  4px;
   --space-2:  8px;
   --space-3:  12px;
@@ -69,8 +131,12 @@
   --space-24: 96px;
 }
 
-/* Base reset */
+/* ====================================================================== */
+/* Base reset                                                               */
+/* ====================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--color-bg);
@@ -79,9 +145,15 @@ body {
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  /* Subtle repeating forest texture overlay */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(95,255,160,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(123,94,167,0.08) 0%, transparent 60%);
 }
 
-/* Photo section art backgrounds */
+/* ====================================================================== */
+/* Photo section art backgrounds                                            */
+/* ====================================================================== */
 .section-art {
   position: relative;
   overflow: hidden;
@@ -91,31 +163,67 @@ body {
   inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0.15;
-  mix-blend-mode: multiply;
+  opacity: 0.12;
+  mix-blend-mode: screen;
   pointer-events: none;
+  filter: saturate(0.7) hue-rotate(120deg);
 }
 
-/* Cards */
+/* Floating spore particles (pure CSS, no JS) */
+.spores {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.spore {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-glow);
+  opacity: 0;
+  animation: floatSpore var(--dur, 8s) var(--delay, 0s) ease-in-out infinite;
+  box-shadow: 0 0 6px 2px rgba(95,255,160,0.5);
+}
+@keyframes floatSpore {
+  0%   { transform: translate(0, 0) scale(1);   opacity: 0; }
+  20%  { opacity: 0.7; }
+  80%  { opacity: 0.4; }
+  100% { transform: translate(var(--dx,20px), -120px) scale(0.4); opacity: 0; }
+}
+
+/* ====================================================================== */
+/* Cards                                                                    */
+/* ====================================================================== */
 .card {
   background: var(--color-surface);
   border-radius: var(--radius-lg);
   padding: var(--space-8);
   box-shadow: var(--shadow-card);
   border: 1px solid var(--color-border);
+  /* Subtle inner glow on hover */
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
+.card:hover {
+  box-shadow: var(--shadow-card), var(--shadow-soft);
+  border-color: rgba(95, 255, 160, 0.30);
+}
+
 .card-soft {
-  background: var(--color-cream-dark);
+  background: var(--color-surface-alt);
   border-radius: var(--radius-md);
   padding: var(--space-6);
   border: 1px solid var(--color-border);
 }
 
-/* Buttons */
+/* ====================================================================== */
+/* Buttons                                                                  */
+/* ====================================================================== */
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-honey), var(--color-honey-light));
+  background: linear-gradient(135deg, var(--color-moss), var(--color-moss-light));
   color: var(--color-white);
-  border: none;
+  border: 1px solid rgba(95,255,160,0.25);
   border-radius: var(--radius-full);
   padding: var(--space-3) var(--space-8);
   font-family: var(--font-body);
@@ -123,27 +231,38 @@ body {
   font-size: 15px;
   cursor: pointer;
   box-shadow: var(--shadow-glow);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  letter-spacing: 0.02em;
 }
 .btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 32px rgba(240, 180, 41, 0.4);
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--color-moss-light), var(--color-glow-dim));
+  box-shadow: 0 0 40px rgba(95, 255, 160, 0.30);
 }
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .btn-secondary {
   background: transparent;
-  color: var(--color-primary);
-  border: 1.5px solid var(--color-primary);
+  color: var(--color-gold);
+  border: 1.5px solid rgba(201, 168, 76, 0.45);
   border-radius: var(--radius-full);
   padding: var(--space-3) var(--space-8);
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 15px;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .btn-secondary:hover {
-  background: var(--color-honey-pale);
+  background: rgba(201, 168, 76, 0.10);
+  border-color: var(--color-gold);
+  box-shadow: var(--shadow-gold-glow);
 }
+
 .btn-danger {
   background: var(--color-warning);
   color: var(--color-white);
@@ -153,31 +272,73 @@ body {
   font-family: var(--font-body);
   font-weight: 600;
   cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.btn-danger:hover { opacity: 0.88; }
+
+/* Gold rune button variant */
+.btn-rune {
+  background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+  color: var(--color-gold-light);
+  border: 1.5px solid rgba(201,168,76,0.40);
+  border-radius: var(--radius-full);
+  padding: var(--space-3) var(--space-8);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  box-shadow: var(--shadow-gold-glow);
+  transition: all 0.2s ease;
+}
+.btn-rune:hover {
+  background: rgba(201,168,76,0.22);
+  box-shadow: 0 0 40px rgba(201,168,76,0.35);
 }
 
-/* Typography */
+/* ====================================================================== */
+/* Typography                                                               */
+/* ====================================================================== */
 .display-heading {
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 4rem);
   font-weight: 700;
-  color: var(--color-brown);
+  color: var(--color-moon);
   line-height: 1.15;
+  text-shadow: 0 0 40px rgba(95,255,160,0.20), 0 0 80px rgba(123,94,167,0.15);
+  letter-spacing: 0.03em;
 }
+
 .section-heading {
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 3vw, 2.2rem);
   font-weight: 600;
-  color: var(--color-brown);
+  color: var(--color-moon);
+  letter-spacing: 0.04em;
 }
+
 .label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.10em;
   color: var(--color-text-muted);
 }
 
-/* Inputs */
+/* Gold rune label */
+.label-rune {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-gold);
+  text-shadow: 0 0 12px rgba(201,168,76,0.40);
+}
+
+/* ====================================================================== */
+/* Inputs                                                                   */
+/* ====================================================================== */
 .input-field {
   width: 100%;
   padding: var(--space-3) var(--space-4);
@@ -186,46 +347,106 @@ body {
   font-family: var(--font-body);
   font-size: 15px;
   color: var(--color-text);
-  background: var(--color-surface);
+  background: rgba(15, 26, 18, 0.85);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
+.input-field::placeholder { color: var(--color-ash); }
 .input-field:focus {
   outline: none;
-  border-color: var(--color-honey);
-  box-shadow: 0 0 0 3px rgba(212, 134, 10, 0.12);
+  border-color: rgba(95,255,160,0.55);
+  box-shadow: 0 0 0 3px rgba(95,255,160,0.10);
+  background: rgba(15, 26, 18, 0.95);
 }
 
-/* Warning badges */
+/* ====================================================================== */
+/* Badges                                                                   */
+/* ====================================================================== */
 .badge-warning {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-1) var(--space-3);
-  background: #FEF2F2;
+  background: rgba(232, 93, 93, 0.12);
   color: var(--color-warning);
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 600;
+  border: 1px solid rgba(232,93,93,0.25);
 }
 .badge-success {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-1) var(--space-3);
-  background: #F0FDF4;
+  background: rgba(74, 222, 128, 0.10);
   color: var(--color-success);
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 600;
+  border: 1px solid rgba(74,222,128,0.25);
 }
 .badge-muted {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-1) var(--space-3);
-  background: var(--color-cream-dark);
+  background: rgba(90,140,90,0.12);
   color: var(--color-text-muted);
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 500;
+  border: 1px solid var(--color-border);
 }
+.badge-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: rgba(201,168,76,0.12);
+  color: var(--color-gold-light);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(201,168,76,0.30);
+}
+
+/* ====================================================================== */
+/* Forest decorative divider                                                */
+/* ====================================================================== */
+.divider-rune {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: var(--space-8) 0;
+  color: var(--color-stone);
+  font-size: 18px;
+  letter-spacing: 0.3em;
+}
+.divider-rune::before,
+.divider-rune::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(95,255,160,0.20), transparent);
+}
+
+/* ====================================================================== */
+/* Glow utility classes                                                     */
+/* ====================================================================== */
+.glow-green  { text-shadow: 0 0 18px rgba(95,255,160,0.50); }
+.glow-gold   { text-shadow: 0 0 18px rgba(201,168,76,0.55); }
+.glow-violet { text-shadow: 0 0 18px rgba(123,94,167,0.55); }
+
+/* ====================================================================== */
+/* Scrollbar                                                                */
+/* ====================================================================== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-void); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-moss);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-moss-light); }
+
+/* Utility */
+.hidden { display: none !important; }
