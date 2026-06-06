@@ -4,184 +4,278 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wizard Airdrop — Token Studio</title>
+  <meta name="description" content="Design intricate Solana tokens, define every authority, and airdrop beautifully. Powered by the ancient art of the wizard." />
+
+  <!-- Fonts: Cinzel (mystical) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- CSS layers -->
   <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/art.css" />
   <link rel="stylesheet" href="css/motion.css" />
+  <link rel="stylesheet" href="css/ai-settings.css" />
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-bg">
-    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&auto=format&fit=crop" alt="Honey bee on flower" class="hero-img" />
-    <div class="hero-overlay"></div>
+<!-- Skip navigation (accessibility) -->
+<a class="skip-nav" href="#studio">Skip to studio</a>
+
+<!-- ================================================================== -->
+<!-- STICKY TOP NAV                                                       -->
+<!-- ================================================================== -->
+<nav class="top-nav" id="top-nav" aria-label="Main navigation">
+  <a href="#hero" class="nav-brand">Wizard<span class="accent"> Airdrop</span></a>
+
+  <ul class="nav-links" role="list">
+    <li><a href="#step-1">Token</a></li>
+    <li><a href="#step-3">Art</a></li>
+    <li><a href="#step-5">Authorities</a></li>
+    <li><a href="#step-7">Holders</a></li>
+    <li><a href="#step-9">Airdrop</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <button class="btn-secondary" id="btn-ai-engine" type="button" aria-haspopup="dialog" aria-controls="ai-modal-overlay">
+      🔮 AI Engine
+    </button>
+    <button class="btn-primary" id="btn-connect" type="button">
+      Connect Wallet
+    </button>
+    <span class="wallet-address" id="wallet-display" aria-live="polite"></span>
   </div>
+
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+    ☰
+  </button>
+</nav>
+
+<!-- ================================================================== -->
+<!-- HERO                                                                 -->
+<!-- ================================================================== -->
+<section class="hero" id="hero" aria-labelledby="hero-title">
+  <div class="hero-bg" aria-hidden="true">
+    <img
+      src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600&q=80&auto=format&fit=crop"
+      alt="Ancient misty forest at twilight"
+      class="hero-img"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="hero-overlay"></div>
+    <div class="mist-layer"></div>
+  </div>
+
+  <!-- Spore particles -->
+  <div class="spore-field hero-spores" aria-hidden="true">
+    <span class="spore"></span>
+    <span class="spore"></span>
+    <span class="spore"></span>
+    <span class="spore"></span>
+    <span class="spore"></span>
+    <span class="spore"></span>
+    <span class="spore"></span>
+    <span class="spore"></span>
+    <span class="spore gold"></span>
+    <span class="spore gold"></span>
+    <span class="spore violet"></span>
+  </div>
+
   <div class="hero-content">
-    <div class="bee-orbit" aria-hidden="true">🐝</div>
-    <h1 class="hero-title">Wizard Airdrop</h1>
-    <p class="hero-sub">Design intricate Solana tokens. Define every authority. Airdrop beautifully.</p>
+    <span class="hero-eyebrow" aria-hidden="true">✦ Solana Token Studio ✦</span>
+    <h1 class="hero-title" id="hero-title">
+      Wizard<span class="accent"> Airdrop</span>
+    </h1>
+    <p class="hero-sub">
+      Design intricate Solana tokens. Define every authority.
+      Airdrop beautifully into the ancient forest of the blockchain.
+    </p>
     <div class="hero-actions">
-      <button class="btn-primary" id="btn-connect">Connect Wallet</button>
-      <span class="wallet-address" id="wallet-display"></span>
+      <button class="btn-primary" id="btn-connect-hero" type="button">Connect Wallet</button>
+      <a class="btn-secondary" href="#step-1">Begin the Ritual →</a>
     </div>
   </div>
 </section>
 
-<!-- STEP NAV -->
-<nav class="step-nav" id="step-nav">
-  <button class="step-btn active" data-step="1">1 · Token Mode</button>
-  <button class="step-btn" data-step="2">2 · Identity</button>
-  <button class="step-btn" data-step="3">3 · Art &amp; Media</button>
-  <button class="step-btn" data-step="4">4 · Extensions</button>
-  <button class="step-btn" data-step="5">5 · Authorities</button>
-  <button class="step-btn" data-step="6">6 · Review</button>
-  <button class="step-btn" data-step="7">7 · Holders</button>
-  <button class="step-btn" data-step="8">8 · Filters</button>
-  <button class="step-btn" data-step="9">9 · Airdrop</button>
+<!-- ================================================================== -->
+<!-- STEP NAVIGATION BAR                                                  -->
+<!-- ================================================================== -->
+<nav class="step-nav" id="step-nav" aria-label="Wizard steps">
+  <button class="step-btn active" data-step="1" type="button">1 · Token Mode</button>
+  <button class="step-btn" data-step="2" type="button">2 · Identity</button>
+  <button class="step-btn" data-step="3" type="button">3 · Art &amp; Media</button>
+  <button class="step-btn" data-step="4" type="button">4 · Extensions</button>
+  <button class="step-btn" data-step="5" type="button">5 · Authorities</button>
+  <button class="step-btn" data-step="6" type="button">6 · Review</button>
+  <button class="step-btn" data-step="7" type="button">7 · Holders</button>
+  <button class="step-btn" data-step="8" type="button">8 · Filters</button>
+  <button class="step-btn" data-step="9" type="button">9 · Airdrop</button>
 </nav>
 
+<!-- ================================================================== -->
+<!-- STUDIO                                                               -->
+<!-- ================================================================== -->
 <main class="studio" id="studio">
 
   <!-- STEP 1: TOKEN MODE -->
-  <section class="step active" id="step-1">
+  <section class="step active reveal" id="step-1" aria-labelledby="step-1-title">
     <div class="step-header">
-      <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=800&auto=format&fit=crop" alt="Flowers" class="step-bg-img" />
-      <h2>Choose Token Mode</h2>
+      <img
+        src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=900&q=75&auto=format&fit=crop"
+        alt="Mystical light rays breaking through ancient forest canopy"
+        class="step-bg-img" loading="lazy"
+      />
+      <h2 id="step-1-title">Choose Token Mode</h2>
       <p>Select the Solana token program your token will be built on. Token-2022 supports advanced extensions that must be enabled at mint creation time.</p>
     </div>
     <div class="card-row">
-      <div class="mode-card" id="mode-classic" onclick="selectMode('classic')">
-        <div class="mode-icon">🌸</div>
+      <div class="mode-card" id="mode-classic" onclick="selectMode('classic')" role="button" tabindex="0" aria-pressed="false">
+        <span class="mode-icon" aria-hidden="true">🌲</span>
         <h3>Classic SPL Token</h3>
         <p>Standard Solana token. Mint authority, freeze authority, and Metaplex-based metadata. Simple, widely supported.</p>
         <div class="mode-badge">SPL Token Program</div>
       </div>
-      <div class="mode-card" id="mode-t22" onclick="selectMode('token2022')">
-        <div class="mode-icon">🍯</div>
+      <div class="mode-card" id="mode-t22" onclick="selectMode('token2022')" role="button" tabindex="0" aria-pressed="false">
+        <span class="mode-icon" aria-hidden="true">🔮</span>
         <h3>Token-2022</h3>
         <p>Advanced token with optional extensions: metadata pointer, transfer hooks, transfer fees, permanent delegate, and more.</p>
         <div class="mode-badge t22">Token Extensions Program</div>
       </div>
     </div>
-    <button class="btn-next" onclick="goStep(2)">Next: Identity →</button>
+    <button class="btn-next" onclick="goStep(2)" type="button">Next: Identity →</button>
   </section>
 
   <!-- STEP 2: IDENTITY -->
-  <section class="step" id="step-2">
+  <section class="step reveal" id="step-2" aria-labelledby="step-2-title">
     <div class="step-header">
-      <img src="https://images.unsplash.com/photo-1490750967868-88df5691130d?w=800&auto=format&fit=crop" alt="Pollen" class="step-bg-img" />
-      <h2>Token Identity</h2>
+      <img
+        src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=900&q=75&auto=format&fit=crop"
+        alt="Enchanted forest path lined with glowing ferns"
+        class="step-bg-img" loading="lazy"
+      />
+      <h2 id="step-2-title">Token Identity</h2>
       <p>Define your token's core details. These form the foundation of the mint.</p>
     </div>
     <div class="form-grid">
       <div class="field">
-        <label>Token Name</label>
-        <input type="text" id="f-name" placeholder="e.g. Honey Protocol" oninput="updateDraft('name', this.value)" />
+        <label for="f-name">Token Name</label>
+        <input type="text" id="f-name" placeholder="e.g. Forest Protocol" oninput="updateDraft('name', this.value)" />
       </div>
       <div class="field">
-        <label>Symbol</label>
-        <input type="text" id="f-symbol" placeholder="e.g. HNY" maxlength="10" oninput="updateDraft('symbol', this.value)" />
+        <label for="f-symbol">Symbol</label>
+        <input type="text" id="f-symbol" placeholder="e.g. FST" maxlength="10" oninput="updateDraft('symbol', this.value)" />
       </div>
       <div class="field">
-        <label>Decimals</label>
+        <label for="f-decimals">Decimals</label>
         <input type="number" id="f-decimals" value="9" min="0" max="9" oninput="updateDraft('decimals', +this.value)" />
       </div>
       <div class="field">
-        <label>Initial Supply</label>
+        <label for="f-supply">Initial Supply</label>
         <input type="number" id="f-supply" placeholder="1000000000" oninput="updateDraft('initialSupply', +this.value)" />
       </div>
       <div class="field full">
-        <label>Description</label>
+        <label for="f-desc">Description</label>
         <textarea id="f-desc" rows="3" placeholder="Describe your token..." oninput="updateDraft('description', this.value)"></textarea>
       </div>
       <div class="field">
-        <label>Website</label>
+        <label for="f-website">Website</label>
         <input type="url" id="f-website" placeholder="https://..." oninput="updateDraft('website', this.value)" />
       </div>
       <div class="field">
-        <label>Twitter / X</label>
+        <label for="f-twitter">Twitter / X</label>
         <input type="text" id="f-twitter" placeholder="@handle" oninput="updateDraft('twitter', this.value)" />
       </div>
     </div>
     <div class="step-nav-btns">
-      <button class="btn-back" onclick="goStep(1)">← Back</button>
-      <button class="btn-next" onclick="goStep(3)">Next: Art &amp; Media →</button>
+      <button class="btn-back" onclick="goStep(1)" type="button">← Back</button>
+      <button class="btn-next" onclick="goStep(3)" type="button">Next: Art &amp; Media →</button>
     </div>
   </section>
 
   <!-- STEP 3: ART & MEDIA -->
-  <section class="step" id="step-3">
+  <section class="step reveal" id="step-3" aria-labelledby="step-3-title">
     <div class="step-header">
-      <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&auto=format&fit=crop" alt="Flowers meadow" class="step-bg-img" />
-      <h2>Art &amp; Media</h2>
-      <p>Define your token's visual identity. Use real licensed free-use images from Unsplash, Pexels, or Openverse — or generate art with the built-in AI.</p>
+      <img
+        src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=900&q=75&auto=format&fit=crop"
+        alt="Magical moonlit woodland clearing with mist"
+        class="step-bg-img" loading="lazy"
+      />
+      <h2 id="step-3-title">Art &amp; Media</h2>
+      <p>Define your token's visual identity. Use real licensed free-use images or generate art with the built-in AI.</p>
     </div>
     <div class="art-studio">
       <div class="art-panel">
         <h3>🎨 AI Art Generator</h3>
         <p class="art-note">Powered by <strong>Pollinations.ai</strong> — free, open-source, no API key required.</p>
         <div class="field">
-          <label>Art Prompt</label>
-          <textarea id="ai-prompt" rows="3" placeholder="e.g. A golden honey bee collecting pollen from vibrant wildflowers, macro photography, warm sunlight, bokeh background"></textarea>
+          <label for="ai-prompt">Art Prompt</label>
+          <textarea id="ai-prompt" rows="3" placeholder="e.g. An ancient wizard summoning glowing runes in a mystical moonlit forest, digital art"></textarea>
         </div>
-        <button class="btn-ai" id="btn-gen-art" onclick="generateArt()">✨ Generate Token Art</button>
+        <button class="btn-ai" id="btn-gen-art" onclick="generateArt()" type="button">✨ Generate Token Art</button>
         <div class="ai-result" id="ai-art-result" style="display:none">
           <img id="ai-art-img" src="" alt="Generated token art" />
           <div class="art-actions">
-            <button class="btn-sm" onclick="useGeneratedArt()">Use This Image</button>
-            <button class="btn-sm outline" onclick="generateArt()">Regenerate</button>
+            <button class="btn-sm" onclick="useGeneratedArt()" type="button">Use This Image</button>
+            <button class="btn-sm outline" onclick="generateArt()" type="button">Regenerate</button>
           </div>
         </div>
       </div>
       <div class="art-panel">
         <h3>✍️ AI Description Generator</h3>
         <p class="art-note">Generates a compelling token description based on your identity fields.</p>
-        <button class="btn-ai" id="btn-gen-desc" onclick="generateDescription()">✨ Generate Description</button>
+        <button class="btn-ai" id="btn-gen-desc" onclick="generateDescription()" type="button">✨ Generate Description</button>
         <div class="ai-desc-result" id="ai-desc-result" style="display:none">
           <div class="generated-text" id="ai-desc-text"></div>
           <div class="art-actions">
-            <button class="btn-sm" onclick="useGeneratedDesc()">Use This Description</button>
+            <button class="btn-sm" onclick="useGeneratedDesc()" type="button">Use This Description</button>
           </div>
         </div>
       </div>
       <div class="art-panel full">
         <h3>🖼️ Token Image URL</h3>
         <div class="field">
-          <label>Image URL <span class="license-note">(use free-to-use licensed images only: Unsplash, Pexels, Openverse)</span></label>
+          <label for="f-image">
+            Image URL
+            <span class="license-note">(Unsplash, Pexels, Openverse — free commercial use only)</span>
+          </label>
           <input type="url" id="f-image" placeholder="https://images.unsplash.com/..." oninput="updateDraft('imageUrl', this.value); previewImage(this.value)" />
         </div>
         <div class="image-preview" id="image-preview" style="display:none">
           <img id="preview-img" src="" alt="Token image preview" />
         </div>
-        <div class="field">
-          <label>Metadata URI (off-chain JSON, optional)</label>
+        <div class="field" style="margin-top:16px">
+          <label for="f-meta-uri">Metadata URI (off-chain JSON, optional)</label>
           <input type="url" id="f-meta-uri" placeholder="https://arweave.net/..." oninput="updateDraft('metadataUri', this.value)" />
         </div>
-        <p class="license-reminder">⚖️ <strong>Licensing reminder:</strong> Only use images marked free for commercial use. Verify license at source. Keep a record of attribution where required.</p>
+        <p class="license-reminder">⚖️ <strong>Licensing reminder:</strong> Only use images marked free for commercial use. Verify license at source.</p>
       </div>
     </div>
     <div class="step-nav-btns">
-      <button class="btn-back" onclick="goStep(2)">← Back</button>
-      <button class="btn-next" onclick="goStep(4)">Next: Extensions →</button>
+      <button class="btn-back" onclick="goStep(2)" type="button">← Back</button>
+      <button class="btn-next" onclick="goStep(4)" type="button">Next: Extensions →</button>
     </div>
   </section>
 
   <!-- STEP 4: EXTENSIONS -->
-  <section class="step" id="step-4">
+  <section class="step reveal" id="step-4" aria-labelledby="step-4-title">
     <div class="step-header">
-      <img src="https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=800&auto=format&fit=crop" alt="Bee hive" class="step-bg-img" />
-      <h2>Extension Builder</h2>
+      <img
+        src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=900&q=75&auto=format&fit=crop"
+        alt="Ancient forest floor with glowing moss and twisted roots"
+        class="step-bg-img" loading="lazy"
+      />
+      <h2 id="step-4-title">Extension Builder</h2>
       <p>Add advanced behavior to your token. Token-2022 extensions must be enabled at mint creation and cannot be added afterward.</p>
     </div>
     <div class="ext-note" id="ext-classic-note" style="display:none">
-      ⚠️ Extensions are only available on Token-2022 tokens. <a href="#" onclick="goStep(1)">Change token mode</a> to enable them.
+      ⚠️ Extensions are only available on Token-2022 tokens. <a href="#" onclick="goStep(1);return false;">Change token mode</a> to enable them.
     </div>
     <div class="extensions-grid" id="extensions-grid">
       <div class="ext-card" data-ext="metadataPointer">
-        <div class="ext-icon">📌</div>
+        <div class="ext-icon" aria-hidden="true">📌</div>
         <h3>Metadata Pointer</h3>
         <p>Specifies an on-chain account that holds the token's metadata. Enables wallets to discover and display metadata natively without Metaplex.</p>
         <div class="ext-meta">
@@ -194,7 +288,7 @@
         </label>
       </div>
       <div class="ext-card" data-ext="tokenMetadata">
-        <div class="ext-icon">🏷️</div>
+        <div class="ext-icon" aria-hidden="true">🏷️</div>
         <h3>Token Metadata</h3>
         <p>Stores name, symbol, URI, and custom key/value fields directly on the mint account. No separate metadata program needed.</p>
         <div class="ext-meta">
@@ -206,12 +300,12 @@
           <span>Enable</span>
         </label>
         <div class="ext-fields" id="ext-tokenMetadata-fields" style="display:none">
-          <label>Custom Fields (key=value, one per line)</label>
-          <textarea rows="3" placeholder="trait_type=Rarity\nseason=Summer" oninput="updateExtConfig('tokenMetadataFields', this.value)"></textarea>
+          <label for="ext-tm-fields">Custom Fields (key=value, one per line)</label>
+          <textarea id="ext-tm-fields" rows="3" placeholder="trait_type=Rarity\nseason=Winter" oninput="updateExtConfig('tokenMetadataFields', this.value)"></textarea>
         </div>
       </div>
       <div class="ext-card" data-ext="transferHook">
-        <div class="ext-icon">🪝</div>
+        <div class="ext-icon" aria-hidden="true">🪝</div>
         <h3>Transfer Hook</h3>
         <p>Triggers a custom on-chain program every time a transfer occurs. Use for royalties, compliance, allowlists, or custom logic.</p>
         <div class="ext-meta">
@@ -223,12 +317,12 @@
           <span>Enable</span>
         </label>
         <div class="ext-fields" id="ext-transferHook-fields" style="display:none">
-          <label>Hook Program Address</label>
-          <input type="text" placeholder="Program public key" oninput="updateExtConfig('transferHookProgram', this.value)" />
+          <label for="ext-th-prog">Hook Program Address</label>
+          <input type="text" id="ext-th-prog" placeholder="Program public key" oninput="updateExtConfig('transferHookProgram', this.value)" />
         </div>
       </div>
       <div class="ext-card" data-ext="transferFee">
-        <div class="ext-icon">💸</div>
+        <div class="ext-icon" aria-hidden="true">💸</div>
         <h3>Transfer Fee</h3>
         <p>Automatically collect a percentage fee on every transfer, directed to a configurable destination.</p>
         <div class="ext-meta">
@@ -240,14 +334,14 @@
           <span>Enable</span>
         </label>
         <div class="ext-fields" id="ext-transferFee-fields" style="display:none">
-          <label>Fee Basis Points (e.g. 50 = 0.5%)</label>
-          <input type="number" placeholder="50" oninput="updateExtConfig('transferFeeBps', +this.value)" />
-          <label>Fee Destination Wallet</label>
-          <input type="text" placeholder="Pubkey" oninput="updateExtConfig('transferFeeDestination', this.value)" />
+          <label for="ext-tf-bps">Fee Basis Points (e.g. 50 = 0.5%)</label>
+          <input type="number" id="ext-tf-bps" placeholder="50" oninput="updateExtConfig('transferFeeBps', +this.value)" />
+          <label for="ext-tf-dest">Fee Destination Wallet</label>
+          <input type="text" id="ext-tf-dest" placeholder="Pubkey" oninput="updateExtConfig('transferFeeDestination', this.value)" />
         </div>
       </div>
       <div class="ext-card" data-ext="permanentDelegate">
-        <div class="ext-icon">🔑</div>
+        <div class="ext-icon" aria-hidden="true">🔑</div>
         <h3>Permanent Delegate</h3>
         <p>Grants a specific address unlimited transfer authority over any token account of this mint. Use with extreme care.</p>
         <div class="ext-meta">
@@ -259,27 +353,31 @@
           <span>Enable</span>
         </label>
         <div class="ext-fields" id="ext-permanentDelegate-fields" style="display:none">
-          <label>Delegate Address</label>
-          <input type="text" placeholder="Pubkey" oninput="updateExtConfig('permanentDelegateAddress', this.value)" />
+          <label for="ext-pd-addr">Delegate Address</label>
+          <input type="text" id="ext-pd-addr" placeholder="Pubkey" oninput="updateExtConfig('permanentDelegateAddress', this.value)" />
         </div>
       </div>
     </div>
     <div class="step-nav-btns">
-      <button class="btn-back" onclick="goStep(3)">← Back</button>
-      <button class="btn-next" onclick="goStep(5)">Next: Authorities →</button>
+      <button class="btn-back" onclick="goStep(3)" type="button">← Back</button>
+      <button class="btn-next" onclick="goStep(5)" type="button">Next: Authorities →</button>
     </div>
   </section>
 
   <!-- STEP 5: AUTHORITIES -->
-  <section class="step" id="step-5">
+  <section class="step reveal" id="step-5" aria-labelledby="step-5-title">
     <div class="step-header">
-      <img src="https://images.unsplash.com/photo-1471086569966-db3eebc25a59?w=800&auto=format&fit=crop" alt="Bees on honeycomb" class="step-bg-img" />
-      <h2>Authority Studio</h2>
-      <p>Solana tokens have three separate authority lanes. Each one is independent and can be kept, transferred to another wallet, or permanently revoked. Revocations are irreversible.</p>
+      <img
+        src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=900&q=75&auto=format&fit=crop"
+        alt="Dark enchanted woods with ethereal blue light"
+        class="step-bg-img" loading="lazy"
+      />
+      <h2 id="step-5-title">Authority Studio</h2>
+      <p>Solana tokens have three separate authority lanes. Each one is independent and can be kept, transferred, or permanently revoked. Revocations are irreversible.</p>
     </div>
     <div class="authority-grid">
       <div class="auth-card" id="auth-mint">
-        <div class="auth-icon">🌿</div>
+        <div class="auth-icon" aria-hidden="true">🌿</div>
         <h3>Mint Authority</h3>
         <p>Controls the ability to create more tokens and increase the supply. If revoked, the supply is permanently fixed.</p>
         <div class="auth-controls">
@@ -295,7 +393,7 @@
         </div>
       </div>
       <div class="auth-card" id="auth-freeze">
-        <div class="auth-icon">❄️</div>
+        <div class="auth-icon" aria-hidden="true">❄️</div>
         <h3>Freeze Authority</h3>
         <p>Controls the ability to freeze or thaw specific token accounts. If revoked, account freezing is permanently disabled.</p>
         <div class="auth-controls">
@@ -311,7 +409,7 @@
         </div>
       </div>
       <div class="auth-card" id="auth-update">
-        <div class="auth-icon">📝</div>
+        <div class="auth-icon" aria-hidden="true">📝</div>
         <h3>Metadata Update Authority</h3>
         <p>Controls the ability to edit the token's metadata: name, symbol, image, description. If revoked, metadata is permanently locked.</p>
         <div class="auth-controls">
@@ -328,16 +426,20 @@
       </div>
     </div>
     <div class="step-nav-btns">
-      <button class="btn-back" onclick="goStep(4)">← Back</button>
-      <button class="btn-next" onclick="goStep(6)">Next: Review →</button>
+      <button class="btn-back" onclick="goStep(4)" type="button">← Back</button>
+      <button class="btn-next" onclick="goStep(6)" type="button">Next: Review →</button>
     </div>
   </section>
 
   <!-- STEP 6: REVIEW -->
-  <section class="step" id="step-6">
+  <section class="step reveal" id="step-6" aria-labelledby="step-6-title">
     <div class="step-header">
-      <img src="https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?w=800&auto=format&fit=crop" alt="Garden sunlight" class="step-bg-img" />
-      <h2>Review &amp; Finalize</h2>
+      <img
+        src="https://images.unsplash.com/photo-1425065689771-6a5abe31cb12?w=900&q=75&auto=format&fit=crop"
+        alt="Sunlit ancient woodland with cathedral-like tree canopy"
+        class="step-bg-img" loading="lazy"
+      />
+      <h2 id="step-6-title">Review &amp; Finalize</h2>
       <p>Review your token's full configuration before anything is sent on-chain. Irreversible actions are highlighted.</p>
     </div>
     <div class="review-panel" id="review-panel"></div>
@@ -346,47 +448,55 @@
         <input type="checkbox" id="confirm-check" />
         I understand which settings are permanent and cannot be changed after creation.
       </label>
-      <button class="btn-primary" id="btn-create-token" onclick="createToken()" disabled>Create Token</button>
+      <button class="btn-primary" id="btn-create-token" onclick="createToken()" type="button" disabled>Create Token</button>
     </div>
     <div class="step-nav-btns">
-      <button class="btn-back" onclick="goStep(5)">← Back</button>
+      <button class="btn-back" onclick="goStep(5)" type="button">← Back</button>
     </div>
   </section>
 
   <!-- STEP 7: HOLDERS -->
-  <section class="step" id="step-7">
+  <section class="step reveal" id="step-7" aria-labelledby="step-7-title">
     <div class="step-header">
-      <img src="https://images.unsplash.com/photo-1465166395534-2af8c58a3fe9?w=800&auto=format&fit=crop" alt="Wildflowers" class="step-bg-img" />
-      <h2>Holder Discovery</h2>
+      <img
+        src="https://images.unsplash.com/photo-1511497584788-876760111969?w=900&q=75&auto=format&fit=crop"
+        alt="Dense ancient forest with mysterious fog and moss-covered trees"
+        class="step-bg-img" loading="lazy"
+      />
+      <h2 id="step-7-title">Holder Discovery</h2>
       <p>Load token holders from the Solana network using the Helius API.</p>
     </div>
     <div class="form-row">
       <div class="field grow">
-        <label>Helius API Key</label>
+        <label for="helius-key">Helius API Key</label>
         <input type="text" id="helius-key" placeholder="Your Helius API key" />
       </div>
       <div class="field grow">
-        <label>Mint Address</label>
+        <label for="mint-input">Mint Address</label>
         <input type="text" id="mint-input" placeholder="Token mint address" />
       </div>
     </div>
-    <button class="btn-primary" onclick="loadHolders()">🐝 Load Holders</button>
-    <div class="holders-summary" id="holders-summary" style="display:none">
+    <button class="btn-primary" onclick="loadHolders()" type="button">🌲 Load Holders</button>
+    <div class="holders-summary" id="holders-summary" style="display:none" aria-live="polite">
       <span id="holders-count">0 holders</span>
       <span id="holders-supply">Total supply: —</span>
     </div>
     <div class="holders-list" id="holders-list"></div>
     <div class="step-nav-btns">
-      <button class="btn-back" onclick="goStep(6)">← Back</button>
-      <button class="btn-next" onclick="goStep(8)">Next: Filters →</button>
+      <button class="btn-back" onclick="goStep(6)" type="button">← Back</button>
+      <button class="btn-next" onclick="goStep(8)" type="button">Next: Filters →</button>
     </div>
   </section>
 
   <!-- STEP 8: FILTERS -->
-  <section class="step" id="step-8">
+  <section class="step reveal" id="step-8" aria-labelledby="step-8-title">
     <div class="step-header">
-      <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&auto=format&fit=crop" alt="Flower detail" class="step-bg-img" />
-      <h2>Filter &amp; Target</h2>
+      <img
+        src="https://images.unsplash.com/photo-1516912481808-3406841bd33c?w=900&q=75&auto=format&fit=crop"
+        alt="Mystical forest stream over ancient moss-covered stones"
+        class="step-bg-img" loading="lazy"
+      />
+      <h2 id="step-8-title">Filter &amp; Target</h2>
       <p>Refine your recipient list. Filters are applied in order. The live preview updates automatically.</p>
     </div>
     <div class="filters-grid">
@@ -436,51 +546,94 @@
     </div>
     <div class="filter-summary" id="filter-summary"></div>
     <div class="step-nav-btns">
-      <button class="btn-back" onclick="goStep(7)">← Back</button>
-      <button class="btn-next" onclick="goStep(9)">Next: Airdrop →</button>
+      <button class="btn-back" onclick="goStep(7)" type="button">← Back</button>
+      <button class="btn-next" onclick="goStep(9)" type="button">Next: Airdrop →</button>
     </div>
   </section>
 
   <!-- STEP 9: AIRDROP -->
-  <section class="step" id="step-9">
+  <section class="step reveal" id="step-9" aria-labelledby="step-9-title">
     <div class="step-header">
-      <img src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=800&auto=format&fit=crop" alt="Bee in flight" class="step-bg-img" />
-      <h2>Airdrop Execution</h2>
+      <img
+        src="https://images.unsplash.com/photo-1542546068979-b6affb46ea8f?w=900&q=75&auto=format&fit=crop"
+        alt="Enchanted dark forest at night with magical atmosphere"
+        class="step-bg-img" loading="lazy"
+      />
+      <h2 id="step-9-title">Airdrop Execution</h2>
       <p>Distribute tokens to your filtered recipient list. Each recipient receives their own associated token account if needed.</p>
     </div>
     <div class="form-row">
       <div class="field">
-        <label>Amount Per Recipient</label>
+        <label for="a-amount">Amount Per Recipient</label>
         <input type="number" id="a-amount" placeholder="e.g. 100" oninput="updateAirdropAmount(+this.value)" />
       </div>
       <div class="field">
-        <label>Batch Size</label>
+        <label for="a-batch">Batch Size</label>
         <input type="number" id="a-batch" placeholder="5" value="5" />
       </div>
     </div>
     <div class="airdrop-summary" id="airdrop-summary"></div>
     <div class="airdrop-warnings" id="airdrop-warnings"></div>
-    <button class="btn-primary bee-btn" onclick="executeAirdrop()">🐝 Execute Airdrop</button>
-    <div class="log-panel" id="log-panel"></div>
+    <button class="btn-primary bee-btn" onclick="executeAirdrop()" type="button">🌲 Execute Airdrop</button>
+    <div class="log-panel" id="log-panel" aria-live="polite" aria-atomic="false"></div>
     <div class="step-nav-btns">
-      <button class="btn-back" onclick="goStep(8)">← Back</button>
+      <button class="btn-back" onclick="goStep(8)" type="button">← Back</button>
     </div>
   </section>
 
 </main>
 
+<!-- ================================================================== -->
+<!-- FOOTER                                                               -->
+<!-- ================================================================== -->
 <footer class="footer">
-  <div class="footer-bg">
-    <img src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=1600&auto=format&fit=crop" alt="Floral footer" />
+  <div class="footer-bg" aria-hidden="true">
+    <img
+      src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1600&q=60&auto=format&fit=crop"
+      alt=""
+      loading="lazy"
+    />
     <div class="footer-overlay"></div>
   </div>
   <div class="footer-content">
-    <p>Wizard Airdrop · Open source Solana token studio</p>
-    <p class="footer-license">Art by <a href="https://unsplash.com" target="_blank">Unsplash</a> · <a href="https://pexels.com" target="_blank">Pexels</a> · <a href="https://openverse.org" target="_blank">Openverse</a> — free commercial use</p>
-    <p class="footer-license">AI art via <a href="https://pollinations.ai" target="_blank">Pollinations.ai</a> — free &amp; open source</p>
+    <p>Wizard Airdrop &middot; Open source Solana token studio</p>
+    <p class="footer-license">
+      Art by <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> &middot;
+      <a href="https://pexels.com" target="_blank" rel="noopener">Pexels</a> &middot;
+      <a href="https://openverse.org" target="_blank" rel="noopener">Openverse</a> — free commercial use
+    </p>
+    <p class="footer-license">AI art via <a href="https://pollinations.ai" target="_blank" rel="noopener">Pollinations.ai</a> — free &amp; open source</p>
   </div>
 </footer>
 
+<!-- ================================================================== -->
+<!-- AI ENGINE MODAL OVERLAY                                              -->
+<!-- ================================================================== -->
+<div
+  id="ai-modal-overlay"
+  class="ai-modal-overlay hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="ai-modal-title"
+>
+  <div class="ai-modal-panel" id="ai-modal-panel">
+    <div class="ai-modal-header">
+      <h2 class="ai-modal-title" id="ai-modal-title">
+        🔮 AI <span class="accent">Engine</span>
+      </h2>
+      <button class="ai-modal-close" id="ai-modal-close" type="button" aria-label="Close AI Engine">
+        ✕
+      </button>
+    </div>
+    <div class="ai-modal-body" id="ai-settings-container">
+      <!-- renderAISettings() injects here -->
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================== -->
+<!-- SCRIPTS                                                              -->
+<!-- ================================================================== -->
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/lib/index.iife.min.js"></script>
 <script src="js/state.js"></script>
 <script src="js/ui.js"></script>
@@ -493,4 +646,8 @@
 <script src="js/helius.js"></script>
 <script src="js/filters.js"></script>
 <script src="js/fees.js"></script>
-<script src="js/airdrop.js"></s
+<script src="js/airdrop.js"></script>
+<script src="js/main.js"></script>
+<script src="js/nav.js"></script>
+</body>
+</html>
