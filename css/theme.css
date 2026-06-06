@@ -1,0 +1,231 @@
+/**
+ * theme.css
+ * Design tokens and color palette.
+ * Art direction: flowers, honey bees, warm garden light, pollen, nectar.
+ * Real free-use photography (Unsplash/Pexels/Openverse) used as section art.
+ */
+
+:root {
+  /* Core palette */
+  --color-honey:       #D4860A;
+  --color-honey-light: #F0B429;
+  --color-honey-pale:  #FEF3C7;
+  --color-pollen:      #FBBF24;
+  --color-cream:       #FFFBF0;
+  --color-cream-dark:  #FDF6E3;
+  --color-blush:       #FBCFE8;
+  --color-sage:        #6B7C6B;
+  --color-sage-light:  #A3B899;
+  --color-teal:        #2D6A6A;
+  --color-teal-light:  #4DA8A8;
+  --color-brown:       #5C3D1E;
+  --color-brown-light: #92602E;
+  --color-charcoal:    #1C1C1E;
+  --color-white:       #FFFFFF;
+
+  /* Semantic */
+  --color-bg:           var(--color-cream);
+  --color-surface:      var(--color-white);
+  --color-surface-alt:  var(--color-cream-dark);
+  --color-primary:      var(--color-honey);
+  --color-primary-glow: var(--color-honey-light);
+  --color-accent:       var(--color-teal);
+  --color-accent-light: var(--color-teal-light);
+  --color-text:         var(--color-charcoal);
+  --color-text-muted:   var(--color-sage);
+  --color-border:       rgba(212, 134, 10, 0.18);
+  --color-warning:      #DC2626;
+  --color-success:      #16A34A;
+
+  /* Typography */
+  --font-display: 'Playfair Display', 'Georgia', serif;
+  --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+  --font-mono:    'Fira Code', 'Courier New', monospace;
+
+  /* Radii */
+  --radius-sm:  8px;
+  --radius-md:  16px;
+  --radius-lg:  24px;
+  --radius-xl:  40px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-soft:   0 2px 16px rgba(212, 134, 10, 0.10);
+  --shadow-card:   0 4px 32px rgba(92, 61, 30, 0.12);
+  --shadow-glow:   0 0 24px rgba(240, 180, 41, 0.25);
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+}
+
+/* Base reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Photo section art backgrounds */
+.section-art {
+  position: relative;
+  overflow: hidden;
+}
+.section-art .photo-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Cards */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+}
+.card-soft {
+  background: var(--color-cream-dark);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-honey), var(--color-honey-light));
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: var(--space-3) var(--space-8);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 32px rgba(240, 180, 41, 0.4);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-full);
+  padding: var(--space-3) var(--space-8);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-secondary:hover {
+  background: var(--color-honey-pale);
+}
+.btn-danger {
+  background: var(--color-warning);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: var(--space-3) var(--space-8);
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Typography */
+.display-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--color-brown);
+  line-height: 1.15;
+}
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 600;
+  color: var(--color-brown);
+}
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+/* Inputs */
+.input-field {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-text);
+  background: var(--color-surface);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input-field:focus {
+  outline: none;
+  border-color: var(--color-honey);
+  box-shadow: 0 0 0 3px rgba(212, 134, 10, 0.12);
+}
+
+/* Warning badges */
+.badge-warning {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: #FEF2F2;
+  color: var(--color-warning);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-success {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: #F0FDF4;
+  color: var(--color-success);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-muted {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-cream-dark);
+  color: var(--color-text-muted);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+}
