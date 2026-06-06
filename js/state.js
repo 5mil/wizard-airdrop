@@ -1,20 +1,21 @@
 /**
  * state.js — shared application state
- * All modules read/write through this object.
- * Covers token studio, authority management, and airdrop pipeline.
+ * Single source of truth for all modules.
  */
 export const APP = {
   // wallet
   provider:     null,
   walletPubkey: null,
 
-  // ai engine
-  aiApiKey:     null,
-  aiModel:      'nvidia/llama-3.3-nemotron-super-49b-v1.5',
+  // AI engine — defaults to Ollama (no key, no setup required)
+  aiProvider:   'ollama',    // 'ollama' | 'nvidia_nim' | 'custom_openai' | 'mllm_bridge'
+  aiApiKey:     null,        // only needed for nvidia_nim
+  aiCustomUrl:  null,        // for custom_openai and mllm_bridge
+  aiModel:      'phi4-mini', // default lightweight local model
 
-  // token draft — set during studio steps 1-5
+  // token draft — set during studio steps 1–5
   tokenDraft: {
-    mode:           'classic',   // 'classic' | 'token2022'
+    mode:           'classic',  // 'classic' | 'token2022'
     name:           '',
     symbol:         '',
     decimals:       9,
@@ -25,7 +26,7 @@ export const APP = {
     imageUrl:       '',
     bannerUrl:      '',
     metadataUri:    '',
-    metadataFields: [],          // [{ key, value }]
+    metadataFields: [],         // [{ key, value }]
     extensions: {
       metadataPointer:   false,
       tokenMetadata:     false,
@@ -34,7 +35,7 @@ export const APP = {
       permanentDelegate: false,
       nonTransferable:   false,
     },
-    extensionConfig: {},         // { transferHookProgramId, transferFeeBps, transferFeeMaxLamports, ... }
+    extensionConfig: {},
     authorities: {
       mint:   { action: 'keep',   destination: null },
       freeze: { action: 'revoke', destination: null },
@@ -46,7 +47,7 @@ export const APP = {
   tokenResult: {
     mintAddress:      null,
     metadataAddress:  null,
-    finalAuthorities: null,   // { mint, freeze, update } — wallet pubkey or 'revoked' or 'NA'
+    finalAuthorities: null,
     mutable:          true,
     extensions:       [],
   },
@@ -80,7 +81,10 @@ export function resetTokenDraft() {
       update: { action: 'keep',   destination: null },
     },
   };
-  APP.tokenResult = { mintAddress: null, metadataAddress: null, finalAuthorities: null, mutable: true, extensions: [] };
+  APP.tokenResult = {
+    mintAddress: null, metadataAddress: null,
+    finalAuthorities: null, mutable: true, extensions: [],
+  };
 }
 
 export function resetHolders() {
@@ -95,6 +99,7 @@ export function resetSession() {
   APP.provider     = null;
   APP.walletPubkey = null;
   APP.aiApiKey     = null;
+  APP.aiCustomUrl  = null;
   resetTokenDraft();
   resetHolders();
 }
