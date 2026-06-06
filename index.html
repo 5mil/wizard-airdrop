@@ -3,272 +3,494 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="google-site-verification" content="VKj_ReTYANONAVEBVEIqbwBmjWRbBjwxlI2YDaFnOsM" />
-  <title>Wizard Airdrop – Solana Holder Snapshot</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <title>Wizard Airdrop — Token Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/motion.css" />
 </head>
 <body>
-<main class="page">
 
-  <!-- Hero -->
-  <section class="hero">
-    <div>
-      <div class="pill">🪄 Wizard Airdrop</div>
-      <h1 class="title">Scan Solana token holders.<br>Cast your airdrop spell.</h1>
-      <p class="subtitle">Connect your wallet, load real on-chain holders, filter with precision, and airdrop — all from this page.</p>
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&auto=format&fit=crop" alt="Honey bee on flower" class="hero-img" />
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="bee-orbit" aria-hidden="true">🐝</div>
+    <h1 class="hero-title">Wizard Airdrop</h1>
+    <p class="hero-sub">Design intricate Solana tokens. Define every authority. Airdrop beautifully.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" id="btn-connect">Connect Wallet</button>
+      <span class="wallet-address" id="wallet-display"></span>
     </div>
-    <div class="art" aria-hidden="true">
-      <svg class="wizard" viewBox="0 0 140 160" fill="none">
-        <path d="M62 18 86 62H38L62 18Z" fill="#4A3A72"/>
-        <circle cx="62" cy="74" r="16" fill="#E7C9A9"/>
-        <path d="M42 98c6-10 34-10 40 0l10 42H32l10-42Z" fill="#01696F"/>
-        <path d="M95 48 120 20" stroke="#8B5E3C" stroke-width="6" stroke-linecap="round"/>
-        <circle cx="122" cy="18" r="7" fill="#D19900"/>
-      </svg>
-      <svg class="bunny" viewBox="0 0 100 110" fill="none">
-        <ellipse cx="50" cy="70" rx="28" ry="24" fill="#F7F2EA"/>
-        <ellipse cx="38" cy="28" rx="10" ry="24" fill="#F7F2EA"/>
-        <ellipse cx="62" cy="28" rx="10" ry="24" fill="#F7F2EA"/>
-        <ellipse cx="38" cy="29" rx="4" ry="15" fill="#F3B6C8"/>
-        <ellipse cx="62" cy="29" rx="4" ry="15" fill="#F3B6C8"/>
-        <circle cx="42" cy="67" r="3" fill="#28251D"/>
-        <circle cx="58" cy="67" r="3" fill="#28251D"/>
-        <circle cx="50" cy="74" r="4" fill="#F3B6C8"/>
-        <path d="M46 79c2 3 6 3 8 0" stroke="#28251D" stroke-width="2" stroke-linecap="round"/>
-      </svg>
+  </div>
+</section>
+
+<!-- STEP NAV -->
+<nav class="step-nav" id="step-nav">
+  <button class="step-btn active" data-step="1">1 · Token Mode</button>
+  <button class="step-btn" data-step="2">2 · Identity</button>
+  <button class="step-btn" data-step="3">3 · Art &amp; Media</button>
+  <button class="step-btn" data-step="4">4 · Extensions</button>
+  <button class="step-btn" data-step="5">5 · Authorities</button>
+  <button class="step-btn" data-step="6">6 · Review</button>
+  <button class="step-btn" data-step="7">7 · Holders</button>
+  <button class="step-btn" data-step="8">8 · Filters</button>
+  <button class="step-btn" data-step="9">9 · Airdrop</button>
+</nav>
+
+<main class="studio" id="studio">
+
+  <!-- STEP 1: TOKEN MODE -->
+  <section class="step active" id="step-1">
+    <div class="step-header">
+      <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=800&auto=format&fit=crop" alt="Flowers" class="step-bg-img" />
+      <h2>Choose Token Mode</h2>
+      <p>Select the Solana token program your token will be built on. Token-2022 supports advanced extensions that must be enabled at mint creation time.</p>
+    </div>
+    <div class="card-row">
+      <div class="mode-card" id="mode-classic" onclick="selectMode('classic')">
+        <div class="mode-icon">🌸</div>
+        <h3>Classic SPL Token</h3>
+        <p>Standard Solana token. Mint authority, freeze authority, and Metaplex-based metadata. Simple, widely supported.</p>
+        <div class="mode-badge">SPL Token Program</div>
+      </div>
+      <div class="mode-card" id="mode-t22" onclick="selectMode('token2022')">
+        <div class="mode-icon">🍯</div>
+        <h3>Token-2022</h3>
+        <p>Advanced token with optional extensions: metadata pointer, transfer hooks, transfer fees, permanent delegate, and more.</p>
+        <div class="mode-badge t22">Token Extensions Program</div>
+      </div>
+    </div>
+    <button class="btn-next" onclick="goStep(2)">Next: Identity →</button>
+  </section>
+
+  <!-- STEP 2: IDENTITY -->
+  <section class="step" id="step-2">
+    <div class="step-header">
+      <img src="https://images.unsplash.com/photo-1490750967868-88df5691130d?w=800&auto=format&fit=crop" alt="Pollen" class="step-bg-img" />
+      <h2>Token Identity</h2>
+      <p>Define your token's core details. These form the foundation of the mint.</p>
+    </div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Token Name</label>
+        <input type="text" id="f-name" placeholder="e.g. Honey Protocol" oninput="updateDraft('name', this.value)" />
+      </div>
+      <div class="field">
+        <label>Symbol</label>
+        <input type="text" id="f-symbol" placeholder="e.g. HNY" maxlength="10" oninput="updateDraft('symbol', this.value)" />
+      </div>
+      <div class="field">
+        <label>Decimals</label>
+        <input type="number" id="f-decimals" value="9" min="0" max="9" oninput="updateDraft('decimals', +this.value)" />
+      </div>
+      <div class="field">
+        <label>Initial Supply</label>
+        <input type="number" id="f-supply" placeholder="1000000000" oninput="updateDraft('initialSupply', +this.value)" />
+      </div>
+      <div class="field full">
+        <label>Description</label>
+        <textarea id="f-desc" rows="3" placeholder="Describe your token..." oninput="updateDraft('description', this.value)"></textarea>
+      </div>
+      <div class="field">
+        <label>Website</label>
+        <input type="url" id="f-website" placeholder="https://..." oninput="updateDraft('website', this.value)" />
+      </div>
+      <div class="field">
+        <label>Twitter / X</label>
+        <input type="text" id="f-twitter" placeholder="@handle" oninput="updateDraft('twitter', this.value)" />
+      </div>
+    </div>
+    <div class="step-nav-btns">
+      <button class="btn-back" onclick="goStep(1)">← Back</button>
+      <button class="btn-next" onclick="goStep(3)">Next: Art &amp; Media →</button>
     </div>
   </section>
 
-  <!-- Main card -->
-  <section class="card">
-
-    <!-- Wallet + API key row -->
-    <div style="display:grid;gap:1rem">
-      <div class="row">
-        <select id="netSel" class="sel">
-          <option value="mainnet-beta">Mainnet</option>
-          <option value="devnet">Devnet</option>
-        </select>
-        <button id="connectBtn" class="button">Connect Wallet</button>
-        <button id="disconnectBtn" class="button sec" disabled>Disconnect</button>
+  <!-- STEP 3: ART & MEDIA -->
+  <section class="step" id="step-3">
+    <div class="step-header">
+      <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&auto=format&fit=crop" alt="Flowers meadow" class="step-bg-img" />
+      <h2>Art &amp; Media</h2>
+      <p>Define your token's visual identity. Use real licensed free-use images from Unsplash, Pexels, or Openverse — or generate art with the built-in AI.</p>
+    </div>
+    <div class="art-studio">
+      <div class="art-panel">
+        <h3>🎨 AI Art Generator</h3>
+        <p class="art-note">Powered by <strong>Pollinations.ai</strong> — free, open-source, no API key required.</p>
+        <div class="field">
+          <label>Art Prompt</label>
+          <textarea id="ai-prompt" rows="3" placeholder="e.g. A golden honey bee collecting pollen from vibrant wildflowers, macro photography, warm sunlight, bokeh background"></textarea>
+        </div>
+        <button class="btn-ai" id="btn-gen-art" onclick="generateArt()">✨ Generate Token Art</button>
+        <div class="ai-result" id="ai-art-result" style="display:none">
+          <img id="ai-art-img" src="" alt="Generated token art" />
+          <div class="art-actions">
+            <button class="btn-sm" onclick="useGeneratedArt()">Use This Image</button>
+            <button class="btn-sm outline" onclick="generateArt()">Regenerate</button>
+          </div>
+        </div>
       </div>
-      <div class="field">
-        <label class="lbl" for="apiKeyInput">
-          🔑 Helius API Key
-          <span style="font-weight:400;color:var(--muted)">— free at <a href="https://helius.dev" target="_blank" rel="noopener">helius.dev</a>, no credit card</span>
+      <div class="art-panel">
+        <h3>✍️ AI Description Generator</h3>
+        <p class="art-note">Generates a compelling token description based on your identity fields.</p>
+        <button class="btn-ai" id="btn-gen-desc" onclick="generateDescription()">✨ Generate Description</button>
+        <div class="ai-desc-result" id="ai-desc-result" style="display:none">
+          <div class="generated-text" id="ai-desc-text"></div>
+          <div class="art-actions">
+            <button class="btn-sm" onclick="useGeneratedDesc()">Use This Description</button>
+          </div>
+        </div>
+      </div>
+      <div class="art-panel full">
+        <h3>🖼️ Token Image URL</h3>
+        <div class="field">
+          <label>Image URL <span class="license-note">(use free-to-use licensed images only: Unsplash, Pexels, Openverse)</span></label>
+          <input type="url" id="f-image" placeholder="https://images.unsplash.com/..." oninput="updateDraft('imageUrl', this.value); previewImage(this.value)" />
+        </div>
+        <div class="image-preview" id="image-preview" style="display:none">
+          <img id="preview-img" src="" alt="Token image preview" />
+        </div>
+        <div class="field">
+          <label>Metadata URI (off-chain JSON, optional)</label>
+          <input type="url" id="f-meta-uri" placeholder="https://arweave.net/..." oninput="updateDraft('metadataUri', this.value)" />
+        </div>
+        <p class="license-reminder">⚖️ <strong>Licensing reminder:</strong> Only use images marked free for commercial use. Verify license at source. Keep a record of attribution where required.</p>
+      </div>
+    </div>
+    <div class="step-nav-btns">
+      <button class="btn-back" onclick="goStep(2)">← Back</button>
+      <button class="btn-next" onclick="goStep(4)">Next: Extensions →</button>
+    </div>
+  </section>
+
+  <!-- STEP 4: EXTENSIONS -->
+  <section class="step" id="step-4">
+    <div class="step-header">
+      <img src="https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=800&auto=format&fit=crop" alt="Bee hive" class="step-bg-img" />
+      <h2>Extension Builder</h2>
+      <p>Add advanced behavior to your token. Token-2022 extensions must be enabled at mint creation and cannot be added afterward.</p>
+    </div>
+    <div class="ext-note" id="ext-classic-note" style="display:none">
+      ⚠️ Extensions are only available on Token-2022 tokens. <a href="#" onclick="goStep(1)">Change token mode</a> to enable them.
+    </div>
+    <div class="extensions-grid" id="extensions-grid">
+      <div class="ext-card" data-ext="metadataPointer">
+        <div class="ext-icon">📌</div>
+        <h3>Metadata Pointer</h3>
+        <p>Specifies an on-chain account that holds the token's metadata. Enables wallets to discover and display metadata natively without Metaplex.</p>
+        <div class="ext-meta">
+          <span class="tag required">Must set at creation</span>
+          <span class="tag supported">Phantom supported</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" onchange="toggleExt('metadataPointer', this.checked)" />
+          <span>Enable</span>
         </label>
-        <input id="apiKeyInput" class="inp" type="text" placeholder="Paste your Helius API key here…" autocomplete="off" spellcheck="false" />
       </div>
-      <div id="keyTip" class="info tip" style="display:none"></div>
-      <p class="hint">Connect your wallet, enter your Helius key, then paste a mint to load holders.</p>
+      <div class="ext-card" data-ext="tokenMetadata">
+        <div class="ext-icon">🏷️</div>
+        <h3>Token Metadata</h3>
+        <p>Stores name, symbol, URI, and custom key/value fields directly on the mint account. No separate metadata program needed.</p>
+        <div class="ext-meta">
+          <span class="tag required">Must set at creation</span>
+          <span class="tag supported">Phantom supported</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" onchange="toggleExt('tokenMetadata', this.checked)" />
+          <span>Enable</span>
+        </label>
+        <div class="ext-fields" id="ext-tokenMetadata-fields" style="display:none">
+          <label>Custom Fields (key=value, one per line)</label>
+          <textarea rows="3" placeholder="trait_type=Rarity\nseason=Summer" oninput="updateExtConfig('tokenMetadataFields', this.value)"></textarea>
+        </div>
+      </div>
+      <div class="ext-card" data-ext="transferHook">
+        <div class="ext-icon">🪝</div>
+        <h3>Transfer Hook</h3>
+        <p>Triggers a custom on-chain program every time a transfer occurs. Use for royalties, compliance, allowlists, or custom logic.</p>
+        <div class="ext-meta">
+          <span class="tag required">Must set at creation</span>
+          <span class="tag caution">Wallet support varies</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" onchange="toggleExt('transferHook', this.checked)" />
+          <span>Enable</span>
+        </label>
+        <div class="ext-fields" id="ext-transferHook-fields" style="display:none">
+          <label>Hook Program Address</label>
+          <input type="text" placeholder="Program public key" oninput="updateExtConfig('transferHookProgram', this.value)" />
+        </div>
+      </div>
+      <div class="ext-card" data-ext="transferFee">
+        <div class="ext-icon">💸</div>
+        <h3>Transfer Fee</h3>
+        <p>Automatically collect a percentage fee on every transfer, directed to a configurable destination.</p>
+        <div class="ext-meta">
+          <span class="tag required">Must set at creation</span>
+          <span class="tag supported">Phantom supported</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" onchange="toggleExt('transferFee', this.checked)" />
+          <span>Enable</span>
+        </label>
+        <div class="ext-fields" id="ext-transferFee-fields" style="display:none">
+          <label>Fee Basis Points (e.g. 50 = 0.5%)</label>
+          <input type="number" placeholder="50" oninput="updateExtConfig('transferFeeBps', +this.value)" />
+          <label>Fee Destination Wallet</label>
+          <input type="text" placeholder="Pubkey" oninput="updateExtConfig('transferFeeDestination', this.value)" />
+        </div>
+      </div>
+      <div class="ext-card" data-ext="permanentDelegate">
+        <div class="ext-icon">🔑</div>
+        <h3>Permanent Delegate</h3>
+        <p>Grants a specific address unlimited transfer authority over any token account of this mint. Use with extreme care.</p>
+        <div class="ext-meta">
+          <span class="tag required">Must set at creation</span>
+          <span class="tag warning">Irreversible power</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" onchange="toggleExt('permanentDelegate', this.checked)" />
+          <span>Enable</span>
+        </label>
+        <div class="ext-fields" id="ext-permanentDelegate-fields" style="display:none">
+          <label>Delegate Address</label>
+          <input type="text" placeholder="Pubkey" oninput="updateExtConfig('permanentDelegateAddress', this.value)" />
+        </div>
+      </div>
     </div>
-
-    <!-- Status grid -->
-    <div class="sgrid">
-      <div class="sbox"><div class="slabel">Wallet</div><div class="sval" id="sWallet">Not connected</div></div>
-      <div class="sbox"><div class="slabel">Network</div><div class="sval" id="sNet">mainnet-beta</div></div>
-      <div class="sbox"><div class="slabel">Endpoint</div><div class="sval" id="sEndpoint">—</div></div>
+    <div class="step-nav-btns">
+      <button class="btn-back" onclick="goStep(3)">← Back</button>
+      <button class="btn-next" onclick="goStep(5)">Next: Authorities →</button>
     </div>
-
-    <!-- Step 1: Load holders -->
-    <div id="step1" class="panel on">
-      <p class="ptitle">Step 1 — Load holders</p>
-      <p class="fine">Uses Helius DAS <code>getTokenAccounts</code> — paginated, fast, free-tier friendly.</p>
-      <div class="field">
-        <label class="lbl" for="mintInput">Target token mint</label>
-        <input id="mintInput" class="inp" type="text" placeholder="Solana mint address" autocomplete="off" spellcheck="false" />
-      </div>
-      <div class="row" style="margin-top:1rem">
-        <button id="loadBtn" class="button">Load Holders</button>
-        <span id="holdersChip" style="display:none" class="chip"></span>
-      </div>
-      <div id="holdersInfo" class="info" style="display:none"></div>
-    </div>
-
-    <!-- Step 1b: Filter & Target -->
-    <div id="stepFilter" class="panel">
-      <p class="ptitle">🎯 Filter &amp; Target <span id="targetChip" class="chip blue" style="margin-left:.5rem;display:none"></span></p>
-      <p class="fine">Enable any combination of filters — they run as a pipeline in order. Preview updates live.</p>
-
-      <div class="filter-grid">
-
-        <!-- Balance range -->
-        <div class="fcard" id="fc-balRange">
-          <div class="fcard-head"><span class="fcard-title">⚖️ Balance range</span><input type="checkbox" class="ftoggle" id="tog-balRange" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Keep holders with balance between min and max (inclusive).</p>
-            <div class="finline">
-              <span class="flbl">Min</span><input class="num" id="f-balMin" type="number" min="0" step="1" value="1" />
-              <span class="flbl">Max</span><input class="num" id="f-balMax" type="number" min="0" step="1" placeholder="∞" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Top % -->
-        <div class="fcard" id="fc-topPct">
-          <div class="fcard-head"><span class="fcard-title">📊 Top % by balance</span><input type="checkbox" class="ftoggle" id="tog-topPct" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Keep only the top X% of holders by balance.</p>
-            <div class="finline"><span class="flbl">Top</span><input class="num" id="f-topPct" type="number" min="1" max="100" step="1" value="10" style="width:80px" /><span class="flbl">%</span></div>
-          </div>
-        </div>
-
-        <!-- Bottom % -->
-        <div class="fcard" id="fc-botPct">
-          <div class="fcard-head"><span class="fcard-title">🐢 Bottom % by balance</span><input type="checkbox" class="ftoggle" id="tog-botPct" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Keep only the bottom X% of holders by balance.</p>
-            <div class="finline"><span class="flbl">Bottom</span><input class="num" id="f-botPct" type="number" min="1" max="100" step="1" value="10" style="width:80px" /><span class="flbl">%</span></div>
-          </div>
-        </div>
-
-        <!-- Top N -->
-        <div class="fcard" id="fc-topN">
-          <div class="fcard-head"><span class="fcard-title">👑 Top N by balance</span><input type="checkbox" class="ftoggle" id="tog-topN" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Keep the N highest-balance holders.</p>
-            <div class="finline"><span class="flbl">Top</span><input class="num" id="f-topN" type="number" min="1" step="1" value="100" /><span class="flbl">holders</span></div>
-          </div>
-        </div>
-
-        <!-- Bottom N -->
-        <div class="fcard" id="fc-botN">
-          <div class="fcard-head"><span class="fcard-title">🗝️ Bottom N by balance</span><input type="checkbox" class="ftoggle" id="tog-botN" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Keep the N lowest-balance holders.</p>
-            <div class="finline"><span class="flbl">Bottom</span><input class="num" id="f-botN" type="number" min="1" step="1" value="100" /><span class="flbl">holders</span></div>
-          </div>
-        </div>
-
-        <!-- Every Nth -->
-        <div class="fcard" id="fc-everyNth">
-          <div class="fcard-head"><span class="fcard-title">🔁 Every Nth holder</span><input type="checkbox" class="ftoggle" id="tog-everyNth" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Keep every Nth in the sorted list (N=2 keeps 1st, 3rd, 5th…).</p>
-            <div class="finline"><span class="flbl">N =</span><input class="num" id="f-everyNth" type="number" min="2" step="1" value="2" style="width:80px" /></div>
-          </div>
-        </div>
-
-        <!-- Random sample -->
-        <div class="fcard" id="fc-random">
-          <div class="fcard-head"><span class="fcard-title">🎲 Random sample</span><input type="checkbox" class="ftoggle" id="tog-random" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Crypto-randomly pick N from the current pool.</p>
-            <div class="finline"><span class="flbl">Pick</span><input class="num" id="f-randomN" type="number" min="1" step="1" value="50" /><span class="flbl">holders</span></div>
-          </div>
-        </div>
-
-        <!-- Exclude addresses -->
-        <div class="fcard" id="fc-exclude">
-          <div class="fcard-head"><span class="fcard-title">❌ Exclude addresses</span><input type="checkbox" class="ftoggle" id="tog-exclude" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Blocklist: one address per line or comma-separated.</p>
-            <textarea class="textarea" id="f-excludeList" placeholder="Address1&#10;Address2&#10;…" style="margin-top:.4rem"></textarea>
-          </div>
-        </div>
-
-        <!-- Include only -->
-        <div class="fcard" id="fc-include">
-          <div class="fcard-head"><span class="fcard-title">✅ Include only</span><input type="checkbox" class="ftoggle" id="tog-include" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Whitelist: only these addresses (must be a holder).</p>
-            <textarea class="textarea" id="f-includeList" placeholder="Address1&#10;Address2&#10;…" style="margin-top:.4rem"></textarea>
-          </div>
-        </div>
-
-        <!-- Sort order -->
-        <div class="fcard" id="fc-sort">
-          <div class="fcard-head"><span class="fcard-title">🔽 Sort order</span><input type="checkbox" class="ftoggle" id="tog-sort" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Re-sort before downstream filters run.</p>
-            <div class="sort-row">
-              <button class="sort-btn on" data-sort="balDesc">Balance ↓</button>
-              <button class="sort-btn" data-sort="balAsc">Balance ↑</button>
-              <button class="sort-btn" data-sort="random">Random</button>
-              <button class="sort-btn" data-sort="alpha">A–Z</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Hard cap -->
-        <div class="fcard" id="fc-cap">
-          <div class="fcard-head"><span class="fcard-title">🛡️ Hard cap</span><input type="checkbox" class="ftoggle" id="tog-cap" /></div>
-          <div class="fcard-body">
-            <p class="fine" style="margin-top:0">Truncate final result to at most N holders (applied last).</p>
-            <div class="finline"><span class="flbl">Max</span><input class="num" id="f-cap" type="number" min="1" step="1" value="500" /><span class="flbl">holders</span></div>
-          </div>
-        </div>
-
-      </div><!-- /filter-grid -->
-
-      <!-- Pipeline bar -->
-      <div class="pipe-bar" id="pipeBar">
-        <strong id="pipeCount"></strong>
-        <div class="pipe-steps" id="pipeSteps"></div>
-      </div>
-
-      <div class="row" style="margin-top:1rem">
-        <button id="applyFilterBtn" class="button">Apply &amp; Preview</button>
-        <button id="resetFilterBtn" class="button sec">Reset All Filters</button>
-      </div>
-
-      <div id="holdersList" class="hlist" style="display:none;margin-top:.75rem"></div>
-    </div>
-
-    <!-- Step 2: Mint & Airdrop -->
-    <div id="step2" class="panel">
-      <p class="ptitle">Step 2 — Create utility mint &amp; airdrop</p>
-      <p class="fine">Creates a new SPL token mint, mints total supply to your wallet, then transfers to each selected holder.</p>
-
-      <!-- Fee estimate -->
-      <div id="feePanel" style="display:none">
-        <p class="lbl" style="margin-top:1rem">💰 Estimated cost</p>
-        <div class="fgrid">
-          <div class="fbox"><div class="flabel">Mint creation</div><div class="fval" id="feeMint">—</div><div class="fsub">rent + tx fee</div></div>
-          <div class="fbox"><div class="flabel">Your ATA</div><div class="fval" id="feePayerATA">—</div><div class="fsub">rent-exempt (once)</div></div>
-          <div class="fbox"><div class="flabel">Per new holder ATA</div><div class="fval" id="feeHolderATA">—</div><div class="fsub">× holders without ATA</div></div>
-          <div class="fbox"><div class="flabel">Per transfer tx</div><div class="fval" id="feeTx">≈0.000005 SOL</div><div class="fsub">× holders</div></div>
-          <div class="fbox" style="border-color:var(--primary)"><div class="flabel">Worst-case total</div><div class="fval" id="feeTotal">—</div><div class="fsub">all ATAs new</div></div>
-        </div>
-        <div class="info warn" style="margin-top:.75rem">Actual cost is lower if holders already have an ATA for this mint. ATA rent is <strong>recoverable</strong> by closing the account later.</div>
-      </div>
-
-      <div class="field">
-        <label class="lbl">Utility mint</label>
-        <div id="utilityMintDisplay" class="fine">Not created yet.</div>
-      </div>
-      <div class="row" style="margin-top:1rem">
-        <button id="createMintBtn" class="button">Create Utility Mint</button>
-      </div>
-      <div class="field" style="margin-top:1.2rem">
-        <label class="lbl" for="amtInput">Amount per holder (whole tokens)</label>
-        <input id="amtInput" class="num" type="number" min="1" step="1" value="1" />
-      </div>
-      <div class="row" style="margin-top:1rem">
-        <button id="airdropBtn" class="button ok" disabled>Airdrop to Selected Holders</button>
-      </div>
-      <div id="airdropInfo" class="info" style="display:none"></div>
-    </div>
-
-    <!-- Mobile / no-wallet panel -->
-    <div id="mobilePanel" class="panel">
-      <p class="ptitle" id="mobileTitle">Wallet not detected</p>
-      <p class="fine" id="mobileText"></p>
-    </div>
-
-    <!-- Activity log -->
-    <pre id="log" class="log">Preparing the spellbook…</pre>
-
   </section>
+
+  <!-- STEP 5: AUTHORITIES -->
+  <section class="step" id="step-5">
+    <div class="step-header">
+      <img src="https://images.unsplash.com/photo-1471086569966-db3eebc25a59?w=800&auto=format&fit=crop" alt="Bees on honeycomb" class="step-bg-img" />
+      <h2>Authority Studio</h2>
+      <p>Solana tokens have three separate authority lanes. Each one is independent and can be kept, transferred to another wallet, or permanently revoked. Revocations are irreversible.</p>
+    </div>
+    <div class="authority-grid">
+      <div class="auth-card" id="auth-mint">
+        <div class="auth-icon">🌿</div>
+        <h3>Mint Authority</h3>
+        <p>Controls the ability to create more tokens and increase the supply. If revoked, the supply is permanently fixed.</p>
+        <div class="auth-controls">
+          <label><input type="radio" name="mint-action" value="keep" checked onchange="setAuth('mint', 'keep')" /> Keep</label>
+          <label><input type="radio" name="mint-action" value="transfer" onchange="setAuth('mint', 'transfer')" /> Transfer</label>
+          <label><input type="radio" name="mint-action" value="revoke" onchange="setAuth('mint', 'revoke')" /> Revoke</label>
+        </div>
+        <div class="auth-dest" id="mint-dest" style="display:none">
+          <input type="text" placeholder="Destination pubkey" oninput="setAuthDest('mint', this.value)" />
+        </div>
+        <div class="auth-warning" id="mint-warning" style="display:none">
+          ⚠️ Revoking mint authority is permanent. Supply cannot be increased after this.
+        </div>
+      </div>
+      <div class="auth-card" id="auth-freeze">
+        <div class="auth-icon">❄️</div>
+        <h3>Freeze Authority</h3>
+        <p>Controls the ability to freeze or thaw specific token accounts. If revoked, account freezing is permanently disabled.</p>
+        <div class="auth-controls">
+          <label><input type="radio" name="freeze-action" value="keep" onchange="setAuth('freeze', 'keep')" /> Keep</label>
+          <label><input type="radio" name="freeze-action" value="transfer" onchange="setAuth('freeze', 'transfer')" /> Transfer</label>
+          <label><input type="radio" name="freeze-action" value="revoke" checked onchange="setAuth('freeze', 'revoke')" /> Revoke</label>
+        </div>
+        <div class="auth-dest" id="freeze-dest" style="display:none">
+          <input type="text" placeholder="Destination pubkey" oninput="setAuthDest('freeze', this.value)" />
+        </div>
+        <div class="auth-warning" id="freeze-warning" style="display:none">
+          ⚠️ Revoking freeze authority is permanent. Token accounts cannot be frozen after this.
+        </div>
+      </div>
+      <div class="auth-card" id="auth-update">
+        <div class="auth-icon">📝</div>
+        <h3>Metadata Update Authority</h3>
+        <p>Controls the ability to edit the token's metadata: name, symbol, image, description. If revoked, metadata is permanently locked.</p>
+        <div class="auth-controls">
+          <label><input type="radio" name="update-action" value="keep" checked onchange="setAuth('update', 'keep')" /> Keep</label>
+          <label><input type="radio" name="update-action" value="transfer" onchange="setAuth('update', 'transfer')" /> Transfer</label>
+          <label><input type="radio" name="update-action" value="revoke" onchange="setAuth('update', 'revoke')" /> Revoke</label>
+        </div>
+        <div class="auth-dest" id="update-dest" style="display:none">
+          <input type="text" placeholder="Destination pubkey" oninput="setAuthDest('update', this.value)" />
+        </div>
+        <div class="auth-warning" id="update-warning" style="display:none">
+          ⚠️ Revoking metadata update authority is permanent. Token metadata cannot be changed after this.
+        </div>
+      </div>
+    </div>
+    <div class="step-nav-btns">
+      <button class="btn-back" onclick="goStep(4)">← Back</button>
+      <button class="btn-next" onclick="goStep(6)">Next: Review →</button>
+    </div>
+  </section>
+
+  <!-- STEP 6: REVIEW -->
+  <section class="step" id="step-6">
+    <div class="step-header">
+      <img src="https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?w=800&auto=format&fit=crop" alt="Garden sunlight" class="step-bg-img" />
+      <h2>Review &amp; Finalize</h2>
+      <p>Review your token's full configuration before anything is sent on-chain. Irreversible actions are highlighted.</p>
+    </div>
+    <div class="review-panel" id="review-panel"></div>
+    <div class="review-confirm">
+      <label class="confirm-check">
+        <input type="checkbox" id="confirm-check" />
+        I understand which settings are permanent and cannot be changed after creation.
+      </label>
+      <button class="btn-primary" id="btn-create-token" onclick="createToken()" disabled>Create Token</button>
+    </div>
+    <div class="step-nav-btns">
+      <button class="btn-back" onclick="goStep(5)">← Back</button>
+    </div>
+  </section>
+
+  <!-- STEP 7: HOLDERS -->
+  <section class="step" id="step-7">
+    <div class="step-header">
+      <img src="https://images.unsplash.com/photo-1465166395534-2af8c58a3fe9?w=800&auto=format&fit=crop" alt="Wildflowers" class="step-bg-img" />
+      <h2>Holder Discovery</h2>
+      <p>Load token holders from the Solana network using the Helius API.</p>
+    </div>
+    <div class="form-row">
+      <div class="field grow">
+        <label>Helius API Key</label>
+        <input type="text" id="helius-key" placeholder="Your Helius API key" />
+      </div>
+      <div class="field grow">
+        <label>Mint Address</label>
+        <input type="text" id="mint-input" placeholder="Token mint address" />
+      </div>
+    </div>
+    <button class="btn-primary" onclick="loadHolders()">🐝 Load Holders</button>
+    <div class="holders-summary" id="holders-summary" style="display:none">
+      <span id="holders-count">0 holders</span>
+      <span id="holders-supply">Total supply: —</span>
+    </div>
+    <div class="holders-list" id="holders-list"></div>
+    <div class="step-nav-btns">
+      <button class="btn-back" onclick="goStep(6)">← Back</button>
+      <button class="btn-next" onclick="goStep(8)">Next: Filters →</button>
+    </div>
+  </section>
+
+  <!-- STEP 8: FILTERS -->
+  <section class="step" id="step-8">
+    <div class="step-header">
+      <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&auto=format&fit=crop" alt="Flower detail" class="step-bg-img" />
+      <h2>Filter &amp; Target</h2>
+      <p>Refine your recipient list. Filters are applied in order. The live preview updates automatically.</p>
+    </div>
+    <div class="filters-grid">
+      <div class="filter-card">
+        <h4>Balance Range</h4>
+        <div class="filter-row">
+          <input type="number" id="f-min" placeholder="Min" oninput="applyFilters()" />
+          <input type="number" id="f-max" placeholder="Max" oninput="applyFilters()" />
+        </div>
+      </div>
+      <div class="filter-card">
+        <h4>Top / Bottom</h4>
+        <div class="filter-row">
+          <select id="f-topbot" onchange="applyFilters()">
+            <option value="none">None</option>
+            <option value="topN">Top N</option>
+            <option value="bottomN">Bottom N</option>
+            <option value="topPct">Top %</option>
+            <option value="bottomPct">Bottom %</option>
+          </select>
+          <input type="number" id="f-topbot-val" placeholder="Value" oninput="applyFilters()" />
+        </div>
+      </div>
+      <div class="filter-card">
+        <h4>Sampling</h4>
+        <div class="filter-row">
+          <select id="f-sample" onchange="applyFilters()">
+            <option value="none">None</option>
+            <option value="everyN">Every Nth</option>
+            <option value="random">Random</option>
+          </select>
+          <input type="number" id="f-sample-val" placeholder="N or count" oninput="applyFilters()" />
+        </div>
+      </div>
+      <div class="filter-card">
+        <h4>Hard Cap</h4>
+        <input type="number" id="f-cap" placeholder="Max recipients" oninput="applyFilters()" />
+      </div>
+      <div class="filter-card full">
+        <h4>Include List</h4>
+        <textarea id="f-include" rows="3" placeholder="One address per line" oninput="applyFilters()"></textarea>
+      </div>
+      <div class="filter-card full">
+        <h4>Exclude List</h4>
+        <textarea id="f-exclude" rows="3" placeholder="One address per line" oninput="applyFilters()"></textarea>
+      </div>
+    </div>
+    <div class="filter-summary" id="filter-summary"></div>
+    <div class="step-nav-btns">
+      <button class="btn-back" onclick="goStep(7)">← Back</button>
+      <button class="btn-next" onclick="goStep(9)">Next: Airdrop →</button>
+    </div>
+  </section>
+
+  <!-- STEP 9: AIRDROP -->
+  <section class="step" id="step-9">
+    <div class="step-header">
+      <img src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=800&auto=format&fit=crop" alt="Bee in flight" class="step-bg-img" />
+      <h2>Airdrop Execution</h2>
+      <p>Distribute tokens to your filtered recipient list. Each recipient receives their own associated token account if needed.</p>
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label>Amount Per Recipient</label>
+        <input type="number" id="a-amount" placeholder="e.g. 100" oninput="updateAirdropAmount(+this.value)" />
+      </div>
+      <div class="field">
+        <label>Batch Size</label>
+        <input type="number" id="a-batch" placeholder="5" value="5" />
+      </div>
+    </div>
+    <div class="airdrop-summary" id="airdrop-summary"></div>
+    <div class="airdrop-warnings" id="airdrop-warnings"></div>
+    <button class="btn-primary bee-btn" onclick="executeAirdrop()">🐝 Execute Airdrop</button>
+    <div class="log-panel" id="log-panel"></div>
+    <div class="step-nav-btns">
+      <button class="btn-back" onclick="goStep(8)">← Back</button>
+    </div>
+  </section>
+
 </main>
 
-<!-- Runtime dependency: Solana Web3.js (IIFE build, no install needed) -->
-<script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
+<footer class="footer">
+  <div class="footer-bg">
+    <img src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=1600&auto=format&fit=crop" alt="Floral footer" />
+    <div class="footer-overlay"></div>
+  </div>
+  <div class="footer-content">
+    <p>Wizard Airdrop · Open source Solana token studio</p>
+    <p class="footer-license">Art by <a href="https://unsplash.com" target="_blank">Unsplash</a> · <a href="https://pexels.com" target="_blank">Pexels</a> · <a href="https://openverse.org" target="_blank">Openverse</a> — free commercial use</p>
+    <p class="footer-license">AI art via <a href="https://pollinations.ai" target="_blank">Pollinations.ai</a> — free &amp; open source</p>
+  </div>
+</footer>
 
-<!-- App modules (ES modules, GitHub Pages compatible) -->
-<script type="module" src="js/main.js"></script>
-</body>
-</html>
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/lib/index.iife.min.js"></script>
+<script src="js/state.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/wallet.js"></script>
+<script src="js/token-builder.js"></script>
+<script src="js/extensions.js"></script>
+<script src="js/authorities.js"></script>
+<script src="js/metadata.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/helius.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/fees.js"></script>
+<script src="js/airdrop.js"></s
